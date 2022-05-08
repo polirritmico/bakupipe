@@ -14,16 +14,16 @@ repositorio, generar logs y enviar correos o informes.
 
 Comando: **bakupipe deploy**.
 
-    1. Crear nueva rama pre-deploy
-    2. Hacer merge a pre-deploy
-    3. Realizar test en pre-deploy
-        1. A futuro: Agregar monitoreo
-        2. Si falla, enviar log
-    4. Hacer merge a deploy
-    5. Borrar pre-deploy
-    6. Ajustar versión
-    7. Build
-    8. Subir binarios a Artifact repo
-    9. Generar logs
-        1. Enviar correos-informes
+    1. [ ] Crear nueva rama pre-deploy
+    2. [ ] Hacer merge a pre-deploy
+    3. [ ] Realizar test en pre-deploy
+       1. [ ] A futuro: Agregar monitoreo
+       2. [ ] Si falla, enviar log
+    4. [ ] Hacer merge a deploy
+    5. [ ] Borrar pre-deploy
+    6. [ ] Ajustar versión
+    7. [ ] Build
+    8. [ ] Subir binarios a Artifact repo
+    9. [ ] Generar logs
+       1. [ ] Enviar correos-informes
 
