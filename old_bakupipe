@@ -13,12 +13,17 @@ BAKU_URL = "https://github.com/polirritmico/bakupipe.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakumapu.git"
 
 
-def check_baku_repo():
-    _command = "git config --get remote.origin.url"
+def run_command(str _command):
     _proc = subprocess.Popen(_command.split(),
                              stdout=subprocess.PIPE,
                              universal_newlines=True)
-    output = str(_proc.communicate()[0])
+    _output = str(_proc.communicate()[0])
+
+    return _output
+
+
+def check_baku_repo():
+    output = run_command("git config --get remote.origin.url")
 
     if output == BAKU_URL or output == BAKUPIPE_URL:
         return False
@@ -33,10 +38,11 @@ def mk_pre_deploy_branch():
 
 
 def merge_pre_deploy():
-    _command = "git branch -b pre-deploy"
-    _proc = subprocess.Popen(_command.split(), stdout=subprocess.PIPE)
-
-    return _proc.communicate()
+    _command = "git rev-parse --abbrev-ref HEAD"
+    _proc = subprocess.Popen(_command.split(),
+                             stdout=subprocess.PIPE,
+                             universal_newlines=True)
+    output = str(_proc.communicate()[0])
 
 
 def init_test_stage():
@@ -83,41 +89,41 @@ def main(argv):
 
     print("Creando rama pre-deploy")
 
-    mk_pre_deploy_branch()
+    #mk_pre_deploy_branch()
 
-    print("Merge a pre-deploy")
+    #print("Merge a pre-deploy")
 
-    merge_pre_deploy()
+    #merge_pre_deploy()
 
-    print("Test stage")
+    #print("Test stage")
 
-    if not init_test_stage():
-        print("Si falla enviar log")
-        send_log()
+    #if not init_test_stage():
+    #    print("Si falla enviar log")
+    #    send_log()
 
-    print("Merge a rama deploy")
+    #print("Merge a rama deploy")
 
-    merge_deploy()
+    #merge_deploy()
 
-    print("Borrar pre-deploy")
+    #print("Borrar pre-deploy")
 
-    remove_deploy()
+    #remove_deploy()
 
-    print("Ajustar nombre de version")
+    #print("Ajustar nombre de version")
 
-    update_version_name()
+    #update_version_name()
 
-    print("Build")
+    #print("Build")
 
-    build_deploy()
+    #build_deploy()
 
-    print("Subir binarios a artifact-repo")
+    #print("Subir binarios a artifact-repo")
 
-    upload_artifacts()
+    #upload_artifacts()
 
-    print("Generar log / Enviar informes")
+    #print("Generar log / Enviar informes")
 
-    print_log()
+    #print_log()
 
 
 if __name__ == "__main__":
