@@ -13,12 +13,13 @@ BAKU_URL = "https://github.com/polirritmico/bakupipe.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakumapu.git"
 
 
-def run_command(_command: str):
+def run_command(_command: str) -> str:
     _proc = subprocess.Popen(_command.split(),
                              stdout=subprocess.PIPE,
                              universal_newlines=True)
-    _output = str(_proc.communicate()[0])
+    _output = _proc.communicate()
 
+    _output = str(_output[0]).rstrip()
     return _output
 
 
