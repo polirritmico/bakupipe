@@ -8,10 +8,12 @@
 import sys
 import subprocess
 
+
 BAKU_URL = "https://github.com/polirritmico/bakupipe.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakumapu.git"
 
-def check_is_baku_repo():
+
+def check_baku_repo():
     _command = "git config --get remote.origin.url"
     _proc = subprocess.Popen(_command.split(),
                              stdout=subprocess.PIPE,
@@ -26,7 +28,48 @@ def check_is_baku_repo():
 def mk_pre_deploy_branch():
     _command = "git branch -b pre-deploy"
     _proc = subprocess.Popen(_command.split(), stdout=subprocess.PIPE)
+
     return _proc.communicate()
+
+
+def merge_pre_deploy():
+    _command = "git branch -b pre-deploy"
+    _proc = subprocess.Popen(_command.split(), stdout=subprocess.PIPE)
+
+    return _proc.communicate()
+
+
+def init_test_stage():
+    pass
+
+
+def send_log():
+    pass
+
+
+def merge_deploy():
+    pass
+
+
+def remove_deploy():
+    pass
+
+
+def update_version_name():
+    pass
+
+
+def build_deploy():
+    pass
+
+
+def update_artifacts():
+    pass
+
+
+def print_log():
+    pass
+
 
 def main(argv):
     if argv[0] != "deploy":
@@ -35,7 +78,7 @@ def main(argv):
 
     print("Init deploy pipeline...")
 
-    if not check_is_baku_repo():
+    if not check_baku_repo():
         return 1
 
     print("Creando rama pre-deploy")
@@ -44,15 +87,37 @@ def main(argv):
 
     print("Merge a pre-deploy")
 
-    print("")
+    merge_pre_deploy()
 
-    print("")
+    print("Test stage")
 
-    print("")
+    if not init_test_stage():
+        print("Si falla enviar log")
+        send_log()
 
-    print("")
+    print("Merge a rama deploy")
 
-    print("")
+    merge_deploy()
+
+    print("Borrar pre-deploy")
+
+    remove_deploy()
+
+    print("Ajustar nombre de version")
+
+    update_version_name()
+
+    print("Build")
+
+    build_deploy()
+
+    print("Subir binarios a artifact-repo")
+
+    upload_artifacts()
+
+    print("Generar log / Enviar informes")
+
+    print_log()
 
 
 if __name__ == "__main__":
