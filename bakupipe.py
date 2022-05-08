@@ -19,12 +19,30 @@ def run_command(_command: str) -> str:
                              universal_newlines=True)
     _output = _proc.communicate()
 
+    # Format output
     _output = str(_output[0]).rstrip()
     return _output
 
 
-def check_baku_repo():
-    _command = "git config --get remote.origin.url"
+def get_current_repo() -> str:
+    repo_url = run_command("git config --get remote.origin.url")
+    return repo_url
+
+
+def check_repo():
+    repo = get_current_repo()
+
+    return True if repo == "BAKU_URL" or repo == "BAKUPIPE_URL" else False
+
+
+def get_current_branch() -> str:
+    branch = run_command("git rev-parse --abbrev-ref HEAD")
+    return branch
+
+
+def check_branch() -> bool:
+    branch = get_current_branch()
+
 
 
 def mk_pre_deploy_branch():
@@ -32,13 +50,24 @@ def mk_pre_deploy_branch():
 
 
 def merge_pre_deploy():
-    _command = "git rev-parse --abbrev-ref HEAD"
+    pass
 
 
 def main(argv):
-    if argv[0] != "deploy":
-        print("ERROR")
+    if len(argv) > 1:
+        if argv[0] != "deploy":
+            print("ERROR")
+            return 1
+
+    print("BakuPipeline\n============")
+    print("Running...")
+
+    if not check_repo():
+        print("ERROR: Repositorio inconrrecto")
         return 1
+
+    if not check_branch():
+        print("ERROR: rama incorrecta")
 
 
 if __name__ == "__main__":

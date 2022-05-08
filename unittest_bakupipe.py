@@ -9,6 +9,8 @@ import os
 
 from bakupipe import *
 
+CURRENT_REPO = "https://github.com/polirritmico/bakupipe.git"
+
 #@unittest.skip
 class TestBase(unittest.TestCase):
     def test_run_command_single_line_output(self):
@@ -24,8 +26,18 @@ class TestBase(unittest.TestCase):
 
     #    self.assertEqual(expected, out)
 
-    def test_check_baku_repo(self):
-        pass
+    def test_get_current_repo(self):
+        out = get_current_repo()
+        expected = CURRENT_REPO
+
+        self.assertEqual(expected, out)
+
+
+    def test_get_current_branch(self):
+        out = get_current_branch()
+        expected = "develop"
+
+        self.assertEqual(expected, out)
 
 
 if __name__ == "__main__":
