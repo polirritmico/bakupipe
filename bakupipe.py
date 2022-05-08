@@ -13,7 +13,7 @@ BAKU_URL = "https://github.com/polirritmico/bakupipe.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakumapu.git"
 
 
-def run_command(str _command):
+def run_command(_command: str):
     _proc = subprocess.Popen(_command.split(),
                              stdout=subprocess.PIPE,
                              universal_newlines=True)
