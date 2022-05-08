@@ -9,8 +9,8 @@ import sys
 import subprocess
 
 
-BAKU_URL = "https://github.com/polirritmico/bakupipe.git"
-BAKUPIPE_URL = "https://github.com/polirritmico/bakumapu.git"
+BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
+BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 
 
 def run_command(_command: str) -> str:
@@ -32,7 +32,11 @@ def get_current_repo() -> str:
 def check_repo():
     repo = get_current_repo()
 
-    return True if repo == "BAKU_URL" or repo == "BAKUPIPE_URL" else False
+    if repo == BAKU_URL or repo == BAKUPIPE_URL:
+        return True
+    else:
+        print("ERROR: Repositorio incorrecto\n\t{}".format(repo))
+        return False
 
 
 def get_current_branch() -> str:
@@ -42,6 +46,12 @@ def get_current_branch() -> str:
 
 def check_branch() -> bool:
     branch = get_current_branch()
+
+    if branch != "develop":
+        print("ERROR: Rama incorrecta\n\t{}".format(branch))
+        return False
+    else:
+        return True
 
 
 
@@ -63,11 +73,10 @@ def main(argv):
     print("Running...")
 
     if not check_repo():
-        print("ERROR: Repositorio inconrrecto")
         return 1
 
     if not check_branch():
-        print("ERROR: rama incorrecta")
+        return 1
 
 
 if __name__ == "__main__":
