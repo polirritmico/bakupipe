@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #  -*- coding: utf-8 -*-
 
+# Run with -b to hide print() output
 #from src.browser import Browser
-#self.assertIsNotNone(out)
 
 import unittest
 import os
@@ -40,10 +40,18 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
-    def test_goto_branch(self):
-        #TODO
-        out = run_command("git branch")
-        out = goto_branch()
+    def test_check_in_repo(self):
+        testTrue = [ BAKU_URL, BAKUPIPE_URL ]
+        testFalse = [ "no" ]
+
+        self.assertTrue(check_in_repo(testTrue))
+        self.assertFalse(check_in_repo(testFalse))
+
+
+#    def test_goto_branch(self):
+#        #TODO
+#        out = run_command("git branch")
+#        out = goto_branch()
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ import sys
 import subprocess
 
 
+# Project repositories URLs
 BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 
@@ -29,14 +30,14 @@ def get_current_repo() -> str:
     return repo_url
 
 
-def check_repo() -> bool:
+def check_in_repo(expected_list: list[str]) -> bool:
     repo = get_current_repo()
 
-    if repo == BAKU_URL or repo == BAKUPIPE_URL:
-        return True
-    else:
-        print("ERROR: Repositorio incorrecto\n\t{}".format(repo))
-        return False
+    for url in expected_list:
+        if repo == url: return True
+
+    print("ERROR: Repositorio incorrecto\n\t{}".format(repo))
+    return False
 
 
 def get_current_branch() -> str:
@@ -44,11 +45,11 @@ def get_current_branch() -> str:
     return branch
 
 
-def check_branch() -> bool:
-    branch = get_current_branch()
+def check_current_branch(expected_branch) -> bool:
+    current_branch = get_current_branch()
 
-    if branch != "develop":
-        print("ERROR: Rama incorrecta\n\t{}".format(branch))
+    if current_branch != expected_branch:
+        print("ERROR: Rama incorrecta\n\t{}".format(current_branch))
         return False
     else:
         return True
@@ -63,12 +64,27 @@ def goto_branch(branch: str) -> bool:
     return True
 
 
-def mk_pre_deploy_branch():
-    _command = "git branch -b pre-deploy"
+#def mk_pre_deploy_branch():
+#    output = run_command("git checkout -b pre-deploy")
+#
+#    if output != "Switched to a new branch 'pre-deploy'":
+#        print("ERROR: No se puede crear la rama"
+#        return False
+#    else:
+#        return True
 
 
-def merge_pre_deploy():
-    pass
+#def remove_branch(branch: str) -> bool:
+#    output = run_command("git branch -d {}".format(branch))
+#
+#    if output != "":
+#        return False
+#    else:
+#        return True
+
+
+#def merge_pre_deploy():
+#    pass
 
 
 def main(argv):
@@ -80,12 +96,15 @@ def main(argv):
     print("BakuPipeline\n============")
     print("Running...")
 
-    if not check_repo(): return 1
+    accepted_repos = [ BAKU_URL, BAKUPIPE_URL ]
 
-    if not check_branch():
+    if not check_in_repo(accepted_repos): return 1
+
+    if not check_current_branch("pre-deploy"):
         print("Change to develop branch")
         goto_branch("develop")
 
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))
+
