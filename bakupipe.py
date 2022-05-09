@@ -8,7 +8,8 @@
 import sys
 import subprocess
 
-
+# Expected running branch
+RUN_BRANCH   = "develop"
 # Project repositories URLs
 BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
@@ -48,7 +49,7 @@ def get_current_branch() -> str:
 def check_current_branch(expected_branch) -> bool:
     current_branch = get_current_branch()
 
-    if current_branch != expected_branch:
+    if expected_branch != current_branch:
         print("ERROR: Rama incorrecta\n\t{}".format(current_branch))
         return False
     else:
@@ -56,6 +57,11 @@ def check_current_branch(expected_branch) -> bool:
 
 
 def goto_branch(branch: str) -> bool:
+    if branch == get_current_branch():
+        print("ADVERTENCIA: Actualmente en rama {}, se espera que se ejecute \
+               en rama '{}'".format(branch, RUN_BRANCH))
+        return True
+
     output = run_command("git branch {}".format(branch))
     if output != "":
         print("ERROR: No se pudo cambiar a la rama {}".format(branch))
