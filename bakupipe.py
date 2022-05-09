@@ -29,7 +29,7 @@ def get_current_repo() -> str:
     return repo_url
 
 
-def check_repo():
+def check_repo() -> bool:
     repo = get_current_repo()
 
     if repo == BAKU_URL or repo == BAKUPIPE_URL:
@@ -54,6 +54,14 @@ def check_branch() -> bool:
         return True
 
 
+def goto_branch(branch: str) -> bool:
+    output = run_command("git branch {}".format(branch))
+    if output != "":
+        print("ERROR: No se pudo cambiar a la rama {}".format(branch))
+        return False
+
+    return True
+
 
 def mk_pre_deploy_branch():
     _command = "git branch -b pre-deploy"
@@ -72,11 +80,11 @@ def main(argv):
     print("BakuPipeline\n============")
     print("Running...")
 
-    if not check_repo():
-        return 1
+    if not check_repo(): return 1
 
     if not check_branch():
-        return 1
+        print("Change to develop branch")
+        goto_branch("develop")
 
 
 if __name__ == "__main__":

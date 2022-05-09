@@ -40,6 +40,12 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
+    def test_goto_branch(self):
+        #TODO
+        out = run_command("git branch")
+        out = goto_branch()
+
+
 if __name__ == "__main__":
     unittest.main()
 

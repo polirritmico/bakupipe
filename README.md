@@ -1,6 +1,10 @@
 Pipeline Tool - Plan de trabajo
 ===============================
 
+## Current ToDo
+
+Test de goto\_branch()
+
 ## Descripción
 
 Herramienta Python (a futuro con posibilidad de PyQt) para gestionar el
