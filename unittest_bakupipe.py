@@ -19,7 +19,7 @@ class TestBase(unittest.TestCase):
 
         self.assertEqual(expected, out)
 
-    # NOT WORKING
+    # NOT WORKING, IMPLEMENT IF NEEDED
     #def test_run_command_multi_line_output(self):
     #    expected = """first line\nsecond line"""
     #    out = run_command("echo -e 'first line\nsecond line'")
@@ -48,10 +48,11 @@ class TestBase(unittest.TestCase):
         self.assertFalse(check_in_repo(testFalse))
 
 
-#    def test_goto_branch(self):
-#        #TODO
-#        out = run_command("git branch")
-#        out = goto_branch()
+    def test_goto_branch_from_target_branch(self):
+        current_branch = get_current_branch()
+
+        self.assertTrue(goto_branch(current_branch))
+
 
 
 if __name__ == "__main__":
