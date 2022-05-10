@@ -15,7 +15,12 @@ BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 
 
-def run_command(_command: str) -> str:
+def run_command(_command: str, bypass = False):
+    if bypass:
+        _proc = subprocess.Popen(_command.split(),
+                                 stdout=subprocess.PIPE)
+        return _proc.communicate()
+
     _proc = subprocess.Popen(_command.split(),
                              stdout=subprocess.PIPE,
                              universal_newlines=True)
@@ -56,10 +61,24 @@ def check_current_branch(expected_branch) -> bool:
         return True
 
 
+def get_branch_list() -> list[str]:
+    branch_list = []
+    _output_raw = run_command("git branch", True)
+    # command output (b'' string) on the first element of the tuple
+    _output = _output_raw[0].split()
+    print(_output)
+    for branch in _output:
+        str_branch = branch.decode("UTF-8")
+        if str_branch != '+':
+            branch_list.append(str_branch)
+
+    print(branch_list)
+
+
 def goto_branch(branch: str) -> bool:
     if branch == get_current_branch():
-        print("ADVERTENCIA: Actualmente en rama {}, se espera que se ejecute \
-               en rama '{}'".format(branch, RUN_BRANCH))
+        print("ADVERTENCIA: Actualmente en la rama de destino\
+                \n\tRama: '{}'".format(branch, RUN_BRANCH))
         return True
 
     output = run_command("git branch {}".format(branch))
