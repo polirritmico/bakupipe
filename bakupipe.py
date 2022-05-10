@@ -66,13 +66,11 @@ def get_branch_list() -> list[str]:
     _output_raw = run_command("git branch", True)
     # command output (b'' string) on the first element of the tuple
     _output = _output_raw[0].split()
-    print(_output)
+
     for branch in _output:
         str_branch = branch.decode("UTF-8")
-        if str_branch != '+':
+        if str_branch != '*':
             branch_list.append(str_branch)
-
-    print(branch_list)
 
 
 def goto_branch(branch: str) -> bool:
