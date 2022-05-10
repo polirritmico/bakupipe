@@ -48,11 +48,36 @@ class TestBase(unittest.TestCase):
         self.assertFalse(check_in_repo(testFalse))
 
 
+    # This test only work with a single branch in the repo named "deploy"
+    def test_make_branch(self):
+        test_branch = "mk-branch-test"
+        default_branch = "develop"
+        expected_init = [ default_branch ]
+        expected_after = [ default_branch, test_branch ]
+
+        output = get_branch_list()
+        self.assertEqual(expected_init, output)
+
+        make_branch(test_branch)
+        output = get_branch_list()
+        self.assertEqual(expected_after, output)
+
+
+    # This test only work after test_make_remove_branch
+    def test_remove_branch(self):
+        pass
+
+
     def test_goto_branch_from_target_branch(self):
         current_branch = get_current_branch()
 
         self.assertTrue(goto_branch(current_branch))
 
+
+    def test_goto_branch_from_another_branch(self):
+        # TODO: IMPLEMENTAR MK_BRANCH y RM_BRANCH
+        current = get_current_branch()
+        target = current + 'B'
 
 
 if __name__ == "__main__":
