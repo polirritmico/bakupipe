@@ -97,34 +97,33 @@ class TestBase(unittest.TestCase):
 
 
 
-#class IntegrationTests(unittest.TestCase):
+class IntegrationTests(unittest.TestCase):
 #    #@unittest.skip
 #    def test_(self):
 #        pass
 #
-#    # This test only work after test_make_remove_branch
-#    #@unittest.skip
-#    def test_goto_branch(self):
-#        # The test should start from DEFAULT_BRANCH
-#        current = get_current_branch()
-#        self.assertEqual(DEFAULT_BRANCH, current)
-#
-#        test_branch = "branch-test"
-#
-#        # Check the repo branch list
-#        expected_list = [ test_branch, DEFAULT_BRANCH ]
-#        output_list = get_branch_list()
-#        self.assertEqual(expected_list, output_list)
-#
-#        expected = test_branch
-#        self.assertTrue(goto_branch(expected))
-#        current = get_current_branch()
-#        self.assertEqual(expected, current)
-#
-#        expected = DEFAULT_BRANCH
-#        self.assertTrue(goto_branch(expected))
-#        current = get_current_branch()
-#        self.assertEqual(expected, current)
+    # This test only work after test_make_remove_branch
+    #@unittest.skip
+    def test_goto_branch(self):
+        self.assertTrue(goto_branch(DEFAULT_BRANCH))
+        current = get_current_branch()
+        self.assertEqual(DEFAULT_BRANCH, current)
+
+        test_branch = "test-goto-branch"
+        make_branch(test_branch)
+        goto_branch(test_branch)
+
+        current = get_current_branch()
+        self.assertEqual(test_branch, current)
+
+        goto_branch(DEFAULT_BRANCH)
+        current = get_current_branch()
+        self.assertEqual(DEFAULT_BRANCH, current)
+
+        remove_branch(test_branch)
+        expected_list = [ DEFAULT_BRANCH ]
+        current_list = get_branch_list()
+        self.assertEqual(expected_list, current_list)
 
 
 
