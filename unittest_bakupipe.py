@@ -12,6 +12,9 @@ from bakupipe import *
 CURRENT_REPO = "https://github.com/polirritmico/bakupipe.git"
 DEFAULT_BRANCH = "develop"
 
+# NOT sort test
+unittest.TestLoader.sortTestMethodsUsing = None
+
 #@unittest.skip
 class TestBase(unittest.TestCase):
     def test_run_command_single_line_output(self):
@@ -68,67 +71,29 @@ class TestBase(unittest.TestCase):
         self.assertTrue(find_branch(found))
 
 
-    # This test only work with a single branch in the repo named "deploy"
-    def test_make_branch(self):
-        test_branch = "branch-test"
-        default_branch = DEFAULT_BRANCH
-        expected_init = [ default_branch ]
-        expected_after = [ test_branch, default_branch ]
+    # This test only work with a single branch
+    def test_make_and_remove_branch(self):
+        test_branch = "test-branch"
+        expected_init = [ DEFAULT_BRANCH ]
+        expected_make = [ DEFAULT_BRANCH, test_branch ]
 
         output = get_branch_list()
         self.assertEqual(expected_init, output)
 
         make_branch(test_branch)
         output = get_branch_list()
-        self.assertEqual(expected_after, output)
-
-
-    # This test only work after test_make_remove_branch
-    #@unittest.skip
-    def test_goto_branch(self):
-        # The test should start from DEFAULT_BRANCH
-        current = get_current_branch()
-        self.assertEqual(DEFAULT_BRANCH, current)
-
-        test_branch = "branch-test"
-
-        # Check the repo branch list
-        expected_list = [ test_branch, DEFAULT_BRANCH ]
-        output_list = get_branch_list()
-        self.assertEqual(expected_list, output_list)
-
-        expected = test_branch
-        self.assertTrue(goto_branch(expected))
-        current = get_current_branch()
-        self.assertEqual(expected, current)
-
-        expected = DEFAULT_BRANCH
-        self.assertTrue(goto_branch(expected))
-        current = get_current_branch()
-        self.assertEqual(expected, current)
-
-
-    # This test only work after test_make_remove_branch
-    #@unittest.skip
-    def test_remove_branch(self):
-        test_branch = "branch-test"
-        default_branch = DEFAULT_BRANCH
-        expected_init = [ default_branch, test_branch ]
-        expected_after = [ default_branch ]
-
-        output = get_branch_list()
-        self.assertEqual(expected_init, output)
+        self.assertEqual(expected_make, output)
 
         remove_branch(test_branch)
         output = get_branch_list()
-        self.assertEqual(expected_after, output)
+        self.assertEqual(expected_init, output)
 
 
-    @unittest.skip
-    def test_goto_branch_from_target_branch(self):
-        current_branch = get_current_branch()
-
-        self.assertTrue(goto_branch(current_branch))
+#    @unittest.skip
+#    def test_goto_branch_from_target_branch(self):
+#        current_branch = get_current_branch()
+#
+#        self.assertTrue(goto_branch(current_branch))
 
 
 
@@ -136,6 +101,31 @@ class TestBase(unittest.TestCase):
 #    #@unittest.skip
 #    def test_(self):
 #        pass
+#
+#    # This test only work after test_make_remove_branch
+#    #@unittest.skip
+#    def test_goto_branch(self):
+#        # The test should start from DEFAULT_BRANCH
+#        current = get_current_branch()
+#        self.assertEqual(DEFAULT_BRANCH, current)
+#
+#        test_branch = "branch-test"
+#
+#        # Check the repo branch list
+#        expected_list = [ test_branch, DEFAULT_BRANCH ]
+#        output_list = get_branch_list()
+#        self.assertEqual(expected_list, output_list)
+#
+#        expected = test_branch
+#        self.assertTrue(goto_branch(expected))
+#        current = get_current_branch()
+#        self.assertEqual(expected, current)
+#
+#        expected = DEFAULT_BRANCH
+#        self.assertTrue(goto_branch(expected))
+#        current = get_current_branch()
+#        self.assertEqual(expected, current)
+
 
 
 if __name__ == "__main__":
