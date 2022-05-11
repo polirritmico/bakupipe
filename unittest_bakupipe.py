@@ -71,9 +71,18 @@ class TestBase(unittest.TestCase):
 
 
     # This test only work after test_make_remove_branch
-    @unittest.skip
     def test_remove_branch(self):
-        pass
+        test_branch = "mk-branch-test"
+        default_branch = "develop"
+        expected_init = [ default_branch, test_branch ]
+        expected_after = [ default_branch ]
+
+        output = get_branch_list()
+        self.assertEqual(expected_init, output)
+
+        remove_branch(test_branch)
+        output = get_branch_list()
+        self.assertEqual(expected_after, output)
 
 
     def test_goto_branch_from_target_branch(self):
