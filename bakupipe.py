@@ -75,13 +75,13 @@ def get_branch_list() -> list[str]:
     return branch_list
 
 
-def check_non_existing_branch(check_branch: str) -> bool:
-    for branch in get_branch_list():
-        if branch == check_branch:
-            print("ADVERTENCIA: Ya existe la rama\
-                \n\tRama: '{}'".format(branch))
-            return False
-    return True
+def find_branch(branch: str) -> bool:
+    for b in get_branch_list():
+        if b == branch:
+            return True
+
+    print("ERROR: Rama '{}' no encontrada".format(branch))
+    return False
 
 
 def make_branch(new_branch: str) -> bool:
@@ -106,6 +106,18 @@ def goto_branch(branch: str) -> bool:
     output = run_command("git branch {}".format(branch))
     if output != "":
         print("ERROR: No se pudo cambiar a la rama {}".format(branch))
+        return False
+
+    return True
+
+
+def remove_branch(target_branch: str) -> bool:
+    if not check_non_existing_branch(target_branch):
+        pass
+
+    output = run_command("git branch -d {}".format(target_branch))
+
+    if output != "":
         return False
 
     return True

@@ -70,7 +70,16 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected_after, output)
 
 
+    def test_find_branch(self):
+        not_found = "non_existing"
+        found     = "develop"
+
+        self.assertFalse(find_branch(not_found))
+        self.assertTrue(find_branch(found))
+
+
     # This test only work after test_make_remove_branch
+    @unittest.skip
     def test_remove_branch(self):
         test_branch = "mk-branch-test"
         default_branch = "develop"
