@@ -39,7 +39,9 @@ class TestBase(unittest.TestCase):
         testFalse = [ "no" ]
 
         self.assertTrue(check_in_repo(testTrue))
+        print("Expected error:")
         self.assertFalse(check_in_repo(testFalse))
+        print("\tOK")
 
 
     def test_get_current_branch(self):
@@ -60,16 +62,18 @@ class TestBase(unittest.TestCase):
         not_found = "non_existing"
         found     = DEFAULT_BRANCH
 
+        print("Expected error:")
         self.assertFalse(find_branch(not_found))
+        print("\tOK")
         self.assertTrue(find_branch(found))
 
 
     # This test only work with a single branch in the repo named "deploy"
     def test_make_branch(self):
-        test_branch = "mk-branch-test"
+        test_branch = "branch-test"
         default_branch = DEFAULT_BRANCH
         expected_init = [ default_branch ]
-        expected_after = [ default_branch, test_branch ]
+        expected_after = [ test_branch, default_branch ]
 
         output = get_branch_list()
         self.assertEqual(expected_init, output)
@@ -80,8 +84,34 @@ class TestBase(unittest.TestCase):
 
 
     # This test only work after test_make_remove_branch
+    #@unittest.skip
+    def test_goto_branch(self):
+        # The test should start from DEFAULT_BRANCH
+        current = get_current_branch()
+        self.assertEqual(DEFAULT_BRANCH, current)
+
+        test_branch = "branch-test"
+
+        # Check the repo branch list
+        expected_list = [ test_branch, DEFAULT_BRANCH ]
+        output_list = get_branch_list()
+        self.assertEqual(expected_list, output_list)
+
+        expected = test_branch
+        self.assertTrue(goto_branch(expected))
+        current = get_current_branch()
+        self.assertEqual(expected, current)
+
+        expected = DEFAULT_BRANCH
+        self.assertTrue(goto_branch(expected))
+        current = get_current_branch()
+        self.assertEqual(expected, current)
+
+
+    # This test only work after test_make_remove_branch
+    #@unittest.skip
     def test_remove_branch(self):
-        test_branch = "mk-branch-test"
+        test_branch = "branch-test"
         default_branch = DEFAULT_BRANCH
         expected_init = [ default_branch, test_branch ]
         expected_after = [ default_branch ]
@@ -94,6 +124,7 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected_after, output)
 
 
+    @unittest.skip
     def test_goto_branch_from_target_branch(self):
         current_branch = get_current_branch()
 
@@ -101,12 +132,10 @@ class TestBase(unittest.TestCase):
 
 
 
-class IntegrationTests(unittest.TestCase):
-    #@unittest.skip
-    def test_goto_branch_from_another_branch(self):
-        # TODO: IMPLEMENTAR MK_BRANCH y RM_BRANCH
-        current = get_current_branch()
-        target = current + 'B'
+#class IntegrationTests(unittest.TestCase):
+#    #@unittest.skip
+#    def test_(self):
+#        pass
 
 
 if __name__ == "__main__":

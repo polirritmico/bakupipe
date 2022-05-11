@@ -107,7 +107,7 @@ def goto_branch(branch: str) -> bool:
                 \n\tRama: '{}'".format(branch))
         return True
 
-    output = run_command("git branch {}".format(branch))
+    output = run_command("git checkout {}".format(branch))
     if output != "":
         print("ERROR: No se pudo cambiar a la rama {}".format(branch))
         return False
