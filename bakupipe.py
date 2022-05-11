@@ -95,7 +95,7 @@ def remove_branch(target: str) -> bool:
     output = run_command("git branch -d {}".format(target))
     if output != "":
         print("ERROR: No se puede borrar la rama '{}'\
-                \n\t{}".format(target, out))
+                \n\t{}".format(target, output))
         return False
 
     return True

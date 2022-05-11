@@ -10,6 +10,7 @@ import os
 from bakupipe import *
 
 CURRENT_REPO = "https://github.com/polirritmico/bakupipe.git"
+DEFAULT_BRANCH = "develop"
 
 #@unittest.skip
 class TestBase(unittest.TestCase):
@@ -43,22 +44,30 @@ class TestBase(unittest.TestCase):
 
     def test_get_current_branch(self):
         out = get_current_branch()
-        expected = "develop"
+        expected = DEFAULT_BRANCH
 
         self.assertEqual(expected, out)
 
 
     def test_get_branch_list(self):
-        expected = [ "develop" ]
+        expected = [ DEFAULT_BRANCH ]
         output = get_branch_list()
 
         self.assertEqual(expected, output)
 
 
+    def test_find_branch(self):
+        not_found = "non_existing"
+        found     = DEFAULT_BRANCH
+
+        self.assertFalse(find_branch(not_found))
+        self.assertTrue(find_branch(found))
+
+
     # This test only work with a single branch in the repo named "deploy"
     def test_make_branch(self):
         test_branch = "mk-branch-test"
-        default_branch = "develop"
+        default_branch = DEFAULT_BRANCH
         expected_init = [ default_branch ]
         expected_after = [ default_branch, test_branch ]
 
@@ -70,19 +79,10 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected_after, output)
 
 
-    def test_find_branch(self):
-        not_found = "non_existing"
-        found     = "develop"
-
-        self.assertFalse(find_branch(not_found))
-        self.assertTrue(find_branch(found))
-
-
     # This test only work after test_make_remove_branch
-    @unittest.skip
     def test_remove_branch(self):
         test_branch = "mk-branch-test"
-        default_branch = "develop"
+        default_branch = DEFAULT_BRANCH
         expected_init = [ default_branch, test_branch ]
         expected_after = [ default_branch ]
 
@@ -100,7 +100,9 @@ class TestBase(unittest.TestCase):
         self.assertTrue(goto_branch(current_branch))
 
 
-    @unittest.skip
+
+class IntegrationTests(unittest.TestCase):
+    #@unittest.skip
     def test_goto_branch_from_another_branch(self):
         # TODO: IMPLEMENTAR MK_BRANCH y RM_BRANCH
         current = get_current_branch()
