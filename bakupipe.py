@@ -51,7 +51,7 @@ def get_current_branch() -> str:
     return branch
 
 
-def check_current_branch(expected_branch) -> bool:
+def check_in_current_branch(expected_branch) -> bool:
     current_branch = get_current_branch()
 
     if expected_branch != current_branch:
@@ -72,11 +72,35 @@ def get_branch_list() -> list[str]:
         if str_branch != '*':
             branch_list.append(str_branch)
 
+    return branch_list
+
+
+def check_non_existing_branch(check_branch: str) -> bool:
+    for branch in get_branch_list():
+        if branch == check_branch:
+            print("ADVERTENCIA: Ya existe la rama\
+                \n\tRama: '{}'".format(branch))
+            return False
+    return True
+
+
+def make_branch(new_branch: str) -> bool:
+    if not check_non_existing_branch(new_branch):
+        return False
+
+    output = run_command("git branch {}".format(new_branch))
+    if output != "":
+        print("ERROR: No se puede crear la rama {}\
+                \n\tDebug: {}".format(new_branch, output))
+        return False
+
+    return True
+
 
 def goto_branch(branch: str) -> bool:
     if branch == get_current_branch():
         print("ADVERTENCIA: Actualmente en la rama de destino\
-                \n\tRama: '{}'".format(branch, RUN_BRANCH))
+                \n\tRama: '{}'".format(branch))
         return True
 
     output = run_command("git branch {}".format(branch))

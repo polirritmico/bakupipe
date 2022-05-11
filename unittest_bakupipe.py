@@ -33,6 +33,14 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
+    def test_check_in_repo(self):
+        testTrue = [ BAKU_URL, BAKUPIPE_URL ]
+        testFalse = [ "no" ]
+
+        self.assertTrue(check_in_repo(testTrue))
+        self.assertFalse(check_in_repo(testFalse))
+
+
     def test_get_current_branch(self):
         out = get_current_branch()
         expected = "develop"
@@ -40,12 +48,11 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
-    def test_check_in_repo(self):
-        testTrue = [ BAKU_URL, BAKUPIPE_URL ]
-        testFalse = [ "no" ]
+    def test_get_branch_list(self):
+        expected = [ "develop" ]
+        output = get_branch_list()
 
-        self.assertTrue(check_in_repo(testTrue))
-        self.assertFalse(check_in_repo(testFalse))
+        self.assertEqual(expected, output)
 
 
     # This test only work with a single branch in the repo named "deploy"
@@ -64,6 +71,7 @@ class TestBase(unittest.TestCase):
 
 
     # This test only work after test_make_remove_branch
+    @unittest.skip
     def test_remove_branch(self):
         pass
 
@@ -74,6 +82,7 @@ class TestBase(unittest.TestCase):
         self.assertTrue(goto_branch(current_branch))
 
 
+    @unittest.skip
     def test_goto_branch_from_another_branch(self):
         # TODO: IMPLEMENTAR MK_BRANCH y RM_BRANCH
         current = get_current_branch()
