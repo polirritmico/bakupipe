@@ -51,16 +51,6 @@ def get_current_branch() -> str:
     return branch
 
 
-def check_in_current_branch(expected_branch) -> bool:
-    current_branch = get_current_branch()
-
-    if expected_branch != current_branch:
-        print("ERROR: Rama incorrecta\n\t{}".format(current_branch))
-        return False
-    else:
-        return True
-
-
 def get_branch_list() -> list[str]:
     branch_list = []
     _output_raw = run_command("git branch", True)
@@ -85,13 +75,27 @@ def find_branch(branch: str) -> bool:
 
 
 def make_branch(new_branch: str) -> bool:
-    if not check_non_existing_branch(new_branch):
+    if find_branch(new_branch):
         return False
 
     output = run_command("git branch {}".format(new_branch))
     if output != "":
         print("ERROR: No se puede crear la rama {}\
                 \n\tDebug: {}".format(new_branch, output))
+        return False
+
+    return True
+
+
+def remove_branch(target: str) -> bool:
+    if not find_branch(target):
+        print("ADVERTENCIA: No se encuentra la rama '{}'".format(target))
+        return True
+
+    output = run_command("git branch -d {}".format(target))
+    if output != "":
+        print("ERROR: No se puede borrar la rama '{}'\
+                \n\t{}".format(target, out))
         return False
 
     return True
@@ -106,18 +110,6 @@ def goto_branch(branch: str) -> bool:
     output = run_command("git branch {}".format(branch))
     if output != "":
         print("ERROR: No se pudo cambiar a la rama {}".format(branch))
-        return False
-
-    return True
-
-
-def remove_branch(target_branch: str) -> bool:
-    if not check_non_existing_branch(target_branch):
-        pass
-
-    output = run_command("git branch -d {}".format(target_branch))
-
-    if output != "":
         return False
 
     return True
@@ -144,6 +136,16 @@ def remove_branch(target_branch: str) -> bool:
 
 #def merge_pre_deploy():
 #    pass
+
+
+def check_in_current_branch(expected_branch) -> bool:
+    current_branch = get_current_branch()
+
+    if expected_branch != current_branch:
+        print("ERROR: Rama incorrecta\n\t{}".format(current_branch))
+        return False
+    else:
+        return True
 
 
 def main(argv):
