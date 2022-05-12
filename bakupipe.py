@@ -15,21 +15,35 @@ BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 
 
-def run_command(_command: str, bypass = False):
-    if bypass:
-        _proc = subprocess.Popen(_command.split(),
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-        return _proc.communicate()
 
-    _proc = subprocess.Popen(_command.split(),
-                             stdout=subprocess.PIPE,
-                             universal_newlines=True)
-    _output = _proc.communicate()
+def run_command(raw_command: str, bypass = False):
+    command = raw_command.split()
+
+    if bypass:
+        proc = subprocess.Popen(command,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+        return proc.communicate()
+
+    proc = subprocess.Popen(command,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE,
+                            universal_newlines=True)
+    stdout, stderr = proc.communicate()
+
+    # Handle errors
+    if proc.returncode != 0:
+        print("SALIDA DE ERROR:\n{}".format(stderr))
+        output = str(stderr).rstrip()
+        return output
 
     # Format output
-    _output = str(_output[0]).rstrip()
-    return _output
+    #output = str(stdout[0]).rstrip()
+    output = str(stdout).rstrip()
+    if stderr != "":
+        error = str(stderr).rstrip()
+        output = output + error
+    return output
 
 
 def get_current_repo() -> str:

@@ -9,8 +9,9 @@ import os
 
 from bakupipe import *
 
-CURRENT_REPO = "https://github.com/polirritmico/bakupipe.git"
-DEFAULT_BRANCH = "develop"
+# In bakupipe.py:
+#BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
+#RUN_BRANCH = "develop"
 
 
 #@unittest.skip
@@ -29,15 +30,21 @@ class TestBase(unittest.TestCase):
 
     #    self.assertEqual(expected, out)
 
-    #@unittest.skip
+#    #@unittest.skip
+#    def test_run_command_not_found(self):
+#        #bash: fdasfd: orden no encontrada
+#        pass
+
+
+    @unittest.skip
     def test_get_current_repo(self):
         out = get_current_repo()
-        expected = CURRENT_REPO
+        expected = BAKUPIPE_URL
 
         self.assertEqual(expected, out)
 
 
-    #@unittest.skip
+    @unittest.skip
     def test_check_in_repo(self):
         testTrue = [ BAKU_URL, BAKUPIPE_URL ]
         testFalse = [ "no" ]
@@ -48,39 +55,51 @@ class TestBase(unittest.TestCase):
         print("\tOK. Repositorio incorrecto")
 
 
-    #@unittest.skip
+    @unittest.skip
     def test_get_current_branch(self):
         out = get_current_branch()
-        expected = DEFAULT_BRANCH
+        expected = RUN_BRANCH
 
         self.assertEqual(expected, out)
 
 
-    #@unittest.skip
+    @unittest.skip
     def test_get_branch_list(self):
-        expected = [ DEFAULT_BRANCH ]
+        expected = [ RUN_BRANCH ]
         output = get_branch_list()
 
         self.assertEqual(expected, output)
 
 
-    #@unittest.skip
+    @unittest.skip
     def test_find_branch(self):
         not_found = "non_existing_branch"
-        found     = DEFAULT_BRANCH
+        found     = RUN_BRANCH
 
-        print("\nExpected error message:")
         self.assertFalse(find_branch(not_found))
-        print("\tOK. Rama no encontrada")
         self.assertTrue(find_branch(found))
 
 
-    # This test only work with a single branch
-    #@unittest.skip
+#    @unittest.skip
+#    def test_goto_branch_from_target_branch(self):
+#        current_branch = get_current_branch()
+#
+#        self.assertTrue(goto_branch(current_branch))
+
+
+
+class IntegrationTests(unittest.TestCase):
+#    @unittest.skip
+#    def test_(self):
+#        pass
+
+
+    # This test only work in a single branch repo
+    @unittest.skip
     def test_make_and_remove_branch(self):
         test_branch = "test-branch"
-        expected_init = [ DEFAULT_BRANCH ]
-        expected_make = [ DEFAULT_BRANCH, test_branch ]
+        expected_init = [ RUN_BRANCH ]
+        expected_make = [ RUN_BRANCH, test_branch ]
 
         output = get_branch_list()
         self.assertEqual(expected_init, output)
@@ -94,27 +113,13 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected_init, output)
 
 
-#    @unittest.skip
-#    def test_goto_branch_from_target_branch(self):
-#        current_branch = get_current_branch()
-#
-#        self.assertTrue(goto_branch(current_branch))
-
-
-
-class IntegrationTests(unittest.TestCase):
-#    #@unittest.skip
-#    def test_(self):
-#        pass
-#
-    # This test only work after test_make_remove_branch
-    #@unittest.skip
+    @unittest.skip
     def test_goto_branch(self):
         print("\nExpected warning message:")
-        self.assertTrue(goto_branch(DEFAULT_BRANCH))
+        self.assertTrue(goto_branch(RUN_BRANCH))
         print("\tOK. En la rama de destino")
         current = get_current_branch()
-        self.assertEqual(DEFAULT_BRANCH, current)
+        self.assertEqual(RUN_BRANCH, current)
 
         test_branch = "test-goto-branch"
         make_branch(test_branch)
@@ -123,12 +128,12 @@ class IntegrationTests(unittest.TestCase):
         current = get_current_branch()
         self.assertEqual(test_branch, current)
 
-        goto_branch(DEFAULT_BRANCH)
+        goto_branch(RUN_BRANCH)
         current = get_current_branch()
-        self.assertEqual(DEFAULT_BRANCH, current)
+        self.assertEqual(RUN_BRANCH, current)
 
         remove_branch(test_branch)
-        expected_list = [ DEFAULT_BRANCH ]
+        expected_list = [ RUN_BRANCH ]
         current_list = get_branch_list()
         self.assertEqual(expected_list, current_list)
 
