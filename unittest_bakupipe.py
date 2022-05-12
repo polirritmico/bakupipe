@@ -30,13 +30,19 @@ class TestBase(unittest.TestCase):
 
     #    self.assertEqual(expected, out)
 
-#    #@unittest.skip
-#    def test_run_command_not_found(self):
-#        #bash: fdasfd: orden no encontrada
-#        pass
+    unittest.skip
+    def test_run_command_not_found(self):
+        test_cmd = "testcommand"
+        #expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
+        expected = "/bin/sh: línea 1: {}: orden no encontrada".format(test_cmd)
+
+        print("Expected run_command error:")
+        output = run_command(test_cmd)
+        print("\tOK.\n")
+        self.assertEqual(expected, output)
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_get_current_repo(self):
         out = get_current_repo()
         expected = BAKUPIPE_URL
@@ -44,18 +50,18 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_check_in_repo(self):
         testTrue = [ BAKU_URL, BAKUPIPE_URL ]
         testFalse = [ "no" ]
 
         self.assertTrue(check_in_repo(testTrue))
-        print("\nExpected error message:")
+        print("\nExpected error 'wrong repository':")
         self.assertFalse(check_in_repo(testFalse))
-        print("\tOK. Repositorio incorrecto")
+        print("\tOK.\n")
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_get_current_branch(self):
         out = get_current_branch()
         expected = RUN_BRANCH
