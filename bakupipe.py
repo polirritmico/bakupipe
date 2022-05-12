@@ -70,7 +70,6 @@ def find_branch(branch: str) -> bool:
         if b == branch:
             return True
 
-    print("ERROR: Rama '{}' no encontrada".format(branch))
     return False
 
 
@@ -79,10 +78,11 @@ def make_branch(new_branch: str) -> bool:
         return False
 
     output = run_command("git branch {}".format(new_branch))
-    if output != "":
-        print("ERROR: No se puede crear la rama {}\
-                \n\tDebug: {}".format(new_branch, output))
-        return False
+    #TODO: Detect and handle error
+    #if output != "":
+    #    print("ERROR: No se puede crear la rama {}\
+    #            \n\tDebug: {}".format(new_branch, output))
+    #    return False
 
     return True
 
@@ -93,10 +93,11 @@ def remove_branch(target: str) -> bool:
         return True
 
     output = run_command("git branch -d {}".format(target))
-    if output != "":
-        print("ERROR: No se puede borrar la rama '{}'\
-                \n\t{}".format(target, output))
-        return False
+    #TODO: Detect and handle errors
+    #if output != "":
+    #    print("ERROR: No se puede borrar la rama '{}'\
+    #            \n\t{}".format(target, output))
+    #    return False
 
     return True
 
@@ -108,34 +109,12 @@ def goto_branch(branch: str) -> bool:
         return True
 
     output = run_command("git checkout {}".format(branch))
-    if output != "":
-        print("ERROR: No se pudo cambiar a la rama {}".format(branch))
-        return False
+    #TODO: Detect and handle errors
+    #if output != "":
+    #    print("ERROR: No se pudo cambiar a la rama {}".format(branch))
+    #    return False
 
     return True
-
-
-#def mk_pre_deploy_branch():
-#    output = run_command("git checkout -b pre-deploy")
-#
-#    if output != "Switched to a new branch 'pre-deploy'":
-#        print("ERROR: No se puede crear la rama"
-#        return False
-#    else:
-#        return True
-
-
-#def remove_branch(branch: str) -> bool:
-#    output = run_command("git branch -d {}".format(branch))
-#
-#    if output != "":
-#        return False
-#    else:
-#        return True
-
-
-#def merge_pre_deploy():
-#    pass
 
 
 def check_in_current_branch(expected_branch) -> bool:

@@ -12,11 +12,10 @@ from bakupipe import *
 CURRENT_REPO = "https://github.com/polirritmico/bakupipe.git"
 DEFAULT_BRANCH = "develop"
 
-# NOT sort test
-unittest.TestLoader.sortTestMethodsUsing = None
 
 #@unittest.skip
 class TestBase(unittest.TestCase):
+    #@unittest.skip
     def test_run_command_single_line_output(self):
         expected = "Test: la prueba funciona"
         out = run_command("echo Test: la prueba funciona")
@@ -30,6 +29,7 @@ class TestBase(unittest.TestCase):
 
     #    self.assertEqual(expected, out)
 
+    #@unittest.skip
     def test_get_current_repo(self):
         out = get_current_repo()
         expected = CURRENT_REPO
@@ -37,16 +37,18 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
+    #@unittest.skip
     def test_check_in_repo(self):
         testTrue = [ BAKU_URL, BAKUPIPE_URL ]
         testFalse = [ "no" ]
 
         self.assertTrue(check_in_repo(testTrue))
-        print("Expected error:")
+        print("\nExpected error message:")
         self.assertFalse(check_in_repo(testFalse))
-        print("\tOK")
+        print("\tOK. Repositorio incorrecto")
 
 
+    #@unittest.skip
     def test_get_current_branch(self):
         out = get_current_branch()
         expected = DEFAULT_BRANCH
@@ -54,6 +56,7 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
+    #@unittest.skip
     def test_get_branch_list(self):
         expected = [ DEFAULT_BRANCH ]
         output = get_branch_list()
@@ -61,17 +64,19 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, output)
 
 
+    #@unittest.skip
     def test_find_branch(self):
-        not_found = "non_existing"
+        not_found = "non_existing_branch"
         found     = DEFAULT_BRANCH
 
-        print("Expected error:")
+        print("\nExpected error message:")
         self.assertFalse(find_branch(not_found))
-        print("\tOK")
+        print("\tOK. Rama no encontrada")
         self.assertTrue(find_branch(found))
 
 
     # This test only work with a single branch
+    #@unittest.skip
     def test_make_and_remove_branch(self):
         test_branch = "test-branch"
         expected_init = [ DEFAULT_BRANCH ]
@@ -105,7 +110,9 @@ class IntegrationTests(unittest.TestCase):
     # This test only work after test_make_remove_branch
     #@unittest.skip
     def test_goto_branch(self):
+        print("\nExpected warning message:")
         self.assertTrue(goto_branch(DEFAULT_BRANCH))
+        print("\tOK. En la rama de destino")
         current = get_current_branch()
         self.assertEqual(DEFAULT_BRANCH, current)
 
