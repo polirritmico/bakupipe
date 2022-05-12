@@ -18,7 +18,8 @@ BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 def run_command(_command: str, bypass = False):
     if bypass:
         _proc = subprocess.Popen(_command.split(),
-                                 stdout=subprocess.PIPE)
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
         return _proc.communicate()
 
     _proc = subprocess.Popen(_command.split(),
