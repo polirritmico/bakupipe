@@ -76,7 +76,6 @@ def check_in_repo(expected_list: list[str]) -> bool:
     for url in expected_list:
         if repo == url: return True
 
-    print("ERROR: Repositorio incorrecto\n\t{}".format(repo))
     return False
 
 
@@ -86,15 +85,24 @@ def get_current_branch() -> str:
 
 
 def get_branch_list() -> list[str]:
-    branch_list = []
-    _output_raw = run_command("git branch", True)
-    # command output (b'' string) on the first element of the tuple
-    _output = _output_raw[0].split()
+    #branch_list = []
+    #_output_raw = run_command("git branch", True)
+    ## command output (b'' string) on the first element of the tuple
+    #_output = _output_raw[0].split()
 
-    for branch in _output:
-        str_branch = branch.decode("UTF-8")
-        if str_branch != '*':
-            branch_list.append(str_branch)
+    #for branch in _output:
+    #    str_branch = branch.decode("UTF-8")
+    #    if str_branch != '*':
+    #        branch_list.append(str_branch)
+
+    #return branch_list
+    branch_list = []
+    output_raw = run_command("git branch")
+    output = output_raw.split()
+
+    for branch in output:
+        if branch != '*':
+            branch_list.append(branch)
 
     return branch_list
 

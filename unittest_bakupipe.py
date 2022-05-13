@@ -23,14 +23,16 @@ class TestBase(unittest.TestCase):
 
         self.assertEqual(expected, out)
 
-    # NOT WORKING, IMPLEMENT IF NEEDED
-    #def test_run_command_multi_line_output(self):
-    #    expected = """first line\nsecond line"""
-    #    out = run_command("echo -e 'first line\nsecond line'")
 
-    #    self.assertEqual(expected, out)
+    #@unittest.skip
+    def test_run_command_multi_line_output(self):
+        expected = """first line\nsecond line"""
+        out = run_command("echo -e 'first line\nsecond line'")
 
-    unittest.skip
+        self.assertEqual(expected, out)
+
+
+    #@unittest.skip
     def test_run_command_not_found(self):
         test_cmd = "testcommand"
         #expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
@@ -53,12 +55,10 @@ class TestBase(unittest.TestCase):
     #@unittest.skip
     def test_check_in_repo(self):
         testTrue = [ BAKU_URL, BAKUPIPE_URL ]
-        testFalse = [ "no" ]
+        testFalse = [ "non-existing-repo" ]
 
         self.assertTrue(check_in_repo(testTrue))
-        print("\nExpected error 'wrong repository':")
         self.assertFalse(check_in_repo(testFalse))
-        print("\tOK.\n")
 
 
     #@unittest.skip
@@ -69,7 +69,7 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_get_branch_list(self):
         expected = [ RUN_BRANCH ]
         output = get_branch_list()
@@ -77,20 +77,13 @@ class TestBase(unittest.TestCase):
         self.assertEqual(expected, output)
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_find_branch(self):
         not_found = "non_existing_branch"
         found     = RUN_BRANCH
 
         self.assertFalse(find_branch(not_found))
         self.assertTrue(find_branch(found))
-
-
-#    @unittest.skip
-#    def test_goto_branch_from_target_branch(self):
-#        current_branch = get_current_branch()
-#
-#        self.assertTrue(goto_branch(current_branch))
 
 
 
