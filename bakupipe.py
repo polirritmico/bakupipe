@@ -11,10 +11,9 @@ import subprocess
 # Expected running branch
 RUN_BRANCH   = "develop"
 # Project repositories URLs
-PROJECT_URLS = [
-                 "https://github.com/polirritmico/bakumapu.git",
-                 "https://github.com/polirritmico/bakupipe.git"
-               ]
+BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
+BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
+PROJECT_URLS = [ BAKU_URL, BAKUPIPE_URL ]
 
 
 
@@ -45,7 +44,9 @@ class Command:
         self.stderr = output.stderr
 
         if self.returncode != 0: # if error
-            #TODO: Raise/Catch
+            #TODO: Raise/Catch?
+            #raise ChildProcessError("ERROR: subprocces return error {}",
+            #                        self.stderr, self.stdout)
             return False
         return True
 
@@ -60,35 +61,38 @@ class Command:
 
 class Repository:
     def __init__(self):
-        self.url = self.get_current_repo()
-        #self.current_branch = self.get_current_branch()
-        #self.branches = self.get_branch_list()
         self.cmd_runner = Command()
+        self.url = self.get_current_repo()
+        self.current_branch = self.get_current_branch()
+        #self.branches = self.get_branch_list()
 
         #if not self.check_in_repo(PROJECT_URLS):
-        #    raise ValueError("Repository not in project urls.", PROJECT_URLS)
+        #    raise ChildProcessError("Repository not in project urls.",
+        #                            PROJECT_URLS)
 
 
-    def get_current_repo() -> str:
+    def get_current_repo(self) -> str:
         self.cmd_runner.set("git config --get remote.origin.url")
-        if self.
-        return repo_url
+        if not self.cmd_runner.run():
+            raise ChildProcessError("ERROR: Can't get remote.origin.url",
+                                    self.cmd_runner)
+        return self.cmd_runner.get_stdout()
 
 
-    #def check_in_repo(expected_list: list[str]) -> bool:
-    #    for url in expected_list:
-    #        if self.url == url: return True
+    def check_in_repo(self, expected_list: list[str]) -> bool:
+        for valid_url in expected_list:
+            if self.url == valid_url:
+                return True
+        return False
 
-    #    return False
 
-
-    #def get_current_branch() -> str:
-    #    self.cmd_runner.set("git rev-parse --abbrev-ref HEAD")
-    #    if not self.cmd_runner.run():
-    #        raise ValueError( "ERROR: No se puede obtener la rama actual",
-    #                          self.cmd_runner.get_stdout(),
-    #                          self.cmd_runner.get_stderr() )
-    #    return branch
+    def get_current_branch(self) -> str:
+        self.cmd_runner.set("git rev-parse --abbrev-ref HEAD")
+        if not self.cmd_runner.run():
+            raise ChildProcessError("ERROR: Can't get current branch",
+                                    self.cmd_runner.get_stdout(),
+                                    self.cmd_runner.get_stderr())
+        return self.cmd_runner.get_stdout()
 
 
 #def get_branch_list() -> list[str]:

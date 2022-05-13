@@ -45,16 +45,14 @@ class TestCommand(unittest.TestCase):
         expected = "/bin/sh: línea 1: {}: orden no encontrada".format(test_cmd)
         self.command_runner.set(test_cmd)
 
-        print("Expected run_command error:")
         self.assertFalse(self.command_runner.run())
-        print("\tOK.\n")
         self.assertEqual(expected, self.command_runner.get_stderr())
 
 
 
 class TestRepository(unittest.TestCase):
     def setUp(self):
-        repository = Repository()
+        self.repository = Repository()
 
 
     #@unittest.skip
@@ -64,31 +62,29 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(expected, out)
 
 
-#    #@unittest.skip
-#    def test_check_in_repo(self):
-#        testTrue = [ BAKU_URL, BAKUPIPE_URL ]
-#        testFalse = [ "non-existing-repo" ]
-#
-#        self.assertTrue(check_in_repo(testTrue))
-#        self.assertFalse(check_in_repo(testFalse))
-#
-#
-#    #@unittest.skip
-#    def test_get_current_branch(self):
-#        out = get_current_branch()
-#        expected = RUN_BRANCH
-#
-#        self.assertEqual(expected, out)
-#
-#
-#    #@unittest.skip
-#    def test_get_branch_list(self):
-#        expected = [ RUN_BRANCH ]
-#        output = get_branch_list()
-#
-#        self.assertEqual(expected, output)
-#
-#
+    #@unittest.skip
+    def test_check_in_repo_true(self):
+        testTrue = [ BAKU_URL, BAKUPIPE_URL ]
+        self.assertTrue(self.repository.check_in_repo(testTrue))
+
+        testFalse = [ "non-existing-repo" ]
+        self.assertFalse(self.repository.check_in_repo(testFalse))
+
+
+    #@unittest.skip
+    def test_get_current_branch(self):
+        expected = RUN_BRANCH
+        self.assertEqual(expected, self.repository.current_branch)
+
+
+    #@unittest.skip
+    def test_get_branch_list(self):
+        expected = [ RUN_BRANCH ]
+        output = get_branch_list()
+
+        self.assertEqual(expected, output)
+
+
 #    #@unittest.skip
 #    def test_find_branch(self):
 #        not_found = "non_existing_branch"
