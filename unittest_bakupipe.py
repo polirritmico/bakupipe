@@ -9,9 +9,8 @@ import os
 
 from bakupipe import *
 
-# In bakupipe.py:
-#BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
-#RUN_BRANCH = "develop"
+# Expected running branch
+RUN_BRANCH   = "develop"
 
 
 #@unittest.skip
@@ -19,6 +18,7 @@ class TestCommand(unittest.TestCase):
     def setUp(self):
         self.command_runner = Command()
 
+    #@unittest.skip
     def test_run_command_single_line_output(self):
         expected = "Test: all working"
         test_cmd = "echo Test: all working"
@@ -50,6 +50,7 @@ class TestCommand(unittest.TestCase):
 
 
 
+#@unittest.skip
 class TestRepository(unittest.TestCase):
     def setUp(self):
         self.repository = Repository()
@@ -74,12 +75,13 @@ class TestRepository(unittest.TestCase):
     #@unittest.skip
     def test_get_current_branch(self):
         expected = RUN_BRANCH
-        self.assertEqual(expected, self.repository.current_branch)
+        self.assertEqual(expected, self.repository.get_current_branch())
 
 
     #@unittest.skip
-    def test_get_branch_list(self):
+    def test_update_branch_list(self):
         expected = [ RUN_BRANCH ]
+        self.repository.update_branch_list()
         self.assertEqual(expected, self.repository.branch_list)
 
 
@@ -93,49 +95,51 @@ class TestRepository(unittest.TestCase):
 
 
 
-#class IntegrationTests(unittest.TestCase):
-#    # This test only work in a single branch repo
-#    #@unittest.skip
-#    def test_make_and_remove_branch(self):
-#        test_branch = "test-branch"
-#        expected_init = [ RUN_BRANCH ]
-#        expected_make = [ RUN_BRANCH, test_branch ]
-#
-#        output = get_branch_list()
-#        self.assertEqual(expected_init, output)
-#
-#        make_branch(test_branch)
-#        output = get_branch_list()
-#        self.assertEqual(expected_make, output)
-#
-#        remove_branch(test_branch)
-#        output = get_branch_list()
-#        self.assertEqual(expected_init, output)
-#
-#
-#    #@unittest.skip
-#    def test_goto_branch(self):
-#        print("\nExpected warning message:")
-#        self.assertTrue(goto_branch(RUN_BRANCH))
-#        print("\tOK.\n")
-#        current = get_current_branch()
-#        self.assertEqual(RUN_BRANCH, current)
-#
-#        test_branch = "test-goto-branch"
-#        make_branch(test_branch)
-#        goto_branch(test_branch)
-#
-#        current = get_current_branch()
-#        self.assertEqual(test_branch, current)
-#
-#        goto_branch(RUN_BRANCH)
-#        current = get_current_branch()
-#        self.assertEqual(RUN_BRANCH, current)
-#
-#        remove_branch(test_branch)
-#        expected_list = [ RUN_BRANCH ]
-#        current_list = get_branch_list()
-#        self.assertEqual(expected_list, current_list)
+#@unittest.skip
+class IntegrationTests(unittest.TestCase):
+    def setUp(self):
+        self.repository = Repository()
+
+
+    # This test only work in a single branch repo
+    #@unittest.skip
+    def test_make_and_remove_branch(self):
+        test_branch = "test-branch"
+        expected_init = [ RUN_BRANCH ]
+        expected_make = [ RUN_BRANCH, test_branch ]
+
+        self.assertEqual(expected_init, self.repository.get_branch_list())
+
+        self.repository.make_branch(test_branch)
+        self.assertEqual(expected_make, self.repository.get_branch_list())
+
+        self.repository.remove_branch(test_branch)
+        self.assertEqual(expected_init, self.repository.get_branch_list())
+
+
+    #@unittest.skip
+    def test_change_branch(self):
+        print("\nExpected warning message:")
+        self.assertTrue(self.repository.goto_branch(RUN_BRANCH))
+        print("\tOK.\n")
+        current = self.repository.get_current_branch()
+        self.assertEqual(RUN_BRANCH, current)
+
+        test_branch = "test-goto-branch"
+        self.repository.make_branch(test_branch)
+        self.repository.goto_branch(test_branch)
+
+        #current = get_current_branch()
+        #self.assertEqual(test_branch, current)
+
+        #goto_branch(RUN_BRANCH)
+        #current = get_current_branch()
+        #self.assertEqual(RUN_BRANCH, current)
+
+        #remove_branch(test_branch)
+        #expected_list = [ RUN_BRANCH ]
+        #current_list = get_branch_list()
+        #self.assertEqual(expected_list, current_list)
 
 
 

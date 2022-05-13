@@ -8,11 +8,10 @@
 import sys
 import subprocess
 
-# Expected running branch
-RUN_BRANCH   = "develop"
 # Project repositories URLs
 BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
+
 PROJECT_URLS = [ BAKU_URL, BAKUPIPE_URL ]
 
 
@@ -63,12 +62,12 @@ class Repository:
     def __init__(self):
         self.cmd_runner = Command()
         self.url = self.get_current_repo()
-        self.current_branch = self.get_current_branch()
+        #self.current_branch = self.get_current_branch()
         self.branch_list = self.get_branch_list()
 
-        #if not self.check_in_repo(PROJECT_URLS):
-        #    raise ChildProcessError("Repository not in project urls.",
-        #                            PROJECT_URLS)
+        if not self.check_in_repo(PROJECT_URLS):
+            raise ChildProcessError("Repository not in project urls.",
+                                    PROJECT_URLS)
 
 
     def get_current_repo(self) -> str:
@@ -95,7 +94,7 @@ class Repository:
         return self.cmd_runner.get_stdout()
 
 
-    def get_branch_list(self) -> list[str]:
+    def update_branch_list(self):
         self.cmd_runner.set("git branch")
         self.cmd_runner.run()
         output_raw = self.cmd_runner.get_stdout()
@@ -106,7 +105,12 @@ class Repository:
             if branch != '*':
                 branch_list.append(branch)
 
-        return branch_list
+        self.branch_list = branch_list
+
+
+    def get_branch_list(self) -> list[str]:
+        self.update_branch_list()
+        return self.branch_list
 
 
     def find_branch(self, branch: str) -> bool:
@@ -117,50 +121,49 @@ class Repository:
         return False
 
 
-#def make_branch(new_branch: str) -> bool:
-#    if find_branch(new_branch):
-#        return False
-#
-#    output = run_command("git branch {}".format(new_branch))
-#    #TODO: Detect and handle error
-#    #if output != "":
-#    #    print("ERROR: No se puede crear la rama {}\
-#    #            \n\tDebug: {}".format(new_branch, output))
-#    #    return False
-#
-#    return True
-#
-#
-#def remove_branch(target: str) -> bool:
-#    if not find_branch(target):
-#        print("ADVERTENCIA: No se encuentra la rama '{}'".format(target))
-#        return True
-#
-#    output = run_command("git branch -d {}".format(target))
-#    #TODO: Detect and handle errors
-#    #if output != "":
-#    #    print("ERROR: No se puede borrar la rama '{}'\
-#    #            \n\t{}".format(target, output))
-#    #    return False
-#
-#    return True
-#
-#
-#def goto_branch(branch: str) -> bool:
-#    if branch == get_current_branch():
-#        print("ADVERTENCIA: Actualmente en la rama de destino\
-#                \n\tRama: '{}'".format(branch))
-#        return True
-#
-#    output = run_command("git checkout {}".format(branch))
-#    #TODO: Detect and handle errors
-#    #if output != "":
-#    #    print("ERROR: No se pudo cambiar a la rama {}".format(branch))
-#    #    return False
-#
-#    return True
-#
-#
+    def make_branch(self, new_branch: str) -> bool:
+        if self.find_branch(new_branch):
+            return True
+
+        self.cmd_runner.set("git branch {}".format(new_branch))
+        if not self.cmd_runner.run():
+            print("ERROR: No se puede crear la rama {}\n\tDebug: {}"\
+                   .format(new_branch, self.cmd_runner.get_stderr()))
+            return False
+
+        self.branch_list = self.get_branch_list()
+        return True
+
+
+    def remove_branch(self, target: str) -> bool:
+        if not self.find_branch(target):
+            print("ADVERTENCIA: No se encuentra la rama '{}'".format(target))
+            return True
+
+        self.cmd_runner.set("git branch -d {}".format(target))
+        if not self.cmd_runner.run():
+            print("ERROR: No se puede borrar la rama '{}'\
+                    \n\t{}".format(target, output))
+            return False
+
+        return True
+
+
+    def goto_branch(self, branch: str) -> bool:
+        if branch == self.get_current_branch():
+            print("ADVERTENCIA: Actualmente en la rama de destino\
+                    \n\tRama: '{}'".format(branch))
+            return True
+
+        self.cmd_runner.set("git checkout {}".format(branch))
+        if not self.cmd_runner.run():
+            print("ERROR: No se pudo cambiar a la rama {}".format(branch))
+            print(self.cmd_runner.get_stderr())
+            return False
+
+        return True
+
+
 #def check_in_current_branch(expected_branch) -> bool:
 #    current_branch = get_current_branch()
 #
