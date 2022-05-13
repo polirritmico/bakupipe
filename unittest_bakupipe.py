@@ -80,21 +80,19 @@ class TestRepository(unittest.TestCase):
     #@unittest.skip
     def test_get_branch_list(self):
         expected = [ RUN_BRANCH ]
-        output = get_branch_list()
-
-        self.assertEqual(expected, output)
+        self.assertEqual(expected, self.repository.branch_list)
 
 
-#    #@unittest.skip
-#    def test_find_branch(self):
-#        not_found = "non_existing_branch"
-#        found     = RUN_BRANCH
-#
-#        self.assertFalse(find_branch(not_found))
-#        self.assertTrue(find_branch(found))
-#
-#
-#
+    #@unittest.skip
+    def test_find_branch(self):
+        not_found = "non_existing_branch"
+        found     = RUN_BRANCH
+
+        self.assertTrue(self.repository.find_branch(found))
+        self.assertFalse(self.repository.find_branch(not_found))
+
+
+
 #class IntegrationTests(unittest.TestCase):
 #    # This test only work in a single branch repo
 #    #@unittest.skip

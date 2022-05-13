@@ -64,7 +64,7 @@ class Repository:
         self.cmd_runner = Command()
         self.url = self.get_current_repo()
         self.current_branch = self.get_current_branch()
-        #self.branches = self.get_branch_list()
+        self.branch_list = self.get_branch_list()
 
         #if not self.check_in_repo(PROJECT_URLS):
         #    raise ChildProcessError("Repository not in project urls.",
@@ -95,26 +95,28 @@ class Repository:
         return self.cmd_runner.get_stdout()
 
 
-#def get_branch_list() -> list[str]:
-#    branch_list = []
-#    output_raw = run_command("git branch")
-#    output = output_raw.split()
-#
-#    for branch in output:
-#        if branch != '*':
-#            branch_list.append(branch)
-#
-#    return branch_list
-#
-#
-#def find_branch(branch: str) -> bool:
-#    for b in get_branch_list():
-#        if b == branch:
-#            return True
-#
-#    return False
-#
-#
+    def get_branch_list(self) -> list[str]:
+        self.cmd_runner.set("git branch")
+        self.cmd_runner.run()
+        output_raw = self.cmd_runner.get_stdout()
+        output = output_raw.split()
+
+        branch_list = []
+        for branch in output:
+            if branch != '*':
+                branch_list.append(branch)
+
+        return branch_list
+
+
+    def find_branch(self, branch: str) -> bool:
+        for b in self.branch_list:
+            if b == branch:
+                return True
+
+        return False
+
+
 #def make_branch(new_branch: str) -> bool:
 #    if find_branch(new_branch):
 #        return False
