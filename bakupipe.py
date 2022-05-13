@@ -15,7 +15,8 @@ BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 PROJECT_URLS = [ BAKU_URL, BAKUPIPE_URL ]
 
 # Default branches
-DEFAULT_BRANCHES = [ "develop", "deploy", "release" ]
+RUN_BRANCH = "develop"
+DEFAULT_BRANCHES = [ RUN_BRANCH, "deploy", "release" ]
 
 
 
@@ -64,13 +65,16 @@ class Command:
 class Repository:
     def __init__(self):
         self.cmd_runner = Command()
+        self.check_git_repo()
         self.url = self.get_current_repo()
+        self.check_in_valid_repo(PROJECT_URLS)
+
         #self.current_branch = self.get_current_branch()
         self.branch_list = self.get_branch_list()
 
-        if not self.check_in_repo(PROJECT_URLS):
-            raise ChildProcessError("Repository not in project urls.",
-                                    PROJECT_URLS)
+        # Begin at default branch
+        if self.get_current_branch() != RUN_BRANCH:
+            self.goto_branch(RUN_BRANCH)
 
 
     def get_current_repo(self) -> str:
@@ -81,11 +85,17 @@ class Repository:
         return self.cmd_runner.get_stdout()
 
 
-    def check_in_repo(self, expected_list: list[str]) -> bool:
+    def check_in_valid_repo(self, expected_list: list[str]) -> bool:
         for valid_url in expected_list:
             if self.url == valid_url:
                 return True
         return False
+
+
+    def check_git_repo(self):
+        self.cmd_runner.set("git status")
+        if not self.cmd_runner.run():
+            raise Exception("Not a GIT repository")
 
 
     def get_current_branch(self) -> str:
@@ -154,7 +164,7 @@ class Repository:
 
     def goto_branch(self, branch: str) -> bool:
         if branch == self.get_current_branch():
-            print("WARNING: Already on target branch\n\t{}".format(branch))
+            print("WARNING: Already on target branch\n\t'{}'".format(branch))
             return True
 
         self.cmd_runner.set("git checkout {}".format(branch))
@@ -183,13 +193,16 @@ def main(argv):
     try:
         repository = Repository()
     except Exception as err:
-        print("ERROR:\n\t{}\n\t{}".format(err.args[0], args[1]))
+        print("ERROR:\t{}".format(err))
         return -1
+
+
     #if not check_in_repo(accepted_repos): return 1
 
     #if not check_current_branch("pre-deploy"):
     #    print("Change to develop branch")
     #    goto_branch("develop")
+    return 0
 
 
 if __name__ == "__main__":

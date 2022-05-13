@@ -9,8 +9,6 @@ import os
 
 from bakupipe import *
 
-# Expected running branch
-RUN_BRANCH   = "develop"
 
 
 #@unittest.skip
@@ -64,12 +62,12 @@ class TestRepository(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_check_in_repo_true(self):
+    def test_check_in_valid_repo_true(self):
         testTrue = [ BAKU_URL, BAKUPIPE_URL ]
-        self.assertTrue(self.repository.check_in_repo(testTrue))
+        self.assertTrue(self.repository.check_in_valid_repo(testTrue))
 
         testFalse = [ "non-existing-repo" ]
-        self.assertFalse(self.repository.check_in_repo(testFalse))
+        self.assertFalse(self.repository.check_in_valid_repo(testFalse))
 
 
     #@unittest.skip
@@ -92,6 +90,19 @@ class TestRepository(unittest.TestCase):
 
         self.assertTrue(self.repository.find_branch(found))
         self.assertFalse(self.repository.find_branch(not_found))
+
+
+#    def test_check_git_repo(self):
+#        with self.assertRaises(Exception) as context:
+#            self.repository.check_git_repo()
+#        self.assertTrue("Not a GIT repository" in str(context.exception))
+
+
+
+@unittest.skip
+class MainTests(unittest.TestCase):
+    def test_case(self):
+        pass
 
 
 
@@ -121,7 +132,7 @@ class IntegrationTests(unittest.TestCase):
     def test_goto_branch(self):
         print("\nExpected warning message:")
         self.assertTrue(self.repository.goto_branch(RUN_BRANCH))
-        print("\tOK.\n")
+        print("\tOK\n")
         current = self.repository.get_current_branch()
         self.assertEqual(RUN_BRANCH, current)
 
