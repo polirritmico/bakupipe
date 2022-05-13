@@ -77,10 +77,9 @@ class TestRepository(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_update_branch_list(self):
+    def test_get_branch_list(self):
         expected = [ RUN_BRANCH ]
-        self.repository.update_branch_list()
-        self.assertEqual(expected, self.repository.branch_list)
+        self.assertEqual(expected, self.repository.get_branch_list())
 
 
     #@unittest.skip

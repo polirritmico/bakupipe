@@ -8,6 +8,9 @@
 import sys
 import subprocess
 
+
+SEP = "-----------------------------------"
+
 ## Repository
 # Project repositories URLs
 BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
@@ -70,7 +73,7 @@ class Repository:
         self.check_in_valid_repo(PROJECT_URLS)
 
         #self.current_branch = self.get_current_branch()
-        self.branch_list = self.get_branch_list()
+        #self.branch_list = self.get_branch_list()
 
         # Begin at default branch
         if self.get_current_branch() != RUN_BRANCH:
@@ -107,7 +110,7 @@ class Repository:
         return self.cmd_runner.get_stdout()
 
 
-    def update_branch_list(self):
+    def get_branch_list(self):
         self.cmd_runner.set("git branch")
         self.cmd_runner.run()
         output_raw = self.cmd_runner.get_stdout()
@@ -118,16 +121,11 @@ class Repository:
             if branch != '*':
                 branch_list.append(branch)
 
-        self.branch_list = branch_list
-
-
-    def get_branch_list(self) -> list[str]:
-        self.update_branch_list()
-        return self.branch_list
+        return branch_list
 
 
     def find_branch(self, branch: str) -> bool:
-        for b in self.branch_list:
+        for b in self.get_branch_list():
             if b == branch:
                 return True
 
@@ -176,6 +174,14 @@ class Repository:
         return True
 
 
+    def print_info(self):
+        print(SEP)
+        print("Repository info:")
+        print("URL:\t\t\t{}".format(self.url))
+        print("Branch list:\t{}".format(get_branch_list))
+        print("Current branch:\t{}".format())
+
+
 #def check_in_current_branch(expected_branch) -> bool:
 #    current_branch = get_current_branch()
 #
@@ -196,7 +202,8 @@ def main(argv):
         print("ERROR:\t{}".format(err))
         return -1
 
-
+    repository.print_info()
+    print("Press 'Y' to start the deploy process")
     #if not check_in_repo(accepted_repos): return 1
 
     #if not check_current_branch("pre-deploy"):
