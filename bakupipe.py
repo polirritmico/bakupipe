@@ -16,44 +16,10 @@ BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 
 
 
-#def run_command(raw_command: str, bypass = False):
-#    command = raw_command.split()
-#
-#    if bypass:
-#        proc = subprocess.Popen(command,
-#                                stdout=subprocess.PIPE,
-#                                stderr=subprocess.PIPE)
-#        return proc.communicate()
-#
-#    proc = subprocess.Popen(command,
-#                            stdout=subprocess.PIPE,
-#                            stderr=subprocess.PIPE,
-#                            universal_newlines=True)
-#    try:
-#        stdout, stderr = proc.communicate()
-#    except subprocess.CalledProcessError as e:
-#        print(e.output)
-#
-#    # Handle errors
-#    if proc.returncode != 0:
-#        print("SALIDA DE ERROR:\n{}".format(stderr))
-#        output = str(stderr).rstrip()
-#        return output
-#
-#    # Format output
-#    #output = str(stdout[0]).rstrip()
-#    output = str(stdout).rstrip()
-#    if stderr != "":
-#        error = str(stderr).rstrip()
-#        output = output + error
-#    return output
-
-
 def run_command(command: str, bypass_output = False):
-    output = subprocess.run(command, shell=True, capture_output=True,
-                            encoding="utf-8")
-
-    if output.returncode != 0:
+    output = subprocess.run(command, capture_output=True,
+                            shell=True, encoding="utf-8")
+    if output.returncode != 0: # When error
         error = output.stderr.rstrip()
         print("RUN COMMAND ERROR:\n\t{}".format(error))
         return error
@@ -61,7 +27,6 @@ def run_command(command: str, bypass_output = False):
     if bypass_output:
         return output.stdout.rstrip(), output.stderr.rstrip()
 
-    # return stdout and stderr because git use stderr for non error outputs
     return output.stdout.rstrip()
 
 

@@ -88,13 +88,8 @@ class TestBase(unittest.TestCase):
 
 
 class IntegrationTests(unittest.TestCase):
-#    @unittest.skip
-#    def test_(self):
-#        pass
-
-
     # This test only work in a single branch repo
-    @unittest.skip
+    #@unittest.skip
     def test_make_and_remove_branch(self):
         test_branch = "test-branch"
         expected_init = [ RUN_BRANCH ]
@@ -112,11 +107,11 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(expected_init, output)
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_goto_branch(self):
         print("\nExpected warning message:")
         self.assertTrue(goto_branch(RUN_BRANCH))
-        print("\tOK. En la rama de destino")
+        print("\tOK.\n")
         current = get_current_branch()
         self.assertEqual(RUN_BRANCH, current)
 
