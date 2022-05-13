@@ -118,7 +118,7 @@ class IntegrationTests(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_change_branch(self):
+    def test_goto_branch(self):
         print("\nExpected warning message:")
         self.assertTrue(self.repository.goto_branch(RUN_BRANCH))
         print("\tOK.\n")
@@ -129,17 +129,17 @@ class IntegrationTests(unittest.TestCase):
         self.repository.make_branch(test_branch)
         self.repository.goto_branch(test_branch)
 
-        #current = get_current_branch()
-        #self.assertEqual(test_branch, current)
+        current = self.repository.get_current_branch()
+        self.assertEqual(test_branch, current)
 
-        #goto_branch(RUN_BRANCH)
-        #current = get_current_branch()
-        #self.assertEqual(RUN_BRANCH, current)
+        self.repository.goto_branch(RUN_BRANCH)
+        current = self.repository.get_current_branch()
+        self.assertEqual(RUN_BRANCH, current)
 
-        #remove_branch(test_branch)
-        #expected_list = [ RUN_BRANCH ]
-        #current_list = get_branch_list()
-        #self.assertEqual(expected_list, current_list)
+        self.repository.remove_branch(test_branch)
+        expected_list = [ RUN_BRANCH ]
+        current_list = self.repository.get_branch_list()
+        self.assertEqual(expected_list, current_list)
 
 
 
