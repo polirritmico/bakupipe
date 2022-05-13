@@ -15,55 +15,55 @@ from bakupipe import *
 
 
 #@unittest.skip
-class TestBase(unittest.TestCase):
+class TestCommand(unittest.TestCase):
     def setUp(self):
         self.command_runner = Command()
 
     def test_run_command_single_line_output(self):
         expected = "Test: all working"
-        self.command_runner.set("echo Test: all working")
-        self.assertTrue(self.command_runner.run())
+        test_cmd = "echo Test: all working"
+        self.command_runner.set(test_cmd)
 
+        self.assertTrue(self.command_runner.run())
         self.assertEqual(expected, self.command_runner.get_stdout())
 
 
+    #@unittest.skip
+    def test_run_command_multi_line_output(self):
+        expected = """first line\nsecond line"""
+        test_cmd = "echo -e 'first line\nsecond line'"
+        self.command_runner.set(test_cmd)
 
-#    #@unittest.skip
-#    def test_run_command_single_line_output(self):
-#        expected = "Test: la prueba funciona"
-#        out = run_command("echo Test: la prueba funciona")
-#
-#        self.assertEqual(expected, out)
-#
-#
-#    #@unittest.skip
-#    def test_run_command_multi_line_output(self):
-#        expected = """first line\nsecond line"""
-#        out = run_command("echo -e 'first line\nsecond line'")
-#
-#        self.assertEqual(expected, out)
-#
-#
-#    #@unittest.skip
-#    def test_run_command_not_found(self):
-#        test_cmd = "testcommand"
-#        #expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
-#        expected = "/bin/sh: línea 1: {}: orden no encontrada".format(test_cmd)
-#
-#        print("Expected run_command error:")
-#        output = run_command(test_cmd)
-#        print("\tOK.\n")
-#        self.assertEqual(expected, output)
-#
-#
-#    #@unittest.skip
-#    def test_get_current_repo(self):
-#        out = get_current_repo()
-#        expected = BAKUPIPE_URL
-#
-#        self.assertEqual(expected, out)
-#
-#
+        self.assertTrue(self.command_runner.run())
+        self.assertEqual(expected, self.command_runner.get_stdout())
+
+
+    #@unittest.skip
+    def test_run_command_not_found(self):
+        test_cmd = "testcommand"
+        #expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
+        expected = "/bin/sh: línea 1: {}: orden no encontrada".format(test_cmd)
+        self.command_runner.set(test_cmd)
+
+        print("Expected run_command error:")
+        self.assertFalse(self.command_runner.run())
+        print("\tOK.\n")
+        self.assertEqual(expected, self.command_runner.get_stderr())
+
+
+
+class TestRepository(unittest.TestCase):
+    def setUp(self):
+        repository = Repository()
+
+
+    #@unittest.skip
+    def test_get_current_repo(self):
+        expected = BAKUPIPE_URL
+        out = self.repository.url
+        self.assertEqual(expected, out)
+
+
 #    #@unittest.skip
 #    def test_check_in_repo(self):
 #        testTrue = [ BAKU_URL, BAKUPIPE_URL ]
