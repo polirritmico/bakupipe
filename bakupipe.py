@@ -16,6 +16,46 @@ BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 
 
 
+class Command:
+    def __init__(self, _command=""):
+        set(_command)
+
+
+    def set(self, _command: str):
+        self.reset()
+        self.command = _command
+
+
+    def reset(self):
+        self.command = ""
+        self.process = None
+        self.returncode = 0
+        self.strout = ""
+        self.strerr = ""
+
+
+    def run(self, bypass_output = False):
+        output = subprocess.run(self.command, capture_output=True,
+                                shell=True, encoding="utf-8")
+        self.process = output
+        self.returncode = output.returncode
+        self.stdout = output.stdout
+        self.stderr = output.stderr
+
+        if self.returncode != 0: # if error
+            return False
+        return True
+
+
+    def get_stdout(self):
+        return self.stdout.rstrip()
+
+
+    def get_stderr(self):
+        return self.stderr.rstrip()
+
+
+
 def run_command(command: str, bypass_output = False):
     output = subprocess.run(command, capture_output=True,
                             shell=True, encoding="utf-8")
@@ -123,10 +163,10 @@ def check_in_current_branch(expected_branch) -> bool:
 
 
 def main(argv):
-    if len(argv) > 1:
-        if argv[0] != "deploy":
-            print("ERROR")
-            return 1
+    #if len(argv) > 1:
+    #    if argv[0] != "deploy":
+    #        print("ERROR")
+    #        return 1
 
     print("BakuPipeline\n============")
     print("Running...")
