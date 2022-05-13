@@ -8,11 +8,14 @@
 import sys
 import subprocess
 
+## Repository
 # Project repositories URLs
 BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
-
 PROJECT_URLS = [ BAKU_URL, BAKUPIPE_URL ]
+
+# Default branches
+DEFAULT_BRANCHES = [ "develop", "deploy", "release" ]
 
 
 
@@ -127,7 +130,7 @@ class Repository:
 
         self.cmd_runner.set("git branch {}".format(new_branch))
         if not self.cmd_runner.run():
-            print("ERROR: No se puede crear la rama {}\n\tDebug: {}"\
+            print("ERROR: Can't create branch {}\n\tDebug: {}"\
                    .format(new_branch, self.cmd_runner.get_stderr()))
             return False
 
@@ -137,12 +140,12 @@ class Repository:
 
     def remove_branch(self, target: str) -> bool:
         if not self.find_branch(target):
-            print("ADVERTENCIA: No se encuentra la rama '{}'".format(target))
+            print("WARNING: Not found branch '{}'".format(target))
             return True
 
         self.cmd_runner.set("git branch -d {}".format(target))
         if not self.cmd_runner.run():
-            print("ERROR: No se puede borrar la rama '{}'\
+            print("ERROR: Can't remove branch '{}'\
                     \n\t{}".format(target, output))
             return False
 
@@ -151,8 +154,7 @@ class Repository:
 
     def goto_branch(self, branch: str) -> bool:
         if branch == self.get_current_branch():
-            print("ADVERTENCIA: Actualmente en la rama de destino\
-                    \n\tRama: '{}'".format(branch))
+            print("WARNING: Already on target branch\n\t{}".format(branch))
             return True
 
         self.cmd_runner.set("git checkout {}".format(branch))
@@ -173,22 +175,21 @@ class Repository:
 #    return True
 #
 #
-#def main(argv):
-#    #if len(argv) > 1:
-#    #    if argv[0] != "deploy":
-#    #        print("ERROR")
-#    #        return 1
-#
-#    print("BakuPipeline\n============")
-#    print("Running...")
-#
-#    accepted_repos = [ BAKU_URL, BAKUPIPE_URL ]
-#
-#    if not check_in_repo(accepted_repos): return 1
-#
-#    if not check_current_branch("pre-deploy"):
-#        print("Change to develop branch")
-#        goto_branch("develop")
+def main(argv):
+    print("BakuPipeline\n============")
+    print("Running...")
+
+    print("Checking repository status")
+    try:
+        repository = Repository()
+    except Exception as err:
+        print("ERROR:\n\t{}\n\t{}".format(err.args[0], args[1]))
+        return -1
+    #if not check_in_repo(accepted_repos): return 1
+
+    #if not check_current_branch("pre-deploy"):
+    #    print("Change to develop branch")
+    #    goto_branch("develop")
 
 
 if __name__ == "__main__":
