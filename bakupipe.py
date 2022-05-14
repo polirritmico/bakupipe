@@ -188,22 +188,13 @@ class Repository:
 
     def print_branch_list(self) -> dict:
         branch_list = self.get_branch_list()
-        branches = {id + 1 : branch for id, branch in enumerate(branch_list)}
+        branches = {str(key + 1) : val for key, val in enumerate(branch_list)}
 
-        for id, branch in branches.items():
-            print("  {}) {}".format(id, branch))
+        for key, branch in branches.items():
+            print("  {}) {}".format(key, branch))
         return branches
 
 
-#def check_in_current_branch(expected_branch) -> bool:
-#    current_branch = get_current_branch()
-#
-#    if expected_branch != current_branch:
-#        print("ERROR: Rama incorrecta\n\t{}".format(current_branch))
-#        return False
-#    return True
-#
-#
 def main(argv):
     print("BakuPipeline\n============\n")
 
@@ -225,11 +216,11 @@ def main(argv):
         for key, val in branches.items():
             if val == DEFAULT_DEPLOY_BRANCH:
                 selection = key
-    elif not selection in branches:
+    if not selection in branches:
         print("Aborting...")
         return -1
 
-    print("Selected branch: '{}'".format(branches.get(key)))
+    print("Selected branch: '{}'".format(branches.get(selection)))
     print("Press 'Y' to begin the deployment process: ", end="")
     if input() != 'Y':
         print("Aborting...")
