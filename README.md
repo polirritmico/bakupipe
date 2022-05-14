@@ -23,15 +23,15 @@ proceso y envía las notificaciones correspondientes (correos, Trello, etc.)
 
 Comando: **bakupipe**.
 
-- [x] Crear rama pre-deploy en base a rama develop
-- [ ] Realizar test en pre-deploy
-   - [ ] A futuro: Agregar monitoreo
-   - [ ] Si falla, enviar log
-- [ ] Hacer merge a deploy
-- [ ] Borrar pre-deploy
-- [ ] Ajustar versión
-- [ ] Build
-- [ ] Subir binarios a Artifact repo
-- [ ] Generar logs
-   - [ ] Enviar correos-informes
+> - [x] Crear rama pre-deploy en base a rama develop
+> - [ ] Realizar test en pre-deploy
+>    - [ ] A futuro: Agregar monitoreo
+>    - [ ] Si falla, enviar log
+> - [ ] Hacer merge a deploy
+> - [ ] Borrar pre-deploy
+> - [ ] Ajustar versión
+> - [ ] Build
+> - [ ] Subir binarios a Artifact repo
+> - [ ] Generar logs
+>    - [ ] Enviar correos-informes
 
