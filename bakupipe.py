@@ -235,11 +235,12 @@ def main(argv):
         print("Aborting...")
         return -1
 
-    #print(SEP)
-    #print("Starting deployment pipeline...")
-    #print("Creating working branch...)
-    #repository.make_branch(WORK_BRANCH)
-    #repository.goto_branch(WORK_BRANCH)
+    print(SEP)
+    print("Starting deployment pipeline...")
+    print("Creating working branch...)
+    repository.make_branch(WORK_BRANCH)
+    repository.goto_branch(WORK_BRANCH)
+    print("In branch '{}'...".format(repository.get_current_branch())
 
     return 0
 
