@@ -18,10 +18,12 @@ BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 PROJECT_URLS = [ BAKU_URL, BAKUPIPE_URL ]
 
 # Default branches
-RUN_BRANCH = "develop"
-DEFAULT_BRANCHES = [ RUN_BRANCH, "deploy", "release" ]
+DEFAULT_BRANCH = "develop"
+DEFAULT_DEPLOY_BRANCH = "deploy"
+DEFAULT_BRANCHES = [ DEFAULT_BRANCH, DEFAULT_DEPLOY_BRANCH, "release" ]
 
-
+# WORK BRANCH
+WORK_BRANCH = "pre-deploy"
 
 class Command:
     def __init__(self, _command=""):
@@ -76,8 +78,9 @@ class Repository:
         #self.branch_list = self.get_branch_list()
 
         # Begin at default branch
-        if self.get_current_branch() != RUN_BRANCH:
-            self.goto_branch(RUN_BRANCH)
+        if self.get_current_branch() != DEFAULT_BRANCH:
+            print("Moving to branch '{}'...".format(DEFAULT_BRANCH))
+            self.goto_branch(DEFAULT_BRANCH)
 
 
     def get_current_repo(self) -> str:
@@ -175,11 +178,21 @@ class Repository:
 
 
     def print_info(self):
-        print(SEP)
         print("Repository info:")
-        print("URL:\t\t\t{}".format(self.url))
-        print("Branch list:\t{}".format(get_branch_list))
-        print("Current branch:\t{}".format())
+        print(SEP)
+        print("URL:\t\t{}".format(self.url))
+        print("Branch list:\t{}".format(self.get_branch_list()))
+        print("Current branch:\t'{}'".format(self.get_current_branch()))
+        print(SEP)
+
+
+    def print_branch_list(self) -> dict:
+        branch_list = self.get_branch_list()
+        branches = {id + 1 : branch for id, branch in enumerate(branch_list)}
+
+        for id, branch in branches.items():
+            print("  {}) {}".format(id, branch))
+        return branches
 
 
 #def check_in_current_branch(expected_branch) -> bool:
@@ -192,8 +205,7 @@ class Repository:
 #
 #
 def main(argv):
-    print("BakuPipeline\n============")
-    print("Running...")
+    print("BakuPipeline\n============\n")
 
     print("Checking repository status")
     try:
@@ -203,12 +215,32 @@ def main(argv):
         return -1
 
     repository.print_info()
-    print("Press 'Y' to start the deploy process")
-    #if not check_in_repo(accepted_repos): return 1
+    print("Check OK\n")
 
-    #if not check_current_branch("pre-deploy"):
-    #    print("Change to develop branch")
-    #    goto_branch("develop")
+    print("Select target branch for deployment:")
+    branches = repository.print_branch_list()
+    print("Target: ", end="")
+    selection = input()
+    if selection == '':
+        for key, val in branches.items():
+            if val == DEFAULT_DEPLOY_BRANCH:
+                selection = key
+    elif not selection in branches:
+        print("Aborting...")
+        return -1
+
+    print("Selected branch: '{}'".format(branches.get(key)))
+    print("Press 'Y' to begin the deployment process: ", end="")
+    if input() != 'Y':
+        print("Aborting...")
+        return -1
+
+    #print(SEP)
+    #print("Starting deployment pipeline...")
+    #print("Creating working branch...)
+    #repository.make_branch(WORK_BRANCH)
+    #repository.goto_branch(WORK_BRANCH)
+
     return 0
 
 

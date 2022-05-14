@@ -72,20 +72,20 @@ class TestRepository(unittest.TestCase):
 
     #@unittest.skip
     def test_get_current_branch(self):
-        expected = RUN_BRANCH
+        expected = DEFAULT_BRANCH
         self.assertEqual(expected, self.repository.get_current_branch())
 
 
     #@unittest.skip
     def test_get_branch_list(self):
-        expected = [ RUN_BRANCH ]
+        expected = [ DEFAULT_BRANCH ]
         self.assertEqual(expected, self.repository.get_branch_list())
 
 
     #@unittest.skip
     def test_find_branch(self):
         not_found = "non_existing_branch"
-        found     = RUN_BRANCH
+        found     = DEFAULT_BRANCH
 
         self.assertTrue(self.repository.find_branch(found))
         self.assertFalse(self.repository.find_branch(not_found))
@@ -115,8 +115,8 @@ class IntegrationTests(unittest.TestCase):
     #@unittest.skip
     def test_make_and_remove_branch(self):
         test_branch = "test-branch"
-        expected_init = [ RUN_BRANCH ]
-        expected_make = [ RUN_BRANCH, test_branch ]
+        expected_init = [ DEFAULT_BRANCH ]
+        expected_make = [ DEFAULT_BRANCH, test_branch ]
 
         self.assertEqual(expected_init, self.repository.get_branch_list())
 
@@ -130,10 +130,10 @@ class IntegrationTests(unittest.TestCase):
     #@unittest.skip
     def test_goto_branch(self):
         print("\nExpected warning message:")
-        self.assertTrue(self.repository.goto_branch(RUN_BRANCH))
+        self.assertTrue(self.repository.goto_branch(DEFAULT_BRANCH))
         print("\tOK\n")
         current = self.repository.get_current_branch()
-        self.assertEqual(RUN_BRANCH, current)
+        self.assertEqual(DEFAULT_BRANCH, current)
 
         test_branch = "test-goto-branch"
         self.repository.make_branch(test_branch)
@@ -142,12 +142,12 @@ class IntegrationTests(unittest.TestCase):
         current = self.repository.get_current_branch()
         self.assertEqual(test_branch, current)
 
-        self.repository.goto_branch(RUN_BRANCH)
+        self.repository.goto_branch(DEFAULT_BRANCH)
         current = self.repository.get_current_branch()
-        self.assertEqual(RUN_BRANCH, current)
+        self.assertEqual(DEFAULT_BRANCH, current)
 
         self.repository.remove_branch(test_branch)
-        expected_list = [ RUN_BRANCH ]
+        expected_list = [ DEFAULT_BRANCH ]
         current_list = self.repository.get_branch_list()
         self.assertEqual(expected_list, current_list)
 
