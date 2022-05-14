@@ -237,7 +237,7 @@ def main(argv):
 
     print(SEP)
     print("Starting deployment pipeline...")
-    print("Creating working branch...)
+    print("Creating working branch...")
     repository.make_branch(WORK_BRANCH)
     repository.goto_branch(WORK_BRANCH)
     print("In branch '{}'...".format(repository.get_current_branch())
