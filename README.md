@@ -19,9 +19,11 @@ Finalmente sube todos los archivos necesarios para cada sistema en la ubicación
 correspondiente dentro del repositorio de artefactos, genera un informe del
 proceso y envía las notificaciones correspondientes (correos, Trello, etc.)
 
+![sceenshot](docs/screenshot.png)
+
 ## Input/Output
 
-Comando: **bakupipe**.
+Comando: **bakupipe**
 
 > - [x] Crear rama pre-deploy en base a rama develop
 > - [ ] Realizar test en pre-deploy
