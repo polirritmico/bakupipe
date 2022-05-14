@@ -240,7 +240,7 @@ def main(argv):
     print("Creating working branch...")
     repository.make_branch(WORK_BRANCH)
     repository.goto_branch(WORK_BRANCH)
-    print("In branch '{}'...".format(repository.get_current_branch())
+    print("In branch '{}'...".format(repository.get_current_branch()))
 
     return 0
 
