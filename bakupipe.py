@@ -67,6 +67,14 @@ class Command:
         return self.stderr.rstrip()
 
 
+
+#class Test:
+#    def ___init__(self):
+#        gut_cmd = "godot --path $PWD --no-window -s addons/gut/gut_cmdln.gd"
+#        self.cmd_runner = Command(gut_cmd)
+
+
+
 class Repository:
     def __init__(self):
         self.cmd_runner = Command()
@@ -232,6 +240,10 @@ def main(argv):
     repository.make_branch(WORK_BRANCH)
     repository.goto_branch(WORK_BRANCH)
     print("In branch '{}'...".format(repository.get_current_branch()))
+
+    print(SEP)
+    print("Starting GUT testing...")
+
 
     return 0
 
