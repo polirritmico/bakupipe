@@ -41,11 +41,18 @@ class TestCommand(unittest.TestCase):
     #@unittest.skip
     def test_run_command_not_found(self):
         test_cmd = "testcommand"
-        # Should run with LANG=en.utf-8 to get error message in english
-        expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
-        #expected = "/bin/sh: línea 1: {}: orden no encontrada".format(test_cmd)
-        self.command_runner.set(test_cmd)
 
+        # Should run with LANG=en.utf-8 to get error message in english
+        self.command_runner.set("echo $LANG")
+        self.command_runner.run()
+        if self.command_runner.stdout == "es_cl.utf-8":
+            expected = "/bin/sh: línea 1: {}: orden no encontrada".\
+                       format(test_cmd)
+        else:
+            expected = "/bin/sh: line 1: {}: command not found".\
+                       format(test_cmd)
+
+        self.command_runner.set(test_cmd)
         self.assertFalse(self.command_runner.run())
         self.assertEqual(expected, self.command_runner.get_stderr())
 
