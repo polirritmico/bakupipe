@@ -81,8 +81,8 @@ class TestRepository(unittest.TestCase):
 
     #@unittest.skip
     def test_get_branch_list(self):
-        expected = [ DEFAULT_BRANCH ]
-        self.assertEqual(expected, self.repository.get_branch_list())
+        expected = DEFAULT_BRANCHES_LIST
+        self.assertCountEqual(expected, self.repository.get_branch_list())
 
 
     #@unittest.skip
@@ -118,16 +118,17 @@ class IntegrationTests(unittest.TestCase):
     #@unittest.skip
     def test_make_and_remove_branch(self):
         test_branch = "test-branch"
-        expected_init = [ DEFAULT_BRANCH ]
-        expected_make = [ DEFAULT_BRANCH, test_branch ]
+        expected_init = DEFAULT_BRANCHES_LIST
+        expected_make = expected_init.copy()
+        expected_make.append(test_branch)
 
-        self.assertEqual(expected_init, self.repository.get_branch_list())
+        self.assertCountEqual(expected_init, self.repository.get_branch_list())
 
         self.repository.make_branch(test_branch)
-        self.assertEqual(expected_make, self.repository.get_branch_list())
+        self.assertCountEqual(expected_make, self.repository.get_branch_list())
 
         self.repository.remove_branch(test_branch)
-        self.assertEqual(expected_init, self.repository.get_branch_list())
+        self.assertCountEqual(expected_init, self.repository.get_branch_list())
 
 
     #@unittest.skip
@@ -150,9 +151,10 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(DEFAULT_BRANCH, current)
 
         self.repository.remove_branch(test_branch)
-        expected_list = [ DEFAULT_BRANCH ]
+        expected_list = DEFAULT_BRANCHES_LIST
         current_list = self.repository.get_branch_list()
-        self.assertEqual(expected_list, current_list)
+        #self.assertEqual(expected_list, current_list)
+        self.assertCountEqual(expected_list, current_list)
 
 
 
