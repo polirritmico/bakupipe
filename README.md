@@ -1,11 +1,11 @@
-Pipeline Tool - Plan de trabajo
-===============================
+BakuPipe :factory::calling:
+===========================
 
 ## Descripción
 
-Script Python (A futuro con posibilidad de PyQt) para gestionar la pipeline y
-automatizar el deploy a la rama correspondiente. El programa realiza todos los
-procesos necesarios de forma automática sin mayor intervención del usuario.
+Script Python (ToDo: PyQt) para gestionar la pipeline y automatizar el deploy a
+la rama correspondiente. El programa realiza todos los procesos necesarios de
+forma automática sin mayor intervención del usuario.
 
 Su funcionamiento inicia con un chequeo básico del sistema y la creación de las
 ramas temporales correspondientes (nunca debe operar sobre alguna de las ramas

@@ -12,7 +12,7 @@ from src.repository import Repository
 
 
 def bakupipe(argv):
-    print("BakuPipeline\n============\n")
+    print("BakuPipe\n============\n")
 
     print("Checking repository status")
     try:
