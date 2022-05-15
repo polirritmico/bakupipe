@@ -29,6 +29,7 @@ def bakupipe(argv):
     print("Target: ", end="")
     selection = input()
     if selection == '':
+        # Get the key value of DEFAULT_DEPLOY_BRANCH
         for key, val in branches.items():
             if val == DEFAULT_DEPLOY_BRANCH:
                 selection = key
@@ -50,7 +51,7 @@ def bakupipe(argv):
     print("In branch '{}'...".format(repository.get_current_branch()))
 
     print(SEP)
-    print("Starting GUT testing...")
+    print("Starting tests...")
 
 
     return 0
