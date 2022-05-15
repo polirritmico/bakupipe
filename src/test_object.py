@@ -8,11 +8,16 @@
 
 class Test:
     def ___init__(self):
-        gut_cmd = "godot --path $PWD --no-window -s addons/gut/gut_cmdln.gd"
+        self.name = ""
+        self.command = ""
+        self.targets = []
+        self.description = ""
+        self.output = ""
+        #gut_cmd = "godot --path $PWD --no-window -s addons/gut/gut_cmdln.gd"
         #self.cmd_runner = Command(gut_cmd)
 
 
-    def import_test_data(self, test_file: str):
+    def import_test_file(self, file: str):
         pass
 
 # TODO: Crear carpeta config con bakupipe.conf y test_gut.py, test_layout.test
