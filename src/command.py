@@ -6,11 +6,13 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import subprocess
+import os
 
 
 class Command:
     def __init__(self, _command=""):
         set(_command)
+        self.env = dict(os.environ)
 
 
     def set(self, _command: str):
@@ -28,7 +30,7 @@ class Command:
 
     def run(self, bypass_output = False):
         output = subprocess.run(self.command, capture_output=True,
-                                shell=True, encoding="utf-8")
+                                shell=True, encoding="utf-8", env=self.env)
         self.process = output
         self.returncode = output.returncode
         self.stdout = output.stdout
