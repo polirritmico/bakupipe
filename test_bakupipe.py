@@ -45,7 +45,7 @@ class TestCommand(unittest.TestCase):
         # Should run with LANG=en.utf-8 to get error message in english
         self.command_runner.set("echo $LANG")
         self.command_runner.run()
-        if self.command_runner.stdout == "es_cl.utf-8":
+        if self.command_runner.stdout == "es_CL.UTF-8":
             expected = "/bin/sh: línea 1: {}: orden no encontrada".\
                        format(test_cmd)
         else:
