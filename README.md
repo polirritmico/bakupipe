@@ -39,8 +39,10 @@ Comando: **bakupipe**
 
 ## Test
 
-Para correr los test usar: (`-b` para silenciar outputs no necesarios)
+Para correr los test usar:
 
 ```console
 foo@bar: ~/bakupipe $ python -m unittest discover . -b
 ```
+
+`-b` sirve para silenciar outputs no necesarios.
