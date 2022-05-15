@@ -16,7 +16,7 @@ class Test:
         pass
 
 # TODO: Crear carpeta config con bakupipe.conf y test_gut.py, test_layout.test
-# TODO: Desacoplar bien el run de los tests para A FUTURO poder generar un sistema
-#       asíncrono de tests con señales, etc. Ahora lo vamos a hacer lineal.
+# TODO: Desacoplar bien el run de los tests para A FUTURO poder generar un
+#       sistema asíncrono de tests con señales, etc. Ahora está secuencial.
 # TODO: Pasar conf.py actual a src/gloval_var o similar
 
