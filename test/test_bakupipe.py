@@ -5,7 +5,7 @@
 #from src.browser import Browser
 
 import unittest
-import os
+#import os
 
 #from bakupipe import *
 from config import *
@@ -17,6 +17,7 @@ from src.command import Command
 class TestCommand(unittest.TestCase):
     def setUp(self):
         self.command_runner = Command()
+        self.command_runner.env["LANG"] = "C"
 
     #@unittest.skip
     def test_run_command_single_line_output(self):
@@ -39,18 +40,18 @@ class TestCommand(unittest.TestCase):
 
 
     #@unittest.skip
+    def test_run_command_LANG_environment(self):
+        expected = "C\n"
+        self.command_runner.set("echo $LANG")
+
+        self.assertTrue(self.command_runner.run())
+        self.assertEqual(expected, self.command_runner.stdout)
+
+
+    #@unittest.skip
     def test_run_command_not_found(self):
         test_cmd = "testcommand"
-
-        # Should run with LANG=en.utf-8 to get error message in english
-        self.command_runner.set("echo $LANG")
-        self.command_runner.run()
-        if self.command_runner.stdout == "es_CL.UTF-8":
-            expected = "/bin/sh: línea 1: {}: orden no encontrada".\
-                       format(test_cmd)
-        else:
-            expected = "/bin/sh: line 1: {}: command not found".\
-                       format(test_cmd)
+        expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
 
         self.command_runner.set(test_cmd)
         self.assertFalse(self.command_runner.run())
