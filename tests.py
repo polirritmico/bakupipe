@@ -7,9 +7,11 @@
 import unittest
 import os
 
-from bakupipe import *
-
-
+#from bakupipe import *
+from config import *
+from src.repository import Repository
+from src.command import Command
+#from src.test import Test
 
 #@unittest.skip
 class TestCommand(unittest.TestCase):
@@ -39,8 +41,9 @@ class TestCommand(unittest.TestCase):
     #@unittest.skip
     def test_run_command_not_found(self):
         test_cmd = "testcommand"
-        #expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
-        expected = "/bin/sh: línea 1: {}: orden no encontrada".format(test_cmd)
+        # Should run with LANG=en.utf-8 to get error message in english
+        expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
+        #expected = "/bin/sh: línea 1: {}: orden no encontrada".format(test_cmd)
         self.command_runner.set(test_cmd)
 
         self.assertFalse(self.command_runner.run())
