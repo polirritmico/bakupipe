@@ -37,3 +37,10 @@ Comando: **bakupipe**
 > - [ ] Generar logs
 >    - [ ] Enviar correos-informes
 
+## Test
+
+Para correr los test usar: (`-b` para silenciar outputs no necesarios)
+
+```console
+bakupipe:~$ python -m unittest discover . -b
+```
