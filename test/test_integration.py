@@ -1,18 +1,14 @@
 #!/usr/bin/env python
-#  -*- coding: utf-8 -*-
-
-# Run with -b to hide print() output
-#from src.browser import Browser
+# -*- coding: utf-8 -*-
+# Copyright (C) 2022 Estudios 6/8 (bakumapu@gmail.com)
+# 
+# This program is part of Bakumapu and is released under
+# the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import unittest
-#import os
 
-#from bakupipe import *
 from config import *
 from src.repository import Repository
-from src.command import Command
-#from src.test import Test
-
 
 
 #@unittest.skip
