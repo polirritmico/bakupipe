@@ -5,12 +5,6 @@
 # This program is part of Bakumapu and is released under
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
-import sys
-import subprocess
-
-
-SEP = "-----------------------------------"
-
 ## Repository
 # Project repositories URLs
 BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
@@ -24,4 +18,6 @@ DEFAULT_BRANCHES_LIST = [ DEFAULT_BRANCH, DEFAULT_DEPLOY_BRANCH, "release" ]
 
 # WORK BRANCH
 WORK_BRANCH = "pre-deploy"
+
+SEP = "-----------------------------------"
 
