@@ -13,13 +13,11 @@ from src.test_object import Test
 #@unittest.skip
 class TestTestObject(unittest.TestCase):
     def setUp(self):
-        pass
+        self.test_file = "test/1_test_layout.yaml"
 
 
     #@unittest.skip
     def test_import_test_data(self):
-        test_file = "test/1_test_layout.yaml"
-
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
         expected_order = 1
@@ -38,7 +36,7 @@ class TestTestObject(unittest.TestCase):
                 "src/location/target.gd",
                 ]
 
-        test = Test(test_file)
+        test = Test(self.test_file)
 
         self.assertEqual(expected_name, test.name)
         self.assertEqual(expected_description, test.description)
@@ -49,10 +47,9 @@ class TestTestObject(unittest.TestCase):
         self.assertEqual(expected_paths, test.paths)
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_run_command(self):
-        test_file = "test/file_test.yaml"
-        test = Test(test_file)
+        test = Test(self.test_file)
         expected = "a test command with options"
 
         self.assertTrue(test.run())
