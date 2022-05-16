@@ -7,17 +7,16 @@
 
 ---
 INFO:
-  NAME: "Automation Test Example"
-  DESCRIPTION: "Test short description"
+  NAME: Automation Test Example
+  DESCRIPTION: Test short description
   # ORDER 0 to non order
-  ORDER: 0
+  ORDER: 1
 
 TEST:
-  TARGETS: [
-    "src/location/test.gd",
-    "src/location/target.gd",
-  ]
-  COMMAND: "test_command --arg $PWD --arg-test -s src/location"
+  COMMAND: test_command --arg $PWD --arg-test -s src/location
   #PRECOMMAND: ""
   #POSTCOMMAND: ""
+  TARGETS:
+    - src/location/test.gd
+    - src/location/target.gd
 

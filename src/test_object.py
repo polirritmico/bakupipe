@@ -8,18 +8,31 @@
 import yaml
 
 class Test:
-    def ___init__(self):
+    def __init__(self, testfile: str):
         self.name = ""
+        self.description = ""
+        self.order = 0
         self.command = ""
         self.targets = []
-        self.description = ""
-        self.output = ""
-        #gut_cmd = "godot --path $PWD --no-window -s addons/gut/gut_cmdln.gd"
-        #self.cmd_runner = Command(gut_cmd)
+        #self.output = ""
+
+        self.import_test_file(testfile)
+
+    def import_test_file(self, filename: str):
+        with open(filename, "r") as stream:
+            try:
+                file = yaml.safe_load(stream)
+            except yaml.YAMLError as err:
+                raise err
+
+        self.name = file["INFO"]["NAME"]
+        self.description = file["INFO"]["DESCRIPTION"]
+        self.order = file["INFO"]["ORDER"]
+
+        self.command = file["TEST"]["COMMAND"]
+        self.targets = file["TEST"]["TARGETS"]
 
 
-    def import_test_file(self, file: str):
-        pass
 
 # TODO: Crear carpeta config con bakupipe.conf y test_gut.py, test_layout.test
 # TODO: Desacoplar bien el run de los tests para A FUTURO poder generar un
