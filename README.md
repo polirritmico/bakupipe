@@ -25,6 +25,8 @@ proceso y envía las notificaciones correspondientes (correos, Trello, etc.)
 
 Comando: **bakupipe**
 
+> - [x] Preparar y chequear repositorio
+> - [x] Leer y preparar archivos de test
 > - [x] Crear rama pre-deploy en base a rama develop
 > - [ ] Realizar test en pre-deploy
 >    - [ ] A futuro: Agregar monitoreo
@@ -39,10 +41,18 @@ Comando: **bakupipe**
 
 ## Test
 
-Para correr los test usar:
+Los distintos test se encuentran dentro de la carpeta `/test/`, dentro de cada
+archivo correspondiente. Utilizan la librería Unittest de python y para evitar
+problemas de imports, se recomienda utilizar el siguiente comando (`-b` sirve
+para descartar outputs de test aprobados, se muestran en caso de error):
 
 ```console
 foo@bar: ~/bakupipe $ python -m unittest discover . -b
 ```
 
-`-b` sirve para silenciar outputs no necesarios.
+## Enlaces a repositorios y documentación Bakumapu
+
+* **Repositorio de documentación:** https://github.com/polirritmico/Bakumapu-docs
+* **Documentación en HTML:** https://polirritmico.github.io/Bakumapu-docs/
+* **Repositorio de código:** https://github.com/polirritmico/Bakumapu
+
