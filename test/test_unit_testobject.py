@@ -19,7 +19,7 @@ class TestTestObject(unittest.TestCase):
     def test_import_test_data(self):
         expected_name = "Automation Test Example"
         expected_command = "test_command --arg $PWD --arg-test -s src/location"
-        expected_targets = [ "src/location/target.gd", "src/location/t.gd" ]
+        expected_targets = [ "src/location/test.gd", "src/location/target.gd" ]
         #expected_description = NotNone
 
         import_test = Test()

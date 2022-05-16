@@ -5,6 +5,7 @@
 # This program is part of Bakumapu and is released under
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
+import yaml
 
 class Test:
     def ___init__(self):
