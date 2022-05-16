@@ -6,17 +6,21 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import yaml
+from src.command import Command
+
 
 class Test:
     def __init__(self, testfile: str):
         self.name = ""
         self.description = ""
         self.order = 0
-        self.command = ""
-        self.targets = []
+        self.instructions = []
+        self.paths = []
         #self.output = ""
-
         self.import_test_file(testfile)
+
+        self.cmd_runner = Command()
+
 
     def import_test_file(self, filename: str):
         with open(filename, "r") as stream:
@@ -29,8 +33,13 @@ class Test:
         self.description = file["INFO"]["DESCRIPTION"]
         self.order = file["INFO"]["ORDER"]
 
-        self.command = file["TEST"]["COMMAND"]
-        self.targets = file["TEST"]["TARGETS"]
+        #TODO: list of strings
+        self.instructions = file["TEST"]["INSTRUCTIONS"]
+        self.paths = file["TEST"]["PATHS"]
+
+
+    def run(self):
+        self.cmd_runner.run()
 
 
 
