@@ -50,9 +50,9 @@ class TestTestObject(unittest.TestCase):
     #@unittest.skip
     def test_run_command(self):
         test = Test(self.test_file)
-        expected = "a test command with options"
+        expected = "a test instruction/command with options"
 
-        self.assertTrue(test.run())
+        self.assertTrue(test.run_instructions())
         self.assertEqual(expected, test.get_cmd_out())
 
 

@@ -28,18 +28,29 @@ class Command:
         self.strerr = ""
 
 
+    # TODO: Desacoplar bien el run de los tests para A FUTURO poder generar un
+    #       sistema asíncrono de tests con señales, etc. Ahora está secuencial.
+    # TODO: Raise/Catch? raise ChildPRocessError("message", stderr, stdout)
     def run(self, bypass_output = False):
-        output = subprocess.run(self.command, capture_output=True,
-                                shell=True, encoding="utf-8", env=self.env)
+        if self.command == "":
+            #TODO: 
+            raise Exception("Command not set.")
+            return False
+
+        if bypass_output:
+            output = subprocess.Popen(self.command, shell=True, env=self.env,
+                                   stdout=subprocess.PIPE)
+            for c in iter(lambda: output.stdout.read(1), b""):
+                sys.stdout.buffer.write(c)
+        else:
+            output = subprocess.run(self.command, capture_output=True,
+                                    shell=True, encoding="utf-8", env=self.env)
         self.process = output
         self.returncode = output.returncode
         self.stdout = output.stdout
         self.stderr = output.stderr
 
         if self.returncode != 0: # if error
-            #TODO: Raise/Catch?
-            #raise ChildProcessError("ERROR: subprocces return error {}",
-            #                        self.stderr, self.stdout)
             return False
         return True
 

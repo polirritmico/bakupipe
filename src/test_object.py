@@ -53,19 +53,12 @@ class Test:
 
 
     def run_instructions(self):
+        self.instructions = "asdf"
         for instruction in self.instructions:
             self.cmd_runner.set(instruction)
-            try:
-                self.cmd_runner.run()
-            except Exception as err:
-                raise err
+            self.cmd_runner.run() # True para bypass output
 
         return True
 
 
-
-# TODO: Crear carpeta config con bakupipe.conf y test_gut.py, test_layout.test
-# TODO: Desacoplar bien el run de los tests para A FUTURO poder generar un
-#       sistema asíncrono de tests con señales, etc. Ahora está secuencial.
-# TODO: Pasar conf.py actual a src/gloval_var o similar
 
