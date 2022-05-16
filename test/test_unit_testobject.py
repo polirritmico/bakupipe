@@ -18,12 +18,12 @@ class TestTestObject(unittest.TestCase):
 
     def test_import_test_data(self):
         test_file = "test/file_test.yaml"
+
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
         expected_order = 1
         expected_command = "test_command --arg $PWD --arg-test -s src/location"
         expected_targets = [ "src/location/test.gd", "src/location/target.gd" ]
-        #expected_description = NotNone
 
         test = Test(test_file)
 
