@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Copyright (C) 2022 Estudios 6/8 (bakumapu@gmail.com)
+# 
+# Config test file
+# Store in folder config/
+
+---
+INFO:
+  NAME: "Automation Test Example"
+  DESCRIPTION: "Test short description"
+  # ORDER 0 to non order
+  ORDER: 0
+
+TEST:
+  TARGETS: [
+    "src/location/test.gd",
+    "src/location/target.gd",
+  ]
+  COMMAND: "test_command --arg $PWD --arg-test -s src/location"
+  #PRECOMMAND: ""
+  #POSTCOMMAND: ""
+
