@@ -1,0 +1,22 @@
+# BakuPipe config test file
+# Add to the config/ folder to run it through the pipeline
+# The filename determines the order of execution (alphabetically)
+# E.g: <01_gd_static_test.yaml>, <02_unittest.yaml>
+
+---
+INFO:
+  NAME: Automation Test Example
+  DESCRIPTION: Test short description
+
+TEST:
+  PRE_COMMANDS:
+    - touch test_output
+  INSTRUCTIONS:
+    - echo 'a test instruction/command with options'
+    - echo 'a second instruction'
+  POST_COMMANDS:
+    - cp test_ouput test_final_output.txt
+  PATHS:
+    - src/location/test.gd
+    - src/location/target.gd
+
