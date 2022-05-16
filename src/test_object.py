@@ -52,8 +52,15 @@ class Test:
         self.paths = file["TEST"]["PATHS"]
 
 
-    def run(self):
-        self.cmd_runner.run()
+    def run_instructions(self):
+        for instruction in self.instructions:
+            self.cmd_runner.set(instruction)
+            try:
+                self.cmd_runner.run()
+            except Exception as err:
+                raise err
+
+        return True
 
 
 
