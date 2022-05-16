@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# Copyright (C) 2022 Estudios 6/8 (bakumapu@gmail.com)
-# 
 # Config test file
 # Store in folder config/
 
@@ -13,10 +9,12 @@ INFO:
   ORDER: 1
 
 TEST:
-  COMMAND: test_command --arg $PWD --arg-test -s src/location
-  #PRECOMMAND: ""
-  #POSTCOMMAND: ""
-  TARGETS:
+  PRE_COMMANDS: touch test_output
+  INSTRUCTIONS:
+    - echo 'a test instruction/command with options'
+    - echo 'a second instruction'
+  POST_COMMANDS: cp test_ouput test_final_output.txt
+  PATHS:
     - src/location/test.gd
     - src/location/target.gd
 
