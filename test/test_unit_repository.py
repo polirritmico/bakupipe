@@ -7,7 +7,7 @@
 
 import unittest
 
-from config import *
+from pipeline.config import *
 from src.repository import Repository
 
 
