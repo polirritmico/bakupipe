@@ -11,15 +11,28 @@ from src.command import Command
 
 class Test:
     def __init__(self, testfile: str):
+        # Test INFO
         self.name = ""
         self.description = ""
         self.order = 0
+        # Test instructions
+        self.pre_commands = []
         self.instructions = []
+        self.post_commands = []
         self.paths = []
-        #self.output = ""
+        # Test runner
+        self.cmd_runner = Command()
+
         self.import_test_file(testfile)
 
-        self.cmd_runner = Command()
+
+    def _get_order_from_filename(self, filename: str) -> int:
+        filename_without_path = filename.split("/")[-1]
+        order = filename_without_path.split("_")[0]
+        if not order.isdecimal():
+            raise Exception("Wrong filename format: {}".format(filename))
+
+        return int(order)
 
 
     def import_test_file(self, filename: str):
@@ -31,10 +44,11 @@ class Test:
 
         self.name = file["INFO"]["NAME"]
         self.description = file["INFO"]["DESCRIPTION"]
-        self.order = file["INFO"]["ORDER"]
+        self.order = self._get_order_from_filename(filename)
 
-        #TODO: list of strings
+        self.pre_commands = file["TEST"]["PRE_COMMANDS"]
         self.instructions = file["TEST"]["INSTRUCTIONS"]
+        self.post_commands = file["TEST"]["POST_COMMANDS"]
         self.paths = file["TEST"]["PATHS"]
 
 

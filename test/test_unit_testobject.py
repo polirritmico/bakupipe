@@ -18,14 +18,20 @@ class TestTestObject(unittest.TestCase):
 
     #@unittest.skip
     def test_import_test_data(self):
-        test_file = "test/file_test.yaml"
+        test_file = "test/1_test_layout.yaml"
 
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
         expected_order = 1
+        expected_pre_commands = [
+                "touch test_output"
+                ]
         expected_instructions = [
                 "echo 'a test instruction/command with options'",
                 "echo 'a second instruction'",
+                ]
+        expected_post_commands = [
+                "cp test_ouput test_final_output.txt"
                 ]
         expected_paths = [
                 "src/location/test.gd",
@@ -37,8 +43,10 @@ class TestTestObject(unittest.TestCase):
         self.assertEqual(expected_name, test.name)
         self.assertEqual(expected_description, test.description)
         self.assertEqual(expected_order, test.order)
-        self.assertEqual(expected_paths, test.paths)
+        self.assertEqual(expected_pre_commands, test.pre_commands)
         self.assertEqual(expected_instructions, test.instructions)
+        self.assertEqual(expected_post_commands, test.post_commands)
+        self.assertEqual(expected_paths, test.paths)
 
 
     @unittest.skip
