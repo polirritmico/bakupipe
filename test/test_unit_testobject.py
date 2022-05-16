@@ -16,23 +16,39 @@ class TestTestObject(unittest.TestCase):
         pass
 
 
+    #@unittest.skip
     def test_import_test_data(self):
         test_file = "test/file_test.yaml"
 
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
         expected_order = 1
-        expected_command = "test_command --arg $PWD --arg-test -s src/location"
-        expected_targets = [ "src/location/test.gd", "src/location/target.gd" ]
+        expected_instructions = [
+                "echo 'a test instruction/command with options'",
+                "echo 'a second instruction'",
+                ]
+        expected_paths = [
+                "src/location/test.gd",
+                "src/location/target.gd",
+                ]
 
         test = Test(test_file)
 
         self.assertEqual(expected_name, test.name)
         self.assertEqual(expected_description, test.description)
         self.assertEqual(expected_order, test.order)
-        self.assertEqual(expected_targets, test.targets)
-        self.assertEqual(expected_command, test.command)
+        self.assertEqual(expected_paths, test.paths)
+        self.assertEqual(expected_instructions, test.instructions)
 
+
+    @unittest.skip
+    def test_run_command(self):
+        test_file = "test/file_test.yaml"
+        test = Test(test_file)
+        expected = "a test command with options"
+
+        self.assertTrue(test.run())
+        self.assertEqual(expected, test.get_cmd_out())
 
 
 if __name__ == "__main__":
