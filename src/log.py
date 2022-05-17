@@ -8,6 +8,6 @@
 
 class LogTest:
     def __init__(self):
-        self.instruction = ""
-        self.output = ""
         self.passed = False
+        self.output = ""
+        self.error = ""

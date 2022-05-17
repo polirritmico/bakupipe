@@ -24,7 +24,7 @@ class TestTestObject(unittest.TestCase):
         expected_pre_commands = [
                 "touch test_output"
                 ]
-        expected_instructions = [
+        expected_commands = [
                 "echo 'a test instruction/command with options'",
                 "NotValid",
                 ]
@@ -42,26 +42,26 @@ class TestTestObject(unittest.TestCase):
         self.assertEqual(expected_description, test.description)
         self.assertEqual(expected_order, test.order)
         self.assertEqual(expected_pre_commands, test.pre_commands)
-        self.assertEqual(expected_instructions, test.instructions)
+        self.assertEqual(expected_commands, test.commands)
         self.assertEqual(expected_post_commands, test.post_commands)
         self.assertEqual(expected_paths, test.paths)
 
 
     #@unittest.skip
     def test_run_command_output_logs(self):
-        test = Test(self.test_file)
         expected_stdout_1 = "a test instruction/command with options"
         expected_stderr_1 = ""
         expected_stdout_2 = ""
         expected_stderr_2 = "/bin/sh: line 1: NotValid: command not found"
 
-        self.assertTrue(test.run_instructions())
+        test = Test(self.test_file)
+        self.assertTrue(test.run_commands())
+
         self.assertEqual(expected_stdout_1, test.logs[0][0])
         self.assertEqual(expected_stderr_1, test.logs[0][1])
         self.assertEqual(expected_stdout_2, test.logs[1][0])
         self.assertEqual(expected_stderr_2, test.logs[1][1])
 
-        print(test.get_run_logs())
 
 
 if __name__ == "__main__":

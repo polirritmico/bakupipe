@@ -16,9 +16,9 @@ class Test:
         self.name = ""
         self.description = ""
         self.order = 0
-        # Test instructions
+        # Test runner
         self.pre_commands = []
-        self.instructions = []
+        self.commands = []
         self.post_commands = []
         self.paths = []
         # Test runner
@@ -49,14 +49,14 @@ class Test:
         self.order = self._get_order_from_filename(filename)
 
         self.pre_commands = file["TEST"]["PRE_COMMANDS"]
-        self.instructions = file["TEST"]["INSTRUCTIONS"]
+        self.commands = file["TEST"]["COMMANDS"]
         self.post_commands = file["TEST"]["POST_COMMANDS"]
         self.paths = file["TEST"]["PATHS"]
 
 
-    def run_instructions(self):
-        for instruction in self.instructions:
-            self.cmd_runner.set(instruction)
+    def run_commands(self):
+        for command in self.commands:
+            self.cmd_runner.set(command)
             self.cmd_runner.run() # True para bypass output
             log = (self.cmd_runner.get_stdout(), self.cmd_runner.get_stderr())
             self.logs.append(log)
@@ -66,17 +66,13 @@ class Test:
     def get_run_logs(self):
         header = "TEST INFO\n=========\n\n## {}\n\n{}\n\n"\
                  .format(self.name, self.description)
-        body = "## Test instructions\n\n### Pre-commands\n\n"
+        body = "## Test runners\n\n### Pre-commands\n\n"
         bullet = " [ ] "
-
-        print("LOGS:")
-        for cmd in self.pre_commands:
-            print(cmd)
 
         return header
 
 
-#   ## Test instructions
+#   ## Test commands
 #   
 #   ### Pre-commands
 #   
@@ -84,10 +80,10 @@ class Test:
 #    > - [ ] {self.out,}
 #    * [ ] {self.precommands,}
 #   
-#   ### Instructions
+#   ### Commands
 #   
-#    * [ ] {self.instructions,}
-#    * [ ] {self.instructions,}
+#    * [ ] {self.commands,}
+#    * [ ] {self.commands,}
 #   
 #   ### Post-commands
 #   

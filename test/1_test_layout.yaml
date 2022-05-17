@@ -11,7 +11,7 @@ INFO:
 TEST:
   PRE_COMMANDS:
     - touch test_output
-  INSTRUCTIONS:
+  COMMANDS:
     - echo 'a test instruction/command with options'
     - NotValid
   POST_COMMANDS:
