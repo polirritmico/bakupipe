@@ -13,9 +13,10 @@ TEST:
     - touch test_output
   INSTRUCTIONS:
     - echo 'a test instruction/command with options'
-    - echo 'a second instruction'
+    - NotValid
   POST_COMMANDS:
     - cp test_ouput test_final_output.txt
+  # where each instruction should run
   PATHS:
     - src/location/test.gd
     - src/location/target.gd

@@ -7,6 +7,7 @@
 
 import subprocess
 import os
+import sys
 
 
 class Command:
@@ -33,22 +34,18 @@ class Command:
     # TODO: Raise/Catch? raise ChildPRocessError("message", stderr, stdout)
     def run(self, bypass_output = False):
         if self.command == "":
-            #TODO: 
             raise Exception("Command not set.")
             return False
 
         if bypass_output:
-            output = subprocess.Popen(self.command, shell=True, env=self.env,
-                                   stdout=subprocess.PIPE)
-            for c in iter(lambda: output.stdout.read(1), b""):
-                sys.stdout.buffer.write(c)
+            raise Exception("Not implemented!")
         else:
-            output = subprocess.run(self.command, capture_output=True,
-                                    shell=True, encoding="utf-8", env=self.env)
-        self.process = output
-        self.returncode = output.returncode
-        self.stdout = output.stdout
-        self.stderr = output.stderr
+            proc = subprocess.run(self.command, capture_output=True,
+                                  shell=True, encoding="utf-8", env=self.env)
+        self.process = proc
+        self.returncode = proc.returncode
+        self.stdout = proc.stdout
+        self.stderr = proc.stderr
 
         if self.returncode != 0: # if error
             return False

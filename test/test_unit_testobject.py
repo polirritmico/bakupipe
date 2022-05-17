@@ -17,7 +17,7 @@ class TestTestObject(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_import_test_data(self):
+    def test_import_test_data_constructor(self):
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
         expected_order = 1
@@ -26,7 +26,7 @@ class TestTestObject(unittest.TestCase):
                 ]
         expected_instructions = [
                 "echo 'a test instruction/command with options'",
-                "echo 'a second instruction'",
+                "NotValid",
                 ]
         expected_post_commands = [
                 "cp test_ouput test_final_output.txt"
@@ -48,12 +48,20 @@ class TestTestObject(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_run_command(self):
+    def test_run_command_output_logs(self):
         test = Test(self.test_file)
-        expected = "a test instruction/command with options"
+        expected_stdout_1 = "a test instruction/command with options"
+        expected_stderr_1 = ""
+        expected_stdout_2 = ""
+        expected_stderr_2 = "/bin/sh: line 1: NotValid: command not found"
 
         self.assertTrue(test.run_instructions())
-        self.assertEqual(expected, test.get_cmd_out())
+        self.assertEqual(expected_stdout_1, test.logs[0][0])
+        self.assertEqual(expected_stderr_1, test.logs[0][1])
+        self.assertEqual(expected_stdout_2, test.logs[1][0])
+        self.assertEqual(expected_stderr_2, test.logs[1][1])
+
+        print(test.get_run_logs())
 
 
 if __name__ == "__main__":

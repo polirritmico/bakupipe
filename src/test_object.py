@@ -22,6 +22,7 @@ class Test:
         self.paths = []
         # Test runner
         self.cmd_runner = Command()
+        self.logs = []
 
         self.import_test_file(testfile)
 
@@ -53,12 +54,44 @@ class Test:
 
 
     def run_instructions(self):
-        self.instructions = "asdf"
         for instruction in self.instructions:
             self.cmd_runner.set(instruction)
             self.cmd_runner.run() # True para bypass output
+            log = (self.cmd_runner.get_stdout(), self.cmd_runner.get_stderr())
+            self.logs.append(log)
 
         return True
+
+    def get_run_logs(self):
+        header = "TEST INFO\n=========\n\n## {}\n\n{}\n\n"\
+                 .format(self.name, self.description)
+        body = "## Test instructions\n\n### Pre-commands\n\n"
+        bullet = " [ ] "
+
+        print("LOGS:")
+        for cmd in self.pre_commands:
+            print(cmd)
+
+        return header
+
+
+#   ## Test instructions
+#   
+#   ### Pre-commands
+#   
+#    * [x] {self.precommands,}
+#    > - [ ] {self.out,}
+#    * [ ] {self.precommands,}
+#   
+#   ### Instructions
+#   
+#    * [ ] {self.instructions,}
+#    * [ ] {self.instructions,}
+#   
+#   ### Post-commands
+#   
+#    * [x] {self.post_commands,}
+#    * [ ] {self.post_commands,}
 
 
 
