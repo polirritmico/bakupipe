@@ -7,7 +7,7 @@
 
 import yaml
 from src.command import Command
-from src.log_test import LogTest
+from src.log import LogTest
 
 
 class Test:
