@@ -7,6 +7,7 @@
 
 import yaml
 from src.command import Command
+from src.log_test import LogTest
 
 
 class Test:
