@@ -91,8 +91,6 @@ class Repository:
     def remove_branch(self, target: str):
         if not self.find_branch(target):
             raise Warning("Not found branch '{}'".format(target))
-            #print("WARNING: Not found branch '{}'".format(target))
-            return
 
         proc = subprocess_runner("git branch -d {}".format(target))
         if proc.returncode != 0:
@@ -102,8 +100,6 @@ class Repository:
     def goto_branch(self, branch: str):
         if branch == self.get_current_branch():
             raise Warning("Already on target branch '{}'".format(branch))
-            #print("WARNING: Already on target branch\n\t'{}'".format(branch))
-            #return True
 
         proc = subprocess_runner("git checkout {}".format(branch))
         if proc.returncode != 0:
@@ -111,21 +107,22 @@ class Repository:
                             proc.stdout, proc.sterr)
 
 
-#    def print_info(self):
-#        print("Repository info:")
-#        print(SEP)
-#        print("URL:\t\t{}".format(self.url))
-#        print("Branch list:\t{}".format(self.get_branch_list()))
-#        print("Current branch:\t'{}'".format(self.get_current_branch()))
-#        print(SEP)
-#
-#
-#    def print_branch_list(self) -> dict:
-#        branch_list = self.get_branch_list()
-#        branches = {str(key + 1) : val for key, val in enumerate(branch_list)}
-#
-#        for key, branch in branches.items():
-#            print("  {}) {}".format(key, branch))
-#        return branches
-#
-#
+    def get_info(self):
+        info = ""
+        info += "Repository info:\n"
+        info += SEP + "\nURL:\t\t{}\n".format(self.url)
+        info += "Branch list:\t{}\n".format(self.get_branch_list())
+        info += "Current branch:\t'{}'\n".format(self.get_current_branch())
+        info += SEP + "\n"
+
+        return info
+
+
+    def print_branch_list(self) -> dict:
+        branch_list = self.get_branch_list()
+        branches = {str(key + 1) : val for key, val in enumerate(branch_list)}
+
+        for key, branch in branches.items():
+            print("  {}) {}".format(key, branch))
+        return branches
+

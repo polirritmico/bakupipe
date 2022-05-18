@@ -54,13 +54,24 @@ class TestRepository(unittest.TestCase):
         self.assertFalse(self.repository.find_branch(not_found))
 
 
-#    #@unittest.skip
-#    def test_print_info(self):
-#        output = self.repository.print_info()
-#        self.assertIs(str, output)
-#        self.assertNotEqual("", output)
-#
-#
+    #@unittest.skip
+    def test_get_info(self):
+        expected = ""
+        output = self.repository.get_info()
+        self.assertNotEqual(expected, output)
+
+
+    #@unittest.skip
+    def test_print_branch_list(self):
+        output = self.repository.print_branch_list()
+        print(SEP)
+        print(output)
+        print(SEP)
+        print(self.repository.get_branch_list())
+        print(SEP)
+        #self.assertEqual(expected, output)
+
+
 #    # Only work on non git folder
 #    def test_check_git_repo(self):
 #        with self.assertRaises(Exception) as context:
