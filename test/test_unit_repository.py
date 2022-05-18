@@ -54,9 +54,17 @@ class TestRepository(unittest.TestCase):
         self.assertFalse(self.repository.find_branch(not_found))
 
 
+#    #@unittest.skip
+#    def test_print_info(self):
+#        output = self.repository.print_info()
+#        self.assertIs(str, output)
+#        self.assertNotEqual("", output)
+#
+#
+#    # Only work on non git folder
 #    def test_check_git_repo(self):
 #        with self.assertRaises(Exception) as context:
-#            self.repository.check_git_repo()
+#            self.repository.check_running_in_git_repo()
 #        self.assertTrue("Not a GIT repository" in str(context.exception))
 
 

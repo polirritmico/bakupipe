@@ -6,10 +6,11 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import yaml
-from src.command import Command
-from src.log import LogTest
+import subprocess
+#from src.command import Command
+from src.log import Log
 
-
+# TODO: Quitar cmd_runner y solo lanzar el comando y retornar logs
 class Test:
     def __init__(self, testfile: str):
         # Test INFO

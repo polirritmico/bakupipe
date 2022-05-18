@@ -6,7 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 
-class LogTest:
+class Log:
     def __init__(self):
         self.passed = False
         self.output = ""

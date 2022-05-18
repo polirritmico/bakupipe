@@ -5,31 +5,24 @@
 # This program is part of Bakumapu and is released under
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
+#import subprocess
 from pipeline.config import *
-from src.command import Command
+from src.command import subprocess_runner
+#from src.command import Command
 
 class Repository:
     def __init__(self):
-        self.cmd_runner = Command()
-        self.check_git_repo()
+        self.check_running_in_git_repo()
         self.url = self.get_current_repo()
         self.check_in_valid_repo(PROJECT_URLS)
 
-        #self.current_branch = self.get_current_branch()
-        #self.branch_list = self.get_branch_list()
+        self.current_branch = self.get_current_branch()
+        self.branch_list = self.get_branch_list()
 
         # Begin at default branch
         if self.get_current_branch() != DEFAULT_BRANCH:
             print("Moving to branch '{}'...".format(DEFAULT_BRANCH))
             self.goto_branch(DEFAULT_BRANCH)
-
-
-    def get_current_repo(self) -> str:
-        self.cmd_runner.set("git config --get remote.origin.url")
-        if not self.cmd_runner.run():
-            raise ChildProcessError("ERROR: Can't get remote.origin.url",
-                                    self.cmd_runner)
-        return self.cmd_runner.get_stdout()
 
 
     def check_in_valid_repo(self, expected_list: list[str]) -> bool:
@@ -39,25 +32,34 @@ class Repository:
         return False
 
 
-    def check_git_repo(self):
-        self.cmd_runner.set("git status")
-        if not self.cmd_runner.run():
-            raise Exception("Not a GIT repository")
+    def check_running_in_git_repo(self):
+        proc = subprocess_runner("git status")
+        if proc.returncode != 0:
+            raise Exception("Not a GIT repository", proc.stdout, proc.stderr)
+
+
+    def get_current_repo(self) -> str:
+        proc = subprocess_runner("git config --get remote.origin.url")
+        if proc.returncode != 0:
+            raise Exception("Unable to get the remote origin url",
+                            proc.stdout, proc.stderr)
+        return proc.stdout[:-1] # Return without \n
 
 
     def get_current_branch(self) -> str:
-        self.cmd_runner.set("git rev-parse --abbrev-ref HEAD")
-        if not self.cmd_runner.run():
-            raise ChildProcessError("ERROR: Can't get current branch",
-                                    self.cmd_runner.get_stdout(),
-                                    self.cmd_runner.get_stderr())
-        return self.cmd_runner.get_stdout()
+        proc = subprocess_runner("git rev-parse --abbrev-ref HEAD")
+        if proc.returncode != 0:
+            raise Exception("Unable to get the current branch",
+                            proc.stdout, proc.stderr)
+        return proc.stdout[:-1]
 
 
-    def get_branch_list(self):
-        self.cmd_runner.set("git branch")
-        self.cmd_runner.run()
-        output_raw = self.cmd_runner.get_stdout()
+    def get_branch_list(self) -> list:
+        proc = subprocess_runner("git branch")
+        if proc.returncode != 0:
+            raise Exception("Unable to get the current branch list",
+                            proc.stdout, proc.stderr)
+        output_raw = proc.stdout
         output = output_raw.split()
 
         branch_list = []
@@ -72,67 +74,58 @@ class Repository:
         for b in self.get_branch_list():
             if b == branch:
                 return True
-
         return False
 
 
-    def make_branch(self, new_branch: str) -> bool:
-        if self.find_branch(new_branch):
-            return True
+    def make_branch(self, new_branch: str):
+        if self.find_branch(new_branch): return
 
-        self.cmd_runner.set("git branch {}".format(new_branch))
-        if not self.cmd_runner.run():
-            print("ERROR: Can't create branch {}\n\tDebug: {}"\
-                   .format(new_branch, self.cmd_runner.get_stderr()))
-            return False
+        proc = subprocess_runner("git branch {}".format(new_branch))
+        if proc.returncode != 0:
+            raise Exception("Unable to create branch '{}'".format(new_branch),
+                            proc.stdout, proc.stderr)
 
         self.branch_list = self.get_branch_list()
-        return True
 
 
-    def remove_branch(self, target: str) -> bool:
+    def remove_branch(self, target: str):
         if not self.find_branch(target):
-            print("WARNING: Not found branch '{}'".format(target))
-            return True
+            raise Warning("Not found branch '{}'".format(target))
+            #print("WARNING: Not found branch '{}'".format(target))
+            return
 
-        self.cmd_runner.set("git branch -d {}".format(target))
-        if not self.cmd_runner.run():
-            print("ERROR: Can't remove branch '{}'\
-                    \n\t{}".format(target, output))
-            return False
+        proc = subprocess_runner("git branch -d {}".format(target))
+        if proc.returncode != 0:
+            raise Exception("Unable to remove branch '{}'".format(target),
+                            proc.stdout, proc.sterr)
 
-        return True
-
-
-    def goto_branch(self, branch: str) -> bool:
+    def goto_branch(self, branch: str):
         if branch == self.get_current_branch():
-            print("WARNING: Already on target branch\n\t'{}'".format(branch))
-            return True
+            raise Warning("Already on target branch '{}'".format(branch))
+            #print("WARNING: Already on target branch\n\t'{}'".format(branch))
+            #return True
 
-        self.cmd_runner.set("git checkout {}".format(branch))
-        if not self.cmd_runner.run():
-            print("ERROR: No se pudo cambiar a la rama {}".format(branch))
-            print(self.cmd_runner.get_stderr())
-            return False
-
-        return True
+        proc = subprocess_runner("git checkout {}".format(branch))
+        if proc.returncode != 0:
+            raise Exception("Failed to switch to branch '{}'".format(branch),
+                            proc.stdout, proc.sterr)
 
 
-    def print_info(self):
-        print("Repository info:")
-        print(SEP)
-        print("URL:\t\t{}".format(self.url))
-        print("Branch list:\t{}".format(self.get_branch_list()))
-        print("Current branch:\t'{}'".format(self.get_current_branch()))
-        print(SEP)
-
-
-    def print_branch_list(self) -> dict:
-        branch_list = self.get_branch_list()
-        branches = {str(key + 1) : val for key, val in enumerate(branch_list)}
-
-        for key, branch in branches.items():
-            print("  {}) {}".format(key, branch))
-        return branches
-
-
+#    def print_info(self):
+#        print("Repository info:")
+#        print(SEP)
+#        print("URL:\t\t{}".format(self.url))
+#        print("Branch list:\t{}".format(self.get_branch_list()))
+#        print("Current branch:\t'{}'".format(self.get_current_branch()))
+#        print(SEP)
+#
+#
+#    def print_branch_list(self) -> dict:
+#        branch_list = self.get_branch_list()
+#        branches = {str(key + 1) : val for key, val in enumerate(branch_list)}
+#
+#        for key, branch in branches.items():
+#            print("  {}) {}".format(key, branch))
+#        return branches
+#
+#

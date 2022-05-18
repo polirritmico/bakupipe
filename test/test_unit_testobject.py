@@ -10,7 +10,7 @@ import unittest
 from src.test_object import Test
 
 
-#@unittest.skip
+@unittest.skip
 class TestTestObject(unittest.TestCase):
     def setUp(self):
         self.test_file = "test/1_test_layout.yaml"

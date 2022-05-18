@@ -19,5 +19,6 @@ DEFAULT_BRANCHES_LIST = [ DEFAULT_BRANCH, DEFAULT_DEPLOY_BRANCH, "release" ]
 # WORK BRANCH
 WORK_BRANCH = "pre-deploy"
 
+# Print separator
 SEP = "-----------------------------------"
 

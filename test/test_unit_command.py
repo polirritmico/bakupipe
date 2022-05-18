@@ -7,10 +7,10 @@
 
 import unittest
 
-from src.command import Command
+#from src.command import Command
 
 
-#@unittest.skip
+@unittest.skip
 class TestCommand(unittest.TestCase):
     def setUp(self):
         self.command_runner = Command()

@@ -35,9 +35,9 @@ class IntegrationTests(unittest.TestCase):
 
     #@unittest.skip
     def test_goto_branch(self):
-        print("\ntest_goto_branch:\n  Expecting a warning message...")
-        self.assertTrue(self.repository.goto_branch(DEFAULT_BRANCH))
-        print("\tOK\n")
+        with self.assertRaises(Warning):
+            self.repository.goto_branch(DEFAULT_BRANCH)
+
         current = self.repository.get_current_branch()
         self.assertEqual(DEFAULT_BRANCH, current)
 
