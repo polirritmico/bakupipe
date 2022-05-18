@@ -13,11 +13,11 @@ import os
 def subprocess_runner(command: str):
     try:
         proc = subprocess.run(command, capture_output=True, shell=True,
-                encoding="utf-8", env=dict(os.environ))
-    except AssertionError as err:
-        raise AssertionError(
-                "ERROR: failed to run command:\n\t'{}'".format(command),
-                git_status.stdout, git_status.stderr, err)
+                              encoding="utf-8", env=dict(os.environ))
+    except Exception as err:
+        raise Exception(
+                        "Failed to run commandt '{}'".format(command),
+                        git_status.stdout, git_status.stderr, err)
     return proc
 
 #def subprocess_runner(cmd):
