@@ -1,7 +1,7 @@
 # BakuPipe config test file
 # Add to the config/ folder to run it through the pipeline
-# The filename determines the order of execution (alphabetically)
-# E.g: <01_gd_static_test.yaml>, <02_unittest.yaml>
+# The filename determines the position of execution by number
+# E.g: <01_static_test.yaml>, <02_unittest.yaml>
 
 ---
 INFO:

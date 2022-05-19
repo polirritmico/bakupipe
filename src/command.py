@@ -10,10 +10,10 @@ import os
 #import sys
 
 
-def subprocess_runner(command: str):
+def subprocess_runner(command: str, environment=dict(os.environ)):
     try:
         proc = subprocess.run(command, capture_output=True, shell=True,
-                              encoding="utf-8", env=dict(os.environ))
+                              encoding="utf-8", env=environment)
     except Exception as err:
         raise Exception(
                         "Failed to run commandt '{}'".format(command),

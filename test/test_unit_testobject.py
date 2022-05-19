@@ -10,7 +10,7 @@ import unittest
 from src.test_object import Test
 
 
-@unittest.skip
+#@unittest.skip
 class TestTestObject(unittest.TestCase):
     def setUp(self):
         self.test_file = "test/1_test_layout.yaml"
@@ -20,7 +20,7 @@ class TestTestObject(unittest.TestCase):
     def test_import_test_data_constructor(self):
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
-        expected_order = 1
+        expected_position = 1
         expected_pre_commands = [
                 "touch test_output"
                 ]
@@ -40,7 +40,7 @@ class TestTestObject(unittest.TestCase):
 
         self.assertEqual(expected_name, test.name)
         self.assertEqual(expected_description, test.description)
-        self.assertEqual(expected_order, test.order)
+        self.assertEqual(expected_position, test.position)
         self.assertEqual(expected_pre_commands, test.pre_commands)
         self.assertEqual(expected_commands, test.commands)
         self.assertEqual(expected_post_commands, test.post_commands)

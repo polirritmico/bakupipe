@@ -21,6 +21,7 @@ class IntegrationTests(unittest.TestCase):
     def test_make_and_remove_branch(self):
         test_branch = "test-branch"
         expected_init = DEFAULT_BRANCHES_LIST
+        # copy() to avoid reference to the same list object
         expected_make = expected_init.copy()
         expected_make.append(test_branch)
 

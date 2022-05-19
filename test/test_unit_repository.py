@@ -61,12 +61,6 @@ class TestRepository(unittest.TestCase):
         self.assertNotEqual(expected, output)
 
 
-    @unittest.skip
-    def test_print_branch_list(self):
-        output = self.repository.print_branch_list()
-        #self.assertEqual(expected, output)
-
-
 #    # Only work on non git folder
 #    def test_check_git_repo(self):
 #        with self.assertRaises(Exception) as context:

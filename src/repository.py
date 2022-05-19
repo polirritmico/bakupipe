@@ -12,15 +12,18 @@ from src.command import subprocess_runner
 
 class Repository:
     def __init__(self):
+        self.url = ""
+        self.current_branch = ""
+        self.branches = []
+
         self.check_running_in_git_repo()
         self.url = self.get_current_repo()
         self.check_in_valid_repo(PROJECT_URLS)
-
         self.current_branch = self.get_current_branch()
-        self.branch_list = self.get_branch_list()
+        self.branches = self.get_branch_list()
 
         # begin at default branch
-        if self.get_current_branch() != DEFAULT_BRANCH:
+        if self.current_branch != DEFAULT_BRANCH:
             print("Moving to branch '{}'...".format(DEFAULT_BRANCH))
             self.goto_branch(DEFAULT_BRANCH)
 
@@ -57,14 +60,11 @@ class Repository:
     def get_branch_list(self) -> list:
         proc = subprocess_runner("git branch")
         if proc.returncode != 0:
-            raise Exception("Unable to get the current branch list",
+            raise Exception("Unable to get the current branch list from git",
                             proc.stdout, proc.stderr)
         output_raw = proc.stdout
         output = output_raw.split()
 
-        #todo: Obtener un diccionario y no una lista. Revisar cuando se usa
-        # la lista
-        # get_branch_list debería obtener todo lo necesario no print_branch
         branch_list = []
         for branch in output:
             if branch != '*':
@@ -72,9 +72,26 @@ class Repository:
 
         return branch_list
 
+#    def get_branch_dict(self) -> dict:
+#        proc = subprocess_runner("git branch")
+#        if proc.returncode != 0:
+#            raise Exception("Unable to get the current branch dict from git",
+#                            proc.stdout, proc.stderr)
+#        output_raw = proc.stdout
+#        output = output_raw.split()
+#
+#        branch_dict = {}
+#        count = 0
+#        for branch in output:
+#            if branch != '*':
+#                count += 1
+#                branch_dict[str(count)] = branch
+#
+#        self.branch_dict = branch_dict
+
 
     def find_branch(self, branch: str) -> bool:
-        for b in self.branch_list:
+        for b in self.branches:
             if b == branch:
                 return True
         return False
@@ -88,7 +105,7 @@ class Repository:
             raise Exception("Unable to create branch '{}'".format(new_branch),
                             proc.stdout, proc.stderr)
 
-        self.branch_list = self.get_branch_list()
+        self.branches = self.get_branch_list()
 
 
     def remove_branch(self, target: str):
@@ -100,7 +117,7 @@ class Repository:
             raise Exception("Unable to remove branch '{}'".format(target),
                             proc.stdout, proc.sterr)
 
-        self.branch_list = self.get_branch_list()
+        self.branches = self.get_branch_list()
 
 
     def goto_branch(self, branch: str):
@@ -117,19 +134,10 @@ class Repository:
         info = ""
         info += "Repository info:\n"
         info += SEP + "\nURL:\t\t{}\n".format(self.url)
-        info += "Branch list:\t{}\n".format(self.branch_list)
+        info += "Branch list:\t{}\n".format(self.branches)
         info += "Current branch:\t'{}'\n".format(self.get_current_branch())
         info += SEP + "\n"
 
         return info
-
-
-    def print_branch_list(self) -> dict:
-        branch_list = self.branch_list
-        branches = {str(key + 1) : val for key, val in enumerate(branch_list)}
-
-        for key, branch in branches.items():
-            print("  {}) {}".format(key, branch))
-        return branches
 
 

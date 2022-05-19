@@ -8,6 +8,7 @@
 
 class Log:
     def __init__(self):
+        self.running = False
         self.passed = False
         self.output = ""
         self.error = ""

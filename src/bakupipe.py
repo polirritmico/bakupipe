@@ -25,12 +25,10 @@ def bakupipe(argv):
     print("Check OK\n")
 
     print("Select target branch for deployment:")
-    branches = repository.print_branch_list()
-    #TODO: Esto usa branches como diccionario
+    repository.print_branches()
     print("Target: ", end="")
     selection = input()
     if selection == '':
-        # Get the key value of DEFAULT_DEPLOY_BRANCH
         for key, val in branches.items():
             if val == DEFAULT_DEPLOY_BRANCH:
                 selection = key
