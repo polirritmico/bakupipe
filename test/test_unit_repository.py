@@ -61,14 +61,9 @@ class TestRepository(unittest.TestCase):
         self.assertNotEqual(expected, output)
 
 
-    #@unittest.skip
+    @unittest.skip
     def test_print_branch_list(self):
         output = self.repository.print_branch_list()
-        print(SEP)
-        print(output)
-        print(SEP)
-        print(self.repository.get_branch_list())
-        print(SEP)
         #self.assertEqual(expected, output)
 
 

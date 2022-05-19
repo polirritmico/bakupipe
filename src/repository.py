@@ -19,7 +19,7 @@ class Repository:
         self.current_branch = self.get_current_branch()
         self.branch_list = self.get_branch_list()
 
-        # Begin at default branch
+        # begin at default branch
         if self.get_current_branch() != DEFAULT_BRANCH:
             print("Moving to branch '{}'...".format(DEFAULT_BRANCH))
             self.goto_branch(DEFAULT_BRANCH)
@@ -62,6 +62,9 @@ class Repository:
         output_raw = proc.stdout
         output = output_raw.split()
 
+        #todo: Obtener un diccionario y no una lista. Revisar cuando se usa
+        # la lista
+        # get_branch_list debería obtener todo lo necesario no print_branch
         branch_list = []
         for branch in output:
             if branch != '*':
@@ -71,7 +74,7 @@ class Repository:
 
 
     def find_branch(self, branch: str) -> bool:
-        for b in self.get_branch_list():
+        for b in self.branch_list:
             if b == branch:
                 return True
         return False
@@ -97,6 +100,9 @@ class Repository:
             raise Exception("Unable to remove branch '{}'".format(target),
                             proc.stdout, proc.sterr)
 
+        self.branch_list = self.get_branch_list()
+
+
     def goto_branch(self, branch: str):
         if branch == self.get_current_branch():
             raise Warning("Already on target branch '{}'".format(branch))
@@ -111,7 +117,7 @@ class Repository:
         info = ""
         info += "Repository info:\n"
         info += SEP + "\nURL:\t\t{}\n".format(self.url)
-        info += "Branch list:\t{}\n".format(self.get_branch_list())
+        info += "Branch list:\t{}\n".format(self.branch_list)
         info += "Current branch:\t'{}'\n".format(self.get_current_branch())
         info += SEP + "\n"
 
@@ -119,10 +125,11 @@ class Repository:
 
 
     def print_branch_list(self) -> dict:
-        branch_list = self.get_branch_list()
+        branch_list = self.branch_list
         branches = {str(key + 1) : val for key, val in enumerate(branch_list)}
 
         for key, branch in branches.items():
             print("  {}) {}".format(key, branch))
         return branches
+
 
