@@ -7,6 +7,7 @@
 
 import unittest
 import os
+import subprocess
 
 from src.command import subprocess_runner
 
@@ -53,9 +54,12 @@ class TestCommand(unittest.TestCase):
         test_cmd = "testcommand"
         expected = "/bin/sh: line 1: {}: command not found".format(test_cmd)
 
-        proc = subprocess_runner(test_cmd, self.env)
-        self.assertNotEqual(0, proc.returncode)
-        self.assertEqual(expected, proc.stderr[:-1])
+        with self.assertRaises(Exception):
+            proc = subprocess_runner(test_cmd, self.env, check_subprocess=True)
+
+        #proc = subprocess_runner(test_cmd, self.env)
+        #self.assertNotEqual(0, proc.returncode)
+        #self.assertEqual(expected, proc.stderr[:-1])
 
 
 

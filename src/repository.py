@@ -72,23 +72,6 @@ class Repository:
 
         return branch_list
 
-#    def get_branch_dict(self) -> dict:
-#        proc = subprocess_runner("git branch")
-#        if proc.returncode != 0:
-#            raise Exception("Unable to get the current branch dict from git",
-#                            proc.stdout, proc.stderr)
-#        output_raw = proc.stdout
-#        output = output_raw.split()
-#
-#        branch_dict = {}
-#        count = 0
-#        for branch in output:
-#            if branch != '*':
-#                count += 1
-#                branch_dict[str(count)] = branch
-#
-#        self.branch_dict = branch_dict
-
 
     def find_branch(self, branch: str) -> bool:
         for b in self.branches:

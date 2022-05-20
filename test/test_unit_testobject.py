@@ -55,12 +55,12 @@ class TestTestObject(unittest.TestCase):
         expected_stderr_2 = "/bin/sh: line 1: NotValid: command not found"
 
         test = Test(self.test_file)
-        self.assertTrue(test.run_commands())
+        self.assertTrue(test.run_commands(check=False))
 
-        self.assertEqual(expected_stdout_1, test.logs[0][0])
-        self.assertEqual(expected_stderr_1, test.logs[0][1])
-        self.assertEqual(expected_stdout_2, test.logs[1][0])
-        self.assertEqual(expected_stderr_2, test.logs[1][1])
+        self.assertEqual(expected_stdout_1, test.logs[0].output)
+        self.assertEqual(expected_stderr_1, test.logs[0].error)
+        self.assertEqual(expected_stdout_2, test.logs[1].output)
+        self.assertEqual(expected_stderr_2, test.logs[1].error)
 
 
 

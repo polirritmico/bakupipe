@@ -55,10 +55,12 @@ class Test:
 
 
     # TODO: generate logs objects
-    def run_commands(self):
+    def run_commands(self, check=True):
         for command in self.commands:
-            proc = subprocess_runner(command)
-            log = (proc.stdout[:-1], proc.stderr[:-1])
+            log = Log(command)
+            # TODO Handler
+            proc = subprocess_runner(command, check_subprocess=check)
+            log.set_log(proc)
             self.logs.append(log)
 
         return True

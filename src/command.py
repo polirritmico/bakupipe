@@ -10,14 +10,15 @@ import os
 #import sys
 
 
-def subprocess_runner(command: str, environment=dict(os.environ)):
+def subprocess_runner(command: str, environment=dict(os.environ),
+                      check_subprocess=True):
     try:
-        proc = subprocess.run(command, capture_output=True, shell=True,
-                              encoding="utf-8", env=environment)
+        proc = subprocess.run(command, capture_output=True,
+                              encoding="utf-8", env=environment,
+                              shell=True, check=check_subprocess)
     except Exception as err:
-        raise Exception(
-                        "Failed to run commandt '{}'".format(command),
-                        git_status.stdout, git_status.stderr, err)
+        raise Exception("Failed to run command '{}'".format(command),
+                        proc.stdout, proc.stderr, err)
     return proc
 
 #def subprocess_runner(cmd):
