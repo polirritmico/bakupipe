@@ -58,10 +58,16 @@ class Test:
     def run_commands(self, check=True):
         for command in self.commands:
             log = Log(command)
-            # TODO Handler
-            proc = subprocess_runner(command, check_subprocess=check)
-            log.set_log(proc)
-            self.logs.append(log)
+            try:
+                proc = subprocess_runner(command, check_subprocess=check)
+            except Exception as e:
+                log.set_fail_log(e)
+                self.logs.append(log)
+
+                raise e
+            else:
+                log.set_log(proc)
+                self.logs.append(log)
 
         return True
 

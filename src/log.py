@@ -17,7 +17,14 @@ class Log:
 
 
     def set_log(self, proc):
+        self.passed = True
         self.output = proc.stdout[:-1]
         self.error = proc.stderr[:-1]
         self.returncode = proc.returncode
 
+
+    def set_fail_log(self, proc):
+        self.passed = False
+        self.output = proc.stdout[:-1]
+        self.error = proc.stderr[:-1]
+        self.returncode = proc.returncode

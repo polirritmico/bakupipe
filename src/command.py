@@ -16,10 +16,13 @@ def subprocess_runner(command: str, environment=dict(os.environ),
         proc = subprocess.run(command, capture_output=True,
                               encoding="utf-8", env=environment,
                               shell=True, check=check_subprocess)
-    except Exception as err:
-        raise Exception("Failed to run command '{}'".format(command),
-                        proc.stdout, proc.stderr, err)
-    return proc
+    except subprocess.CalledProcessError as e:
+        raise e
+    except Exception as e:
+        raise Exception("Failed to run command '{}'".format(e.cmd),
+                        e.output, e.stderr)
+    else:
+        return proc
 
 #def subprocess_runner(cmd):
 #    return lambda cmd : subprocess.run( cmd, capture_output=True, shell=True,

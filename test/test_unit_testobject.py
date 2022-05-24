@@ -49,13 +49,20 @@ class TestTestObject(unittest.TestCase):
 
     #@unittest.skip
     def test_run_command_output_logs(self):
+        import subprocess
+
         expected_stdout_1 = "a test instruction/command with options"
         expected_stderr_1 = ""
         expected_stdout_2 = ""
         expected_stderr_2 = "/bin/sh: line 1: NotValid: command not found"
 
         test = Test(self.test_file)
-        self.assertTrue(test.run_commands(check=False))
+
+        with self.assertRaises(subprocess.CalledProcessError):
+            try:
+                test.run_commands(check=True)
+            except Exception as e:
+                raise e
 
         self.assertEqual(expected_stdout_1, test.logs[0].output)
         self.assertEqual(expected_stderr_1, test.logs[0].error)
