@@ -73,6 +73,7 @@ class TestTestObject(unittest.TestCase):
         self.assertEqual(expected_stderr_2, test.logs[1].error)
 
         print(test.logs[0].get_report())
+        print(test.logs[1].get_report())
 
 
 

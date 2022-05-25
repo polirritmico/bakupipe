@@ -34,11 +34,13 @@ class Log:
         _output = ""
 
         if self.passed:
-            _output += " * '{}' {:>4}\n".format(self.command, "[OK]")
-            _output += "   - out: '%s' \n".format(self.output)
+            _output += " * [OK]\t\"{}\"\n".format(self.command)
+            _output += "   - OUT: \"{}\"".format(self.output)
         else:
-            _output += " * [!!] '%s'\n" % (self.command)
-            _output += "   - out: '%s' \n" % (self.output)
+            _output += " * [!!]\t\"{}\"\n".format(self.command)
+            _output += "   - ERR: \"{}\"".format(self.error)
+            if self.output != "":
+                _output += "\n   - OUT: \"{}\"".format(self.output)
 
         return _output
 
