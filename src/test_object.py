@@ -11,7 +11,7 @@ import yaml
 from src.command import subprocess_runner
 from src.log import Log
 
-# TODO: Quitar cmd_runner y solo lanzar el comando y retornar logs
+
 class Test:
     def __init__(self, testfile: str):
         # Test INFO
@@ -54,7 +54,6 @@ class Test:
         return int(position)
 
 
-    # TODO: generate logs objects
     def run_commands(self, check=True):
         for command in self.commands:
             log = Log(command)
@@ -63,7 +62,6 @@ class Test:
             except Exception as e:
                 log.set_fail_log(e)
                 self.logs.append(log)
-
                 raise e
             else:
                 log.set_log(proc)

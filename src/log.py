@@ -9,7 +9,7 @@
 class Log:
     def __init__(self, command: str):
         self.passed = False
-        self.command = ""
+        self.command = command
         self.path = ""
         self.output = ""
         self.error = ""
@@ -28,3 +28,17 @@ class Log:
         self.output = proc.stdout[:-1]
         self.error = proc.stderr[:-1]
         self.returncode = proc.returncode
+
+
+    def get_report(self):
+        _output = ""
+
+        if self.passed:
+            _output += " * '{}' {:>4}\n".format(self.command, "[OK]")
+            _output += "   - out: '%s' \n".format(self.output)
+        else:
+            _output += " * [!!] '%s'\n" % (self.command)
+            _output += "   - out: '%s' \n" % (self.output)
+
+        return _output
+
