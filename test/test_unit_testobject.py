@@ -72,12 +72,6 @@ class TestTestObject(unittest.TestCase):
         self.assertEqual(expected_stdout_2, test.logs[1].output)
         self.assertEqual(expected_stderr_2, test.logs[1].error)
 
-        #color = False
-        color = True
-        print("")
-        print(test.logs[0].run_report(color))
-        print(test.logs[1].run_report(color))
-
 
 
 if __name__ == "__main__":

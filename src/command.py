@@ -10,11 +10,13 @@ import os
 #import sys
 
 
-def subprocess_runner(command: str, environment=dict(os.environ),
-                      check_subprocess=True):
+def subprocess_runner(command: str, env=None, check_subprocess=True):
+    if env is None:
+        env = dict(os.environ)
+
     try:
         proc = subprocess.run(command, capture_output=True,
-                              encoding="utf-8", env=environment,
+                              encoding="utf-8", env=env,
                               shell=True, check=check_subprocess)
     except subprocess.CalledProcessError as error:
         raise error

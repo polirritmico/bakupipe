@@ -40,13 +40,21 @@ class TestCommand(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_run_command_LANG_environment(self):
-        expected = "C"
+    def test_run_command_passed_environment(self):
+        expected = "C" # from setUp()
+        expected_changed = "es_CL.UTF-8"
         test_cmd = "echo $LANG"
 
         proc = subprocess_runner(test_cmd, self.env)
         self.assertEqual(0, proc.returncode)
         self.assertEqual(expected, proc.stdout[:-1])
+
+        self.env["LANG"] = "es_CL.UTF-8"
+
+        proc = subprocess_runner(test_cmd, self.env)
+        self.assertEqual(0, proc.returncode)
+        self.assertNotEqual(expected, proc.stdout[:-1])
+        self.assertEqual(expected_changed, proc.stdout[:-1])
 
 
     #@unittest.skip
@@ -56,10 +64,6 @@ class TestCommand(unittest.TestCase):
 
         with self.assertRaises(Exception):
             proc = subprocess_runner(test_cmd, self.env, check_subprocess=True)
-
-        #proc = subprocess_runner(test_cmd, self.env)
-        #self.assertNotEqual(0, proc.returncode)
-        #self.assertEqual(expected, proc.stderr[:-1])
 
 
 

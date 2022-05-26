@@ -54,11 +54,11 @@ class Test:
         return int(position)
 
 
-    def run_commands(self, check=True):
+    def run_commands(self, check=True, env=None):
         for command in self.commands:
             log = Log(command)
             try:
-                proc = subprocess_runner(command, check_subprocess=check)
+                proc = subprocess_runner(command, env, check_subprocess=check)
             except Exception as e:
                 log.set_fail_log(e)
                 self.logs.append(log)
