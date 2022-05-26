@@ -1,0 +1,23 @@
+# BakuPipe config test file
+# Add to the config/ folder to run it through the pipeline
+# The filename determines the position of execution by number
+# E.g: <01_static_test.yaml>, <02_unittest.yaml>
+
+---
+INFO:
+  NAME: Integration full test
+  DESCRIPTION: A test for test_integration with valid instructions
+
+TEST:
+  PRE_COMMANDS:
+    - echo 'Bakumapu: A cool old school RPG' > _temp_test_file.txt
+  COMMANDS:
+    - mv _temp_test_file.txt _moved_temp_test_file.txt
+    - cat _moved_temp_test_file.txt
+  POST_COMMANDS:
+    - rm _moved_temp_test_file.txt
+  # where each instruction should run
+  PATHS:
+    - src/location/test.gd
+    - src/location/target.gd
+

@@ -6,9 +6,11 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import unittest
+import os
 
 from pipeline.config import *
 from src.repository import Repository
+from src.test_object import Test
 
 
 #@unittest.skip
@@ -59,10 +61,45 @@ class IntegrationTests(unittest.TestCase):
         self.assertCountEqual(expected_list, current_list)
 
 
-    #TODO:implement
+    #TODO
     #@unittest.skip
-    def test_get_full_test_report(self):
-        pass
+    def test_full_test_report(self):
+        expected = \
+"""# Test Report: 'Integration full test'
+
+A test for test_integration with valid instructions
+
+---
+
+## Test commands
+
+### Pre-commands
+
+* [OK] "echo "Bakumapu: A cool old school RPG" > _temp_test_file.txt"
+
+### Commands
+
+* [OK] "mv _temp_test_file.txt _moved_temp_test_file.txt"
+* [OK] "cat _moved_temp_test_file.txt"
+ > - OUT: "Bakumapu: A cool old school RPG"
+
+### Post-commands
+
+* [OK] "rm _moved_temp_test_file.txt"
+
+"""
+
+        sample_test = Test("test/2_full_test.yaml")
+        env = dict(os.environ)
+        env["LANG"] = "C"
+
+        sample_test.run_pre_commands()
+        sample_test.run_commands()
+        sample_test.run_post_commands()
+
+        report = sample_test.full_report()
+
+        self.assertEqual(expected, report)
 
 
 
