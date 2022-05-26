@@ -34,7 +34,7 @@ class Log:
 
     def cmd_reporter(self, passed=True):
         _output = ""
-        _output += " {}{}* {}[".format(colors.BOLD, colors.ORANGE, colors.BLUE)
+        _output += "{}{}* {}[".format(colors.BOLD, colors.ORANGE, colors.BLUE)
         if passed:
             _output += "{}OK".format(colors.OK)
         else:
