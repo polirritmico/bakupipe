@@ -64,13 +64,13 @@ class TestTestObject(unittest.TestCase):
             except Exception as e:
                 raise e
 
-        #self.assertTrue(test.logs[0].passed)
-        #self.assertEqual(expected_stdout_1, test.logs[0].output)
-        #self.assertEqual(expected_stderr_1, test.logs[0].error)
+        self.assertTrue(test.logs[0].passed)
+        self.assertEqual(expected_stdout_1, test.logs[0].output)
+        self.assertEqual(expected_stderr_1, test.logs[0].error)
 
-        #self.assertFalse(test.logs[1].passed)
-        #self.assertEqual(expected_stdout_2, test.logs[1].output)
-        #self.assertEqual(expected_stderr_2, test.logs[1].error)
+        self.assertFalse(test.logs[1].passed)
+        self.assertEqual(expected_stdout_2, test.logs[1].output)
+        self.assertEqual(expected_stderr_2, test.logs[1].error)
 
         #color = False
         color = True
