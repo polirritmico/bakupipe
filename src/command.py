@@ -7,7 +7,6 @@
 
 import subprocess
 import os
-#import sys
 
 
 def subprocess_runner(command: str, env=None, check_subprocess=True):
@@ -26,7 +25,4 @@ def subprocess_runner(command: str, env=None, check_subprocess=True):
     else:
         return proc
 
-#def subprocess_runner(cmd):
-#    return lambda cmd : subprocess.run( cmd, capture_output=True, shell=True,
-#            encoding="utf-8", env=dict(os.environ) )
 
