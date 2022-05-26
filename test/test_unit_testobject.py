@@ -11,7 +11,7 @@ import os
 from src.test_object import Test
 
 
-#@unittest.skip
+@unittest.skip
 class TestTestObject(unittest.TestCase):
     def setUp(self):
         self.test_file = "test/1_test_layout.yaml"
@@ -19,7 +19,7 @@ class TestTestObject(unittest.TestCase):
         self.env["LANG"] = "C"
 
 
-    #@unittest.skip
+    @unittest.skip
     def test_import_test_data_constructor(self):
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
@@ -50,7 +50,7 @@ class TestTestObject(unittest.TestCase):
         self.assertEqual(expected_paths, test.paths)
 
 
-    #@unittest.skip
+    @unittest.skip
     def test_run_command_output_logs(self):
         import subprocess
 

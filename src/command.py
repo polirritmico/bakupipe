@@ -8,7 +8,7 @@
 import subprocess
 import os
 
-
+#TODO: cmd = "echo "Test: test""
 def subprocess_runner(command: str, env=None, check_subprocess=True):
     if env is None:
         env = dict(os.environ)
@@ -24,5 +24,4 @@ def subprocess_runner(command: str, env=None, check_subprocess=True):
                         error.output, error.stderr)
     else:
         return proc
-
 

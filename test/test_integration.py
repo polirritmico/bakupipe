@@ -13,7 +13,7 @@ from src.repository import Repository
 from src.test_object import Test
 
 
-#@unittest.skip
+@unittest.skip
 class IntegrationTests(unittest.TestCase):
     def setUp(self):
         self.repository = Repository()
@@ -62,7 +62,7 @@ class IntegrationTests(unittest.TestCase):
 
 
     #TODO
-    #@unittest.skip
+    @unittest.skip
     def test_full_test_report(self):
         expected = \
 """# Test Report: 'Integration full test'
@@ -81,7 +81,7 @@ A test for test_integration with valid instructions
 
 * [OK] "mv _temp_test_file.txt _moved_temp_test_file.txt"
 * [OK] "cat _moved_temp_test_file.txt"
- > - OUT: "Bakumapu: A cool old school RPG"
+ > - OUT: "Bakumapu a cool old school RPG"
 
 ### Post-commands
 

@@ -7,7 +7,18 @@
 
 import unittest
 
-from src.log import Log
+#from src.test_object import Test
+
+@unittest.skip
+class TestInstruction(unittest.TestCase):
+    def setUp(self):
+        pass
+
+
+    #@unittest.skip
+    def test_(self):
+        pass
+
 
 @unittest.skip
 class TestLog(unittest.TestCase):

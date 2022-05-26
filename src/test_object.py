@@ -8,7 +8,8 @@
 import yaml
 #import subprocess
 
-from src.command import subprocess_runner
+#from src.command import subprocess_runner
+from src.instruction import Instruction
 from src.log import Log
 
 
@@ -18,12 +19,11 @@ class Test:
         self.name = ""
         self.description = ""
         self.position = 0
+
         # Test runner
         self.pre_commands = []
         self.commands = []
         self.post_commands = []
-        self.paths = []
-        self.logs = []
 
         self.import_test_file(testfile)
 
@@ -39,14 +39,20 @@ class Test:
         self.description = file["INFO"]["DESCRIPTION"]
         self.position = self.get_order_from_filename(filename)
 
-        self.pre_commands = file["TEST"]["PRE_COMMANDS"]
-        self.commands = file["TEST"]["COMMANDS"]
-        self.post_commands = file["TEST"]["POST_COMMANDS"]
-        #TODO: Implement paths behaviour
-        try:
-            self.paths = file["TEST"]["PATHS"]
-        except:
-            self.paths = None
+        instructions = file["TEST"]["PRE_COMMANDS"]
+        for pre_cmd in instructions:
+            instruction = Instruction(pre_cmd)
+            self.pre_commands.append(instruction)
+
+        instructions = file["TEST"]["COMMANDS"]
+        for cmd in instructions:
+            instruction = Instruction(cmd)
+            self.commands.append(instruction)
+
+        instructions = file["TEST"]["POST_COMMANDS"]
+        for post_cmd in instructions:
+            instruction = Instruction(post_cmd)
+            self.post_commands.append(instruction)
 
 
     def get_order_from_filename(self, filename: str) -> int:
@@ -72,6 +78,20 @@ class Test:
                 self.logs.append(log)
 
         return True
+
+
+    def full_report(self, out_format: str) -> str:
+        if out_format != "":
+            raise NotImplementedError
+
+        output = ""
+        output += test_header(self)
+        #TODO: missing handler
+        for command in self.pre_commands:
+            output += ""
+
+
+
 
 
     #def get_run_logs(self):

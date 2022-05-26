@@ -6,7 +6,9 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 
-class colors():
+class Formats():
+    # =============================================================
+    # Colors
     CYAN = "\033[96m"   #
     BLUE = "\033[94m"   #
     ORANGE = "\033[33m"   #
@@ -18,13 +20,18 @@ class colors():
     WARN = YELLOW
     HEAD = "\033[95m"   #
 
+    # =============================================================
+    # Styles
     BOLD = "\033[1m"    # Bold
     UNDER = "\033[4m"    # Underline
     BLINK = "\033[5m"    # Blink
 
-    # TODO: refactor, in "colors". Strange. Maybe terminal?
-    QUOTE = ORANGE + " "
     END  = "\033[0m"    # End style or color
+
+    # =============================================================
+    # Symbols
+    QUOTE = ORANGE + " "
+
 
     def disable(self):
         self.CYAN = ""

@@ -10,7 +10,7 @@ INFO:
 
 TEST:
   PRE_COMMANDS:
-    - echo 'Bakumapu: A cool old school RPG' > _temp_test_file.txt
+    - echo 'Bakumapu a cool old school RPG' > _temp_test_file.txt
   COMMANDS:
     - mv _temp_test_file.txt _moved_temp_test_file.txt
     - cat _moved_temp_test_file.txt
