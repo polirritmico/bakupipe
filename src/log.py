@@ -32,20 +32,21 @@ class Log:
         self.returncode = proc.returncode
 
 
-    def cmd_reporter(self, passed: bool):
+    def cmd_reporter(self, passed=True):
         _output = ""
         _output += " {}{}* {}[".format(colors.BOLD, colors.ORANGE, colors.BLUE)
         if passed:
             _output += "{}OK".format(colors.OK)
         else:
             _output += "{}!!".format(colors.FAIL)
-        _output += "{}]\t{}\"{}\"{}". format(colors.BLUE, colors.GREEN,
+        _output += "{}] {}\"{}\"{}". format(colors.BLUE, colors.GREEN,
                                              self.command, colors.END)
         return _output
 
 
     def output_reporter(self, message, is_error=False):
-        _output = "\n   {}{}- ".format(colors.BOLD, colors.BLUE)
+        _output = "\n {}{}{}{} - ".format(colors.BOLD, colors.ORANGE,
+                                          colors.QUOTE, colors.BLUE)
 
         if is_error:
             _output += "{}ERR: ".format(colors.FAIL)
@@ -63,10 +64,10 @@ class Log:
             colors.disable(colors)
 
         if not self.passed:
-            _output += self.cmd_reporter(False)
+            _output += self.cmd_reporter(passed=False)
             _output += self.output_reporter(self.error, True)
         else:
-            _output = self.cmd_reporter(is_error=True)
+            _output += self.cmd_reporter()
 
         if self.output != "":
             _output += self.output_reporter(self.output, False)

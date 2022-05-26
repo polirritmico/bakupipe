@@ -9,53 +9,32 @@ import unittest
 
 from src.log import Log
 
-#TODO: Implement tests
-@unittest.skip
+#@unittest.skip
 class TestLog(unittest.TestCase):
     def setUp(self):
-        self.test_log = Log("a_test_command")
+        self.log_ok = Log("a_passed_test_command")
+        self.log_ok.passed = True
+        self.log_ok.output = "Passed test output"
+        self.log_ok.error = ""
+        self.log_ok.returncode = 0
 
-#    #@unittest.skip
-#    def test_(self):
-#        #color = False
-#        #color = True
-#        #print("")
-#        #print(test.logs[0].run_report(color))
-#        #print(test.logs[1].run_report(color))
-#        pass
+        self.log_fail = Log("a_fail_test_command")
+        self.log_fail.passed = False
+        self.log_fail.output = ""
+        self.log_fail.error = "A error message"
+        self.log_fail.returncode = 1
 
 
     #@unittest.skip
     def test_run_report(self):
-        expected=\
-"""
-REPORT: Automation Test Example
-===============================
+        expected = \
+""" * [OK] "a_passed_test_command"
+ > - OUT: "Passed test output"
+ * [!!] "a_fail_test_command"
+ > - ERR: "A error message\""""
+        color = False
+        output = self.log_ok.run_report(color)
+        output += "\n" + self.log_fail.run_report(color)
 
-Test short description
-
-## Test commands
-
-### Pre-commands
-
- * [ ]
- > - [ ] {self.out,}
- * [ ] {self.precommands,}
-
-### Commands
-
- * [ ] {self.commands,}
- * [ ] {self.commands,}
-
-### Post-commands
-
- * [x] {self.post_commands,}
- * [ ] {self.post_commands,}
-
-"""
-
-
-
-if __name__ == "__main__":
-    unittest.main()
+        self.assertEqual(expected, output)
 

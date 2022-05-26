@@ -59,6 +59,12 @@ class IntegrationTests(unittest.TestCase):
         self.assertCountEqual(expected_list, current_list)
 
 
+    #TODO:implement
+    #@unittest.skip
+    def test_get_full_test_report(self):
+        pass
+
+
 
 if __name__ == "__main__":
     unittest.main()
