@@ -42,7 +42,11 @@ class Test:
         self.pre_commands = file["TEST"]["PRE_COMMANDS"]
         self.commands = file["TEST"]["COMMANDS"]
         self.post_commands = file["TEST"]["POST_COMMANDS"]
-        self.paths = file["TEST"]["PATHS"]
+        #TODO: Implement paths behaviour
+        try:
+            self.paths = file["TEST"]["PATHS"]
+        except:
+            self.paths = None
 
 
     def get_order_from_filename(self, filename: str) -> int:
