@@ -28,9 +28,9 @@ class TestLog(unittest.TestCase):
     #@unittest.skip
     def test_run_report(self):
         expected = \
-""" * [OK] "a_passed_test_command"
+"""* [OK] "a_passed_test_command"
  > - OUT: "Passed test output"
- * [!!] "a_fail_test_command"
+* [!!] "a_fail_test_command"
  > - ERR: "A error message\""""
         color = False
         output = self.log_ok.run_report(color)
