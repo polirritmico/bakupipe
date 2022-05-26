@@ -22,6 +22,8 @@ class colors():
     UNDER = "\033[4m"    # Underline
     BLINK = "\033[5m"    # Blink
 
+    # TODO: refactor, in "colors". Strange. Maybe terminal?
+    QUOTE = ORANGE + " "
     END  = "\033[0m"    # End style or color
 
     def disable(self):
@@ -39,6 +41,7 @@ class colors():
         self.UNDER = ""
         self.BLINK = ""
 
+        self.QUOTE = ">"
         self.END  = ""
 
 
