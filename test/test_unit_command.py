@@ -39,6 +39,24 @@ class TestCommand(unittest.TestCase):
         self.assertEqual(expected, proc.stdout[:-1])
 
 
+    def test_run_command_with_colon_semicolon_quotes(self):
+        expected_colon = "Test: works!"
+        expected_semicolon = "Test; works!"
+        expected_quotes = """Test "works"!"""
+
+        cmd_colon = 'echo "Test: works!"'
+        cmd_semicolon = 'echo "Test; works!"'
+        cmd_quotes = "echo 'Test \"works\"!'"
+
+        proc = subprocess_runner(cmd_colon)
+        self.assertEqual(expected_colon, proc.stdout[:-1])
+        proc = subprocess_runner(cmd_semicolon)
+        self.assertEqual(expected_semicolon, proc.stdout[:-1])
+        proc = subprocess_runner(cmd_quotes)
+        self.assertEqual(expected_quotes, proc.stdout[:-1])
+
+
+
     #@unittest.skip
     def test_run_command_passed_environment(self):
         expected = "C" # from setUp()
