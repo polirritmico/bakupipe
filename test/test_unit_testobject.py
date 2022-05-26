@@ -6,6 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import unittest
+import os
 
 from src.test_object import Test
 
@@ -14,6 +15,8 @@ from src.test_object import Test
 class TestTestObject(unittest.TestCase):
     def setUp(self):
         self.test_file = "test/1_test_layout.yaml"
+        self.env = dict(os.environ)
+        self.env["LANG"] = "C"
 
 
     #@unittest.skip
@@ -60,7 +63,7 @@ class TestTestObject(unittest.TestCase):
 
         with self.assertRaises(subprocess.CalledProcessError):
             try:
-                test.run_commands(check=True)
+                test.run_commands(check=True, env=self.env)
             except Exception as e:
                 raise e
 
