@@ -32,7 +32,7 @@ class Log:
         self.returncode = proc.returncode
 
 
-    def line_formater(self, passed: bool):
+    def cmd_reporter(self, passed: bool):
         _output = ""
         _output += " {}{}* {}[".format(colors.BOLD, colors.ORANGE, colors.BLUE)
         if passed:
@@ -44,7 +44,7 @@ class Log:
         return _output
 
 
-    def subline_formater(self, is_error: bool, message: str):
+    def output_reporter(self, message, is_error=False):
         _output = "\n   {}{}- ".format(colors.BOLD, colors.BLUE)
 
         if is_error:
@@ -63,13 +63,13 @@ class Log:
             colors.disable(colors)
 
         if not self.passed:
-            _output += self.line_formater(False)
-            _output += self.subline_formater(True, self.error)
+            _output += self.cmd_reporter(False)
+            _output += self.output_reporter(self.error, True)
         else:
-            _output = self.line_formater(True)
+            _output = self.cmd_reporter(is_error=True)
 
         if self.output != "":
-            _output += self.subline_formater(False, self.output)
+            _output += self.output_reporter(self.output, False)
 
         return _output
 

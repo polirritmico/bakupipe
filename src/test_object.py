@@ -79,23 +79,3 @@ class Test:
     #    return header
 
 
-#   ## Test commands
-#   
-#   ### Pre-commands
-#   
-#    * [x] {self.precommands,}
-#    > - [ ] {self.out,}
-#    * [ ] {self.precommands,}
-#   
-#   ### Commands
-#   
-#    * [ ] {self.commands,}
-#    * [ ] {self.commands,}
-#   
-#   ### Post-commands
-#   
-#    * [x] {self.post_commands,}
-#    * [ ] {self.post_commands,}
-
-
-
