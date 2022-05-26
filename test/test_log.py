@@ -9,7 +9,7 @@ import unittest
 
 from src.log import Log
 
-
+#TODO: Implement tests
 @unittest.skip
 class TestLog(unittest.TestCase):
     def setUp(self):
