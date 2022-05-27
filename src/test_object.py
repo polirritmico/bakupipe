@@ -10,7 +10,6 @@ import yaml
 
 #from src.command import subprocess_runner
 from src.instruction import Instruction
-from src.log import Log
 
 
 class Test:

@@ -7,17 +7,20 @@
 
 import unittest
 
+from src.instruction import Instruction
 #from src.test_object import Test
 
 @unittest.skip
 class TestInstruction(unittest.TestCase):
     def setUp(self):
-        pass
+        command = 'echo "This is a \"custom\" test"'
+        self.test_instruction = Instruction(command)
 
 
     #@unittest.skip
-    def test_(self):
-        pass
+    def test_run(self):
+        expected = "This is a test"
+        self.test_instruction.run()
 
 
 @unittest.skip
