@@ -56,20 +56,19 @@ class TestCommand(unittest.TestCase):
         self.assertEqual(expected_quotes, proc.stdout[:-1])
 
 
-
     #@unittest.skip
     def test_run_command_passed_environment(self):
         expected = "C" # from setUp()
         expected_changed = "es_CL.UTF-8"
         test_cmd = "echo $LANG"
 
-        proc = subprocess_runner(test_cmd, self.env)
+        proc = subprocess_runner(test_cmd, env=self.env)
         self.assertEqual(0, proc.returncode)
         self.assertEqual(expected, proc.stdout[:-1])
 
         self.env["LANG"] = "es_CL.UTF-8"
 
-        proc = subprocess_runner(test_cmd, self.env)
+        proc = subprocess_runner(test_cmd, env=self.env)
         self.assertEqual(0, proc.returncode)
         self.assertNotEqual(expected, proc.stdout[:-1])
         self.assertEqual(expected_changed, proc.stdout[:-1])

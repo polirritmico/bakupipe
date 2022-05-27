@@ -9,7 +9,7 @@ import subprocess
 import os
 
 #TODO: cmd = "echo "Test: test""
-def subprocess_runner(command: str, env=None, check_subprocess=True):
+def subprocess_runner(command: str, check_subprocess=True, env=None):
     if env is None:
         env = dict(os.environ)
 

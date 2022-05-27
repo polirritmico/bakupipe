@@ -11,8 +11,9 @@ from src.formats import Formats
 
 class Instruction:
     def __init__(self, command):
-        self.command = ""
+        self.command = command
         self.executed = False
+        self.env = None
 
         self.passed = ""
         self.output = ""
@@ -20,11 +21,24 @@ class Instruction:
         self.returncode = -1
 
 
-    def set_log(self, proc):
+    def run(self):
+        self.executed = True
+
+        try:
+            proc = subprocess_runner(self.command, check_subprocess=True,
+                                     env=self.env)
+        except Exception as err:
+            raise err
+
+        self.set_log(proc)
+
+
+    def set_log(self, proc, env=None):
         self.passed = True if proc.returncode == 0 else False
         self.output = proc.stdout[:-1]
         self.error = proc.stderr[:-1]
         self.returncode = proc.returncode
+        self.env = env
 
 
 #    def cmd_reporter(self, command: str, passed=True) -> str:
@@ -68,16 +82,5 @@ class Instruction:
             _output += self.output_reporter(self.output, False)
 
         return _output
-
-
-    def run(self):
-        self.executed = True
-
-        try:
-            proc = subprocess_runner(check=True, env=None)
-        except Exception as err:
-            raise err
-
-        self.set_log(proc)
 
 

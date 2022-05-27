@@ -34,6 +34,7 @@ class Test:
             except yaml.YAMLError as err:
                 raise err
 
+        #TODO: Agregar input env
         self.name = file["INFO"]["NAME"]
         self.description = file["INFO"]["DESCRIPTION"]
         self.position = self.get_order_from_filename(filename)
@@ -86,8 +87,8 @@ class Test:
         output = ""
         output += test_header(self)
         #TODO: missing handler
-        for command in self.pre_commands:
-            output += ""
+        for instruction in self.pre_commands:
+            output += instruction.
 
 
 

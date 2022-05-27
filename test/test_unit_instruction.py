@@ -6,21 +6,42 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import unittest
+import os
 
 from src.instruction import Instruction
 #from src.test_object import Test
 
-@unittest.skip
+#@unittest.skip
 class TestInstruction(unittest.TestCase):
     def setUp(self):
         command = 'echo "This is a \"custom\" test"'
         self.test_instruction = Instruction(command)
+        self.test_instruction.env = dict(os.environ)
+        self.test_instruction.env["LANG"] = "C"
 
 
     #@unittest.skip
     def test_run(self):
-        expected = "This is a test"
+        expected = "This is a custom test"
         self.test_instruction.run()
+
+        self.assertEqual('echo "This is a "custom" test"',
+                         self.test_instruction.command)
+        self.assertEqual(expected, self.test_instruction.output)
+
+
+    #@unittest.skip
+    def test_run_report(self):
+        expected = \
+"""* [OK] "a_passed_test_command"
+ > - OUT: "Passed test output"
+* [!!] "a_fail_test_command"
+ > - ERR: "A error message\""""
+        color = False
+        output = self.log_ok.run_report(color)
+        output += "\n" + self.log_fail.run_report(color)
+
+        self.assertEqual(expected, output)
 
 
 @unittest.skip
@@ -38,17 +59,4 @@ class TestLog(unittest.TestCase):
         self.log_fail.error = "A error message"
         self.log_fail.returncode = 1
 
-
-    #@unittest.skip
-    def test_run_report(self):
-        expected = \
-"""* [OK] "a_passed_test_command"
- > - OUT: "Passed test output"
-* [!!] "a_fail_test_command"
- > - ERR: "A error message\""""
-        color = False
-        output = self.log_ok.run_report(color)
-        output += "\n" + self.log_fail.run_report(color)
-
-        self.assertEqual(expected, output)
 
