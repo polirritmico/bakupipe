@@ -85,10 +85,10 @@ class Test:
             raise NotImplementedError
 
         output = ""
-        output += test_header(self)
+        output += test_header(self) + "\n"
         #TODO: missing handler
         for instruction in self.pre_commands:
-            output += instruction.
+            output += instruction.log()
 
 
 

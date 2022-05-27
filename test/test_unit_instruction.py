@@ -30,16 +30,21 @@ class TestInstruction(unittest.TestCase):
         self.assertEqual(expected, self.test_instruction.output)
 
 
+    #TODO: Implementar test. test not executed output. O quizás unúnico test
+    #      con todo (not executed, passsed, failed)
     #@unittest.skip
-    def test_run_report(self):
+    def test_get_run_log(self):
+        pass
+
+    #TODO: FIX. Update instruction functions
+    #@unittest.skip
+    def test_get_run_log(self):
         expected = \
 """* [OK] "a_passed_test_command"
  > - OUT: "Passed test output"
 * [!!] "a_fail_test_command"
  > - ERR: "A error message\""""
-        color = False
-        output = self.log_ok.run_report(color)
-        output += "\n" + self.log_fail.run_report(color)
+        output = self.test_instruction.get_log(formats=False)
 
         self.assertEqual(expected, output)
 

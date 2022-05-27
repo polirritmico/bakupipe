@@ -15,7 +15,7 @@ class Instruction:
         self.executed = False
         self.env = None
 
-        self.passed = ""
+        self.passed = False
         self.output = ""
         self.error = ""
         self.returncode = -1
@@ -41,46 +41,65 @@ class Instruction:
         self.env = env
 
 
-#    def cmd_reporter(self, command: str, passed=True) -> str:
+#    def cmd_reporter(self, command: str, fail=False) -> str:
 #        _output = ""
-#        _output += "{}{}* {}[".format(colors.BOLD, colors.ORANGE, colors.BLUE)
-#        if passed:
-#            _output += "{}OK".format(colors.OK)
+#        _output += "{}{}* {}[".format(Formats.BOLD, colors.ORANGE, colors.BLUE)
+#        if not fail:
+#            _output += "{}OK".format(Formats.OK)
 #        else:
-#            _output += "{}!!".format(colors.FAIL)
-#        _output += "{}] {}\"{}\"{}". format(colors.BLUE, colors.GREEN,
-#                                             command, colors.END)
+#            _output += "{}!!".format(Formats.FAIL)
+#        _output += "{}] {}\"{}\"{}". format(Formats.BLUE, colors.GREEN,
+#                                             command, Formats.END)
 #        return _output
 #
 #
 #    def output_reporter(self, message, is_error=False) -> str:
-#        _output = "\n {}{}{}{} - ".format(colors.BOLD, colors.ORANGE,
-#                                          colors.QUOTE, colors.BLUE)
+#        _output = "\n {}{}{}{} - ".format(Formats.BOLD, colors.ORANGE,
+#                                          Formats.QUOTE, colors.BLUE)
 #
 #        if is_error:
-#            _output += "{}ERR: ".format(colors.FAIL)
+#            _output += "{}ERR: ".format(Formats.FAIL)
 #        else:
-#            _output += "OUT: ".format(colors.BLUE)
-#        _output += "{}{}\"{}\"{}".format(colors.END, colors.BOLD,
-#                                         message, colors.END)
+#            _output += "OUT: ".format(Formats.BLUE)
+#        _output += "{}{}\"{}\"{}".format(Formats.END, colors.BOLD,
+#                                         message, Formats.END)
 #
 #        return _output
-#
-#
-    def run_log(self, formats=True) -> str:
-        _output = ""
+
+    def _failed_log(self) -> str:
+        out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
+        out += "[{}!!{}] ".format(Formats.FAIL, Formats.BLUE)
+
+        out += "{}\"{}\"{}".format(Formats.GREEN, command, Formats.END)
+
+        return out
+
+
+    def _passed_log(self) -> str:
+        out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
+        out += "[{}OK{}] ".format(Formats.OK, Formats.BLUE)
+
+        out += "{}\"{}\"{}".format(Formats.GREEN, command, Formats.END)
+
+        return out
+
+
+    def _not_executed_log(self) -> str:
+        out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
+        out += "[  ] {}Command '{}' not executed.{}"\
+                .format(Formats.GREEN, self.command, Formats.END)
+
+        return out
+
+
+    def get_log(self, formats=True) -> str:
         if not formats:
-            formats.disable(Formats)
+            Formats.disable(Formats)
 
-        if not self.passed:
-            _output += self.cmd_reporter(passed=False)
-            _output += self.output_reporter(self.error, True)
-        else:
-            _output += self.cmd_reporter()
-
-        if self.output != "":
-            _output += self.output_reporter(self.output, False)
-
-        return _output
+        if not self.executed:
+            return self._not_executed_log()
+        if self.passed:
+            return self._passed_log()
+        return self._failed_log()
 
 
