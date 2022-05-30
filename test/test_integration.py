@@ -13,7 +13,7 @@ from src.repository import Repository
 from src.test_object import Test
 
 
-@unittest.skip
+#@unittest.skip
 class IntegrationTests(unittest.TestCase):
     def setUp(self):
         self.repository = Repository()

@@ -10,10 +10,11 @@ from src.command import subprocess_runner
 from src.formats import Formats
 
 class Instruction:
-    def __init__(self, command):
+    def __init__(self, command: str, check=True):
         self.command = command
         self.executed = False
         self.env = None
+        self.check_subprocess = check
 
         self.passed = False
         self.output = ""
@@ -25,12 +26,16 @@ class Instruction:
         self.executed = True
 
         try:
-            proc = subprocess_runner(self.command, check_subprocess=True,
+            proc = subprocess_runner(self.command, self.check_subprocess,
                                      env=self.env)
         except Exception as err:
             raise err
 
         self.set_log(proc)
+
+
+    def set_check_subprocess(self, option: bool):
+        self.check_subprocess = option
 
 
     def set_log(self, proc, env=None):
@@ -41,37 +46,27 @@ class Instruction:
         self.env = env
 
 
-#    def cmd_reporter(self, command: str, fail=False) -> str:
-#        _output = ""
-#        _output += "{}{}* {}[".format(Formats.BOLD, colors.ORANGE, colors.BLUE)
-#        if not fail:
-#            _output += "{}OK".format(Formats.OK)
-#        else:
-#            _output += "{}!!".format(Formats.FAIL)
-#        _output += "{}] {}\"{}\"{}". format(Formats.BLUE, colors.GREEN,
-#                                             command, Formats.END)
-#        return _output
-#
-#
-#    def output_reporter(self, message, is_error=False) -> str:
-#        _output = "\n {}{}{}{} - ".format(Formats.BOLD, colors.ORANGE,
-#                                          Formats.QUOTE, colors.BLUE)
-#
-#        if is_error:
-#            _output += "{}ERR: ".format(Formats.FAIL)
-#        else:
-#            _output += "OUT: ".format(Formats.BLUE)
-#        _output += "{}{}\"{}\"{}".format(Formats.END, colors.BOLD,
-#                                         message, Formats.END)
-#
-#        return _output
+    def _get_outputs(self) -> str:
+        out = "\n{}{}{}{}   - ".format(Formats.BOLD, Formats.ORANGE,
+                                     Formats.QUOTE, Formats.BLUE)
+        if self.output != "":
+            out += "{}OUT: {}{}\"{}\"{}".format(Formats.BLUE, Formats.END,
+                                                Formats.BOLD, self.output,
+                                                Formats.END)
+        if self.error != "":
+            out += "{}ERR: {}{}\"{}\"{}".format(Formats.FAIL, Formats.END,
+                                                Formats.BOLD, self.error,
+                                                Formats.END)
+        return out
+
 
     def _failed_log(self) -> str:
         out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
         out += "[{}!!{}] ".format(Formats.FAIL, Formats.BLUE)
 
-        out += "{}\"{}\"{}".format(Formats.GREEN, command, Formats.END)
+        out += "{}\"{}\"{}".format(Formats.GREEN, self.command, Formats.END)
 
+        out += self._get_outputs()
         return out
 
 
@@ -79,8 +74,9 @@ class Instruction:
         out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
         out += "[{}OK{}] ".format(Formats.OK, Formats.BLUE)
 
-        out += "{}\"{}\"{}".format(Formats.GREEN, command, Formats.END)
+        out += "{}\"{}\"{}".format(Formats.GREEN, self.command, Formats.END)
 
+        out += self._get_outputs()
         return out
 
 

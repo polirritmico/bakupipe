@@ -9,7 +9,7 @@ import unittest
 import os
 
 from src.instruction import Instruction
-#from src.test_object import Test
+
 
 #@unittest.skip
 class TestInstruction(unittest.TestCase):
@@ -30,38 +30,38 @@ class TestInstruction(unittest.TestCase):
         self.assertEqual(expected, self.test_instruction.output)
 
 
-    #TODO: Implementar test. test not executed output. O quizás unúnico test
-    #      con todo (not executed, passsed, failed)
     #@unittest.skip
     def test_get_run_log(self):
-        pass
+        cmd = "echo 'TEST'"
+        expected = "* [  ] Command 'echo 'TEST'' not executed." 
 
-    #TODO: FIX. Update instruction functions
-    #@unittest.skip
-    def test_get_run_log(self):
-        expected = \
-"""* [OK] "a_passed_test_command"
- > - OUT: "Passed test output"
-* [!!] "a_fail_test_command"
- > - ERR: "A error message\""""
-        output = self.test_instruction.get_log(formats=False)
+        instruction = Instruction(cmd)
+        self.assertFalse(instruction.executed)
+        output = instruction.get_log(formats=False)
+        self.assertEqual(expected, output)
+
+        # cmd = "echo 'TEST'"
+        expected = "* [OK] \"echo 'TEST'\"\n>   - OUT: \"TEST\""
+
+        proc = instruction.run()
+        self.assertTrue(instruction.executed)
+        output = instruction.get_log(formats=False)
+        self.assertEqual(expected, output)
+
+        cmd_fail = "NOTEXISTING"
+        expected = """* [!!] "NOTEXISTING"
+>   - ERR: "/bin/sh: line 1: NOTEXISTING: command not found\""""
+        check_subprocess = False
+
+        instruction_fail = Instruction(cmd_fail, check_subprocess)
+        instruction_fail.run()
+        output = instruction_fail.get_log(formats=False)
 
         self.assertEqual(expected, output)
 
 
-@unittest.skip
-class TestLog(unittest.TestCase):
-    def setUp(self):
-        self.log_ok = Log("a_passed_test_command")
-        self.log_ok.passed = True
-        self.log_ok.output = "Passed test output"
-        self.log_ok.error = ""
-        self.log_ok.returncode = 0
 
-        self.log_fail = Log("a_fail_test_command")
-        self.log_fail.passed = False
-        self.log_fail.output = ""
-        self.log_fail.error = "A error message"
-        self.log_fail.returncode = 1
+if __name__ == "__main__":
+    unittest.main()
 
 

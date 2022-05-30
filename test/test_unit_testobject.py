@@ -11,7 +11,7 @@ import os
 from src.test_object import Test
 
 
-@unittest.skip
+#@unittest.skip
 class TestTestObject(unittest.TestCase):
     def setUp(self):
         self.test_file = "test/1_test_layout.yaml"
@@ -19,38 +19,28 @@ class TestTestObject(unittest.TestCase):
         self.env["LANG"] = "C"
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_import_test_data_constructor(self):
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
         expected_position = 1
-        expected_pre_commands = [
-                "touch test_output"
-                ]
-        expected_commands = [
-                "echo 'a test instruction/command with options'",
-                "NotValid",
-                ]
-        expected_post_commands = [
-                "cp test_ouput test_final_output.txt"
-                ]
-        expected_paths = [
-                "src/location/test.gd",
-                "src/location/target.gd",
-                ]
+        expected_pre_commands = "touch test_output"
+        expected_commands_1 = "echo 'a test instruction/command with options'"
+        expected_commands_2 = "NotValid"
+        expected_post_commands = "cp test_ouput test_final_output.txt"
 
         test = Test(self.test_file)
 
         self.assertEqual(expected_name, test.name)
         self.assertEqual(expected_description, test.description)
         self.assertEqual(expected_position, test.position)
-        self.assertEqual(expected_pre_commands, test.pre_commands)
-        self.assertEqual(expected_commands, test.commands)
-        self.assertEqual(expected_post_commands, test.post_commands)
-        self.assertEqual(expected_paths, test.paths)
+        self.assertEqual(expected_pre_commands, test.pre_commands[0].command)
+        self.assertEqual(expected_commands_1, test.commands[0].command)
+        self.assertEqual(expected_commands_2, test.commands[1].command)
+        self.assertEqual(expected_post_commands, test.post_commands[0].command)
 
 
-    @unittest.skip
+    #@unittest.skip
     def test_run_command_output_logs(self):
         import subprocess
 

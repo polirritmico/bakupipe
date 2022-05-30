@@ -11,7 +11,7 @@ from pipeline.config import *
 from src.repository import Repository
 
 
-@unittest.skip
+#@unittest.skip
 class TestRepository(unittest.TestCase):
     def setUp(self):
         self.repository = Repository()

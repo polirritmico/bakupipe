@@ -8,6 +8,7 @@
 import yaml
 #import subprocess
 
+
 #from src.command import subprocess_runner
 from src.instruction import Instruction
 
@@ -89,9 +90,6 @@ class Test:
         #TODO: missing handler
         for instruction in self.pre_commands:
             output += instruction.log()
-
-
-
 
 
     #def get_run_logs(self):
