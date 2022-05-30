@@ -79,44 +79,53 @@ class Test:
                                   ".warning_run_handler")
 
 
-    def run_commands(self, check=True, env=None):
-        for instruction in self.commands:
+    def run_commands(self, check=True, env=None, collection=None):
+        if collection is None:
+            collection = self.commands
+        for instruction in collection:
             try:
                 instruction.run()
-            except Exception as err:
+            except Exception as error:
                 #self.fail_run_handler(instruction)
-                raise err
+                raise error
             except Warning as warning: # is a warning
                 print(warning)
                 self.warning_run_handler(instruction)
                 continue
 
 
-#    def run_commands(self, check=True, env=None):
-#        for command in self.commands:
-#            log = Log(command)
-#            try:
-#                proc = subprocess_runner(command, env, check_subprocess=check)
-#            except Exception as e:
-#                log.set_fail_log(e)
-#                self.logs.append(log)
-#                raise e
-#            else:
-#                log.set_log(proc)
-#                self.logs.append(log)
-#
-#        return True
+    def run_pre_commands(self, check=True, env=None):
+        self.run_commands(check=check, env=env, collection=self.pre_commands)
 
 
-    def full_report(self, out_format: str) -> str:
-        if out_format != "":
-            raise NotImplementedError
+    def run_post_commands(self, check=True, env=None):
+        self.run_commands(check=check, env=env, collection=self.post_commands)
 
+
+    def header(self):
+        header = "# Test Report: '{}'\n\n".format(self.name)
+        header += "{}\n\n".format(self.description)
+        header += "---\n\n"
+        header += "## Test commands\n\n"
+        return header
+
+    def full_report(self, formats=True) -> str:
         output = ""
-        output += test_header(self) + "\n"
-        #TODO: missing handler
+        output += self.header()
+        output += "### Pre-commands\n\n"
         for instruction in self.pre_commands:
-            output += instruction.log()
+            output += instruction.get_log(formats)
+
+        output += "\n### Commands\n\n"
+        for instruction in self.commands:
+            output += instruction.get_log(formats)
+
+        output += "\n### Post-commands\n\n"
+        for instruction in self.post_commands:
+            output += instruction.get_log(formats)
+
+        return output + "\n"
+
 
 
     #def get_run_logs(self):
@@ -126,5 +135,4 @@ class Test:
     #    bullet = " [ ] "
 
     #    return header
-
 

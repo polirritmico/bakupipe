@@ -30,7 +30,7 @@ class Formats():
 
     # =============================================================
     # Symbols
-    QUOTE = ORANGE + " "
+    QUOTE = ORANGE
 
 
     def disable(self):
@@ -48,7 +48,7 @@ class Formats():
         self.UNDER = ""
         self.BLINK = ""
 
-        self.QUOTE = ">"
+        self.QUOTE = ""
         self.END  = ""
 
 

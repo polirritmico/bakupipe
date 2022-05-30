@@ -62,7 +62,7 @@ class IntegrationTests(unittest.TestCase):
 
 
     #TODO
-    @unittest.skip
+    #@unittest.skip
     def test_full_test_report(self):
         expected = \
 """# Test Report: 'Integration full test'
@@ -75,13 +75,13 @@ A test for test_integration with valid instructions
 
 ### Pre-commands
 
-* [OK] "echo "Bakumapu: A cool old school RPG" > _temp_test_file.txt"
+* [OK] "echo 'Bakumapu a cool old school RPG' > _temp_test_file.txt"
 
 ### Commands
 
 * [OK] "mv _temp_test_file.txt _moved_temp_test_file.txt"
 * [OK] "cat _moved_temp_test_file.txt"
- > - OUT: "Bakumapu a cool old school RPG"
+  - OUT: "Bakumapu a cool old school RPG"
 
 ### Post-commands
 
@@ -97,7 +97,7 @@ A test for test_integration with valid instructions
         sample_test.run_commands()
         sample_test.run_post_commands()
 
-        report = sample_test.full_report()
+        report = sample_test.full_report(False)
 
         self.assertEqual(expected, report)
 

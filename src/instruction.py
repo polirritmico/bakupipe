@@ -60,17 +60,22 @@ class Instruction:
 
 
     def _get_outputs(self) -> str:
-        out = "\n{}{}{}{}   - ".format(Formats.BOLD, Formats.ORANGE,
-                                     Formats.QUOTE, Formats.BLUE)
+        out = ""
         if self.output != "":
+            out = "\n{}{}{}{}  - ".format(Formats.BOLD, Formats.ORANGE,
+                                           Formats.QUOTE, Formats.BLUE)
             out += "{}OUT: {}{}\"{}\"{}".format(Formats.BLUE, Formats.END,
                                                 Formats.BOLD, self.output,
                                                 Formats.END)
         if self.error != "":
+            out = "\n{}{}{}{}  - ".format(Formats.BOLD, Formats.ORANGE,
+                                           Formats.QUOTE, Formats.BLUE)
             out += "{}ERR: {}{}\"{}\"{}".format(Formats.FAIL, Formats.END,
                                                 Formats.BOLD, self.error,
                                                 Formats.END)
-        return out
+        if out == "":
+            return "\n"
+        return out + "\n"
 
 
     def _failed_log(self) -> str:
