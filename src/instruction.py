@@ -29,21 +29,34 @@ class Instruction:
             proc = subprocess_runner(self.command, self.check_subprocess,
                                      env=self.env)
         except Exception as err:
+            self.set_log(err, env=self.env)
             raise err
-
-        self.set_log(proc)
+        else:
+            self.set_log(proc, env=self.env)
 
 
     def set_check_subprocess(self, option: bool):
         self.check_subprocess = option
 
 
+    def set_env(self, env: dict):
+        if not env is dict:
+            raise Exception("env is not a dicctionary")
+        self.env = env
+
+
     def set_log(self, proc, env=None):
         self.passed = True if proc.returncode == 0 else False
-        self.output = proc.stdout[:-1]
-        self.error = proc.stderr[:-1]
-        self.returncode = proc.returncode
-        self.env = env
+
+        if proc is Exception:
+            self.output = proc.output
+            self.error = proc.stderr
+            self.returncode = proc.returncode
+        else:
+            self.output = proc.stdout[:-1]
+            self.error = proc.stderr[:-1]
+            self.returncode = proc.returncode
+            self.env = env
 
 
     def _get_outputs(self) -> str:

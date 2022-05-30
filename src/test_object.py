@@ -47,6 +47,7 @@ class Test:
 
         instructions = file["TEST"]["COMMANDS"]
         for cmd in instructions:
+            #self.commands.append(Instruction(cmd))
             instruction = Instruction(cmd)
             self.commands.append(instruction)
 
@@ -65,20 +66,46 @@ class Test:
         return int(position)
 
 
-    def run_commands(self, check=True, env=None):
-        for command in self.commands:
-            log = Log(command)
-            try:
-                proc = subprocess_runner(command, env, check_subprocess=check)
-            except Exception as e:
-                log.set_fail_log(e)
-                self.logs.append(log)
-                raise e
-            else:
-                log.set_log(proc)
-                self.logs.append(log)
+    def fail_run_handler(self, instruction):
+        #TODO
+        raise NotImplementedError(self.__class__.__name__ + ".fail_run_handler")
 
-        return True
+
+    def warning_run_handler(self, instruction):
+        print("WARNING")
+        print(instruction.get_log())
+        #TODO
+        raise NotImplementedError(self.__class__.__name__ +
+                                  ".warning_run_handler")
+
+
+    def run_commands(self, check=True, env=None):
+        for instruction in self.commands:
+            try:
+                instruction.run()
+            except Exception as err:
+                #self.fail_run_handler(instruction)
+                raise err
+            except Warning as warning: # is a warning
+                print(warning)
+                self.warning_run_handler(instruction)
+                continue
+
+
+#    def run_commands(self, check=True, env=None):
+#        for command in self.commands:
+#            log = Log(command)
+#            try:
+#                proc = subprocess_runner(command, env, check_subprocess=check)
+#            except Exception as e:
+#                log.set_fail_log(e)
+#                self.logs.append(log)
+#                raise e
+#            else:
+#                log.set_log(proc)
+#                self.logs.append(log)
+#
+#        return True
 
 
     def full_report(self, out_format: str) -> str:
