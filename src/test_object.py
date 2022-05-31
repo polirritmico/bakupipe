@@ -109,6 +109,7 @@ class Test:
         header += "## Test commands\n\n"
         return header
 
+
     def full_report(self, formats=True) -> str:
         output = ""
         output += self.header()
@@ -124,15 +125,6 @@ class Test:
         for instruction in self.post_commands:
             output += instruction.get_log(formats)
 
-        return output + "\n"
+        return output
 
-
-
-    #def get_run_logs(self):
-    #    header = "TEST INFO\n=========\n\n## {}\n\n{}\n\n"\
-    #             .format(self.name, self.description)
-    #    body = "## Test runners\n\n### Pre-commands\n\n"
-    #    bullet = " [ ] "
-
-    #    return header
 

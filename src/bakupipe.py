@@ -6,13 +6,19 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 #import sys
+import os
 
-from config import *
+from pipeline.config import *
 from src.repository import Repository
+#from src.formats import Formats
+
+
+def get_test_files() -> list:
+    files = [file for file in listdir(".") if isfile(join(".", f))]
 
 
 def bakupipe(argv):
-    print("BakuPipe\n============\n")
+    print("BakuPipe\n========\n")
 
     print("Checking repository status")
     try:
@@ -20,23 +26,27 @@ def bakupipe(argv):
     except Exception as err:
         print("ERROR:\t{}".format(err))
         return -1
-
-    repository.print_info()
+    print(repository.get_info())
     print("Check OK\n")
 
     print("Select target branch for deployment:")
-    repository.print_branches()
-    print("Target: ", end="")
+    print("Currently selected branch: {}".format(DEFAULT_BRANCH))
+    branch_list = repository.get_branch_list()
+    for branch in branch_list:
+        print("{}) {}".format(branch_list.index(branch) + 1, branch))
+    print("Select a branch (or press enter): ", end="")
+
     selection = input()
-    if selection == '':
-        for key, val in branches.items():
-            if val == DEFAULT_DEPLOY_BRANCH:
-                selection = key
-    if not selection in branches:
+    if selection == "":
+        selection = branch_list.index(DEFAULT_BRANCH)
+    else:
+        selection = int(selection) - 1
+
+    if selection >= len(branch_list) or selection < 0:
         print("Aborting...")
         return -1
+    print("Selected branch: '{}'".format(branch_list[selection]))
 
-    print("Selected branch: '{}'".format(branches.get(selection)))
     print("Press 'Y' to begin the deployment process: ", end="")
     if input() != 'Y':
         print("Aborting...")
@@ -52,6 +62,11 @@ def bakupipe(argv):
     print(SEP)
     print("Starting tests...")
 
+    test_files = get_test_files()
+
+
+
 
     return 0
+
 

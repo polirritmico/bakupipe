@@ -61,11 +61,9 @@ class IntegrationTests(unittest.TestCase):
         self.assertCountEqual(expected_list, current_list)
 
 
-    #TODO
     #@unittest.skip
     def test_full_test_report(self):
-        expected = \
-"""# Test Report: 'Integration full test'
+        expected = """# Test Report: 'Integration full test'
 
 A test for test_integration with valid instructions
 
@@ -86,7 +84,6 @@ A test for test_integration with valid instructions
 ### Post-commands
 
 * [OK] "rm _moved_temp_test_file.txt"
-
 """
 
         sample_test = Test("test/2_full_test.yaml")

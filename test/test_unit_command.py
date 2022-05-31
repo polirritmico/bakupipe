@@ -39,6 +39,7 @@ class TestCommand(unittest.TestCase):
         self.assertEqual(expected, proc.stdout[:-1])
 
 
+    #@unittest.skip
     def test_run_command_with_colon_semicolon_quotes(self):
         expected_colon = "Test: works!"
         expected_semicolon = "Test; works!"

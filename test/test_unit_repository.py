@@ -61,13 +61,6 @@ class TestRepository(unittest.TestCase):
         self.assertNotEqual(expected, output)
 
 
-#    # Only work on non git folder
-#    def test_check_git_repo(self):
-#        with self.assertRaises(Exception) as context:
-#            self.repository.check_running_in_git_repo()
-#        self.assertTrue("Not a GIT repository" in str(context.exception))
-
-
 
 if __name__ == "__main__":
     unittest.main()

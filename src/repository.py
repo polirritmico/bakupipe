@@ -8,6 +8,7 @@
 #import subprocess
 from pipeline.config import *
 from src.command import subprocess_runner
+from src.formats import Formats
 #from src.command import Command
 
 class Repository:
@@ -73,9 +74,9 @@ class Repository:
         return branch_list
 
 
-    def find_branch(self, branch: str) -> bool:
-        for b in self.branches:
-            if b == branch:
+    def find_branch(self, _branch: str) -> bool:
+        for branch in self.branches:
+            if branch == _branch:
                 return True
         return False
 
@@ -117,8 +118,8 @@ class Repository:
         info = ""
         info += "Repository info:\n"
         info += SEP + "\nURL:\t\t{}\n".format(self.url)
-        info += "Branch list:\t{}\n".format(self.branches)
         info += "Current branch:\t'{}'\n".format(self.get_current_branch())
+        info += "Branch list:\t{}\n".format(self.branches)
         info += SEP + "\n"
 
         return info
