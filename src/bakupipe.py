@@ -7,6 +7,7 @@
 
 #import sys
 import os
+import re
 
 from pipeline.config import *
 from src.repository import Repository
@@ -14,7 +15,7 @@ from src.repository import Repository
 
 
 def get_test_files() -> list:
-    files = [file for file in listdir(".") if isfile(join(".", f))]
+    pass
 
 
 def bakupipe(argv):
@@ -48,21 +49,26 @@ def bakupipe(argv):
     print("Selected branch: '{}'".format(branch_list[selection]))
 
     print("Press 'Y' to begin the deployment process: ", end="")
-    if input() != 'Y':
-        print("Aborting...")
-        return -1
+    #if input() != 'Y':
+    #    print("Aborting...")
+    #    return -1
 
-    print(SEP)
-    print("Starting deployment pipeline...")
-    print("Creating working branch...")
-    repository.make_branch(WORK_BRANCH)
-    repository.goto_branch(WORK_BRANCH)
-    print("In branch '{}'...".format(repository.get_current_branch()))
+    #print(SEP)
+    #print("Starting deployment pipeline...")
+    #print("Creating working branch...")
+    #repository.make_branch(WORK_BRANCH)
+    #repository.goto_branch(WORK_BRANCH)
+    #print("In branch '{}'...".format(repository.get_current_branch()))
 
-    print(SEP)
-    print("Starting tests...")
+    #print(SEP)
+    #print("Starting tests...")
 
-    test_files = get_test_files()
+    #test_files = get_test_files()
+    all_files = next(os.walk("pipeline"))[2]
+    print(all_files)
+    pattern = re.compile("\d+_.+.yaml")
+    test_files = list(filter(pattern.match, all_files))
+    print(test_files)
 
 
 
