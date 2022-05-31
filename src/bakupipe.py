@@ -15,7 +15,9 @@ from src.repository import Repository
 
 
 def get_test_files() -> list:
-    pass
+    all_files = next(os.walk("pipeline"))[2]
+    pattern = re.compile("\d+_.+.yaml")
+    return list(filter(pattern.match, all_files))
 
 
 def bakupipe(argv):
@@ -61,17 +63,28 @@ def bakupipe(argv):
     #print("In branch '{}'...".format(repository.get_current_branch()))
 
     #print(SEP)
-    #print("Starting tests...")
+    #print("Loading tests...")
 
-    #test_files = get_test_files()
-    all_files = next(os.walk("pipeline"))[2]
-    print(all_files)
-    pattern = re.compile("\d+_.+.yaml")
-    test_files = list(filter(pattern.match, all_files))
-    print(test_files)
+    test_files = get_test_files()
+    if len(test_files) < 1:
+        print("No test file found in 'pipeline/'")
+        return -1
 
+    test_collection = []
+    for file in test_files:
+        test = Test(file)
+        test_collection.append(test)
+    print("{} test loaded".format(len(test_collection)))
 
-
+    full_log = []
+    print("\nBeginning the Test phase")
+    print(SEP + "\n")
+    for test in test_collection:
+        try:
+            log = test.run_all()
+            full_log.append(log)
+        except Exception as err:
+            raise err
 
     return 0
 

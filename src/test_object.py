@@ -102,6 +102,14 @@ class Test:
         self.run_commands(check=check, env=env, collection=self.post_commands)
 
 
+    def run_all(self, check=True, env=None, formats=False):
+        self.run_pre_commands(check, env)
+        self.run_commands(check, env)
+        self.run_post_commands(check, env)
+
+        return full_report(formats)
+
+
     def header(self):
         header = "# Test Report: '{}'\n\n".format(self.name)
         header += "{}\n\n".format(self.description)
