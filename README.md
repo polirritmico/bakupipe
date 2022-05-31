@@ -56,3 +56,51 @@ foo@bar: ~/bakupipe $ python -m unittest discover . -b
 * **Documentación en HTML:** https://polirritmico.github.io/Bakumapu-docs/
 * **Repositorio de código:** https://github.com/polirritmico/Bakumapu
 
+---
+
+## ToDo:
+
+> ### Main
+> * [ ]  greetings
+> * [ ]  get all tests
+> * [ ]  chose target branch: DEF develop
+> * [ ]  confirm
+> ------------------------------------------------------------------------------
+> * [ ]  make new temp branch
+> * [ ]    if exist, remove and regenerate
+> * [ ]  go to temp branch
+> * [ ]  begin tests
+> * [ ]    TODO: pre and post build tests
+> * [ ]  if Error:
+> * [ ]    terminate tests.
+> * [ ]    generate log of failed test
+> * [ ]    if option, generate all logs
+> * [ ]    RETURN
+> * [ ]  if warning:
+> * [ ]    generate log, store, and show at end.
+> * [ ]    Continue
+> * [ ]  if log, generate
+> ------------------------------------------------------------------------------
+> * [ ]  Build selected plataforms
+> * [ ]  Move binaries and all needed files to proper locations by plataform
+> * [ ]  Second phase tests
+> * [ ]    TODO: pre and post build tests
+> * [ ]  Same as 46-56
+> * [ ]  begin tests
+> * [ ]    TODO: pre and post build tests
+> * [ ]  if Error:
+> * [ ]    terminate tests.
+> * [ ]    generate log of failed test
+> * [ ]    if option, generate all logs
+> * [ ]    RETURN
+> * [ ]  if warning:
+> * [ ]    generate log, store, and show at end.
+> * [ ]    Continue
+> * [ ]  if log, generate
+> ------------------------------------------------------------------------------
+> #### ALL OK:
+> * [ ]  Generate version name and adjust files
+> * [ ]  Merge pre-deploy to deploy
+> * [ ]  Remove pre-deploy
+> * [ ]  Upload commits to artifact repo(sync)
+> * [ ]  Generate Logs, and send them

@@ -14,10 +14,25 @@ from src.repository import Repository
 #from src.formats import Formats
 
 
-def get_test_files() -> list:
-    all_files = next(os.walk("pipeline"))[2]
-    pattern = re.compile("\d+_.+.yaml")
-    return list(filter(pattern.match, all_files))
+class Bakupipe(object):
+    def __init__(self):
+        self.repository = Reporistory()
+        self.tests = get_test_files()
+
+
+    def get_test_files(self) -> list:
+        all_files = next(os.walk("pipeline"))[2]
+        pattern = re.compile("\d+_.+.yaml")
+        return list(filter(pattern.match, all_files))
+
+
+    def run_tests(self):
+        pass
+
+
+    def print_logs(self, formats):
+        pass
+
 
 
 def bakupipe(argv):
