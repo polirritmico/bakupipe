@@ -7,6 +7,7 @@
 INFO:
   NAME: Integration full test
   DESCRIPTION: A test for test_integration with valid instructions
+  STAGE: pre-build
 
 TEST:
   PRE_COMMANDS:
@@ -16,8 +17,4 @@ TEST:
     - cat _moved_temp_test_file.txt
   POST_COMMANDS:
     - rm _moved_temp_test_file.txt
-  # where each instruction should run
-  PATHS:
-    - src/location/test.gd
-    - src/location/target.gd
 

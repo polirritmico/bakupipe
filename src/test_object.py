@@ -14,7 +14,7 @@ from src.instruction import Instruction
 
 
 class Test:
-    def __init__(self, testfile: str):
+    def __init__(self, test_file: str):
         # Test INFO
         self.name = ""
         self.description = ""
@@ -25,7 +25,7 @@ class Test:
         self.commands = []
         self.post_commands = []
 
-        self.import_test_file(testfile)
+        self.import_test_file(test_file)
 
 
     def import_test_file(self, filename: str):
@@ -36,6 +36,7 @@ class Test:
                 raise err
 
         #TODO: Agregar input env
+        #TODO: Agregar pre/post build
         self.name = file["INFO"]["NAME"]
         self.description = file["INFO"]["DESCRIPTION"]
         self.position = self.get_order_from_filename(filename)

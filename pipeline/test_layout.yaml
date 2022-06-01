@@ -7,14 +7,15 @@
 INFO:
   NAME: Automation Test Example
   DESCRIPTION: Test short description
+  # pre-build, post-build
   STAGE: pre-build
 
 TEST:
   PRE_COMMANDS:
-    - touch test_output
+    - pre command
   COMMANDS:
-    - echo 'a test instruction/command with options'
-    - NotValid
+    - command
+    - command
   POST_COMMANDS:
-    - cp test_ouput test_final_output.txt
+    - post command
 
