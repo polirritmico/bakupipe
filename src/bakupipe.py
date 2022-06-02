@@ -26,7 +26,10 @@ class Bakupipe(object):
         self.test_collection = []
         self.test_path = test_path
         self.inital_branch = self.repository.get_current_branch()
-        self.working_branch = ""
+        if self.inital_branch != DEFAULT_BRANCH:
+            raise Exception("Not in '{}' branch".format(DEFAULT_BRANCH))
+        self.work_branch = WORK_BRANCH
+        self.target_branch = ""
 
 
     def load_tests(self):
@@ -56,9 +59,7 @@ class Bakupipe(object):
 
 
     def select_target_branch(self) -> str:
-        selected_branch = self.working_branch
-        if selected_branch == "":
-            selected_branch = DEFAULT_BRANCH
+        selected_branch = DEFAULT_DEPLOY_BRANCH
 
         print("{}Select target branch for deployment:".format(Formats.INFO))
         print("{}{}Currently selected branch: {}'{}'"\
@@ -96,12 +97,12 @@ class Bakupipe(object):
         return True
 
 
-    def change_to_working_branch(self):
-        print("Creating the working branch...")
-        self.repository.make_branch(self.working_branch)
+    def change_to_work_branch(self):
+        print("Creating the work branch...")
+        self.repository.make_branch(self.work_branch)
         print("OK")
-        print("Changing to working branch...")
-        self.repository.goto_branch(self.working_branch)
+        print("Changing to work branch...")
+        self.repository.goto_branch(self.work_branch)
         print("In branch '{}'".format(self.repository.get_current_branch()))
 
 
@@ -112,11 +113,11 @@ class Bakupipe(object):
 
     def remove_working_branch(self):
         current = self.repository.get_current_branch()
-        if current == self.working_branch:
+        if current == self.work_branch:
             print("In working branch '{}', moving to inital branch '{}'".\
                   format(current, self.inital_branch))
             self.repository.goto_branch(self.initial_branch)
-        self.respository.remove_branch(self.working_branch)
+        self.respository.remove_branch(self.work_branch)
 
 
     def init_test_phase(self):
@@ -142,7 +143,7 @@ class Bakupipe(object):
         print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
         print("{}========{}".format(Formats.GREEN, Formats.END))
         self.repository.get_info()
-        self.working_branch = self.select_target_branch()
+        self.target_branch = self.select_target_branch()
 
 
 

@@ -74,6 +74,17 @@ class Repository:
         return branch_list
 
 
+    def goto_branch(self, branch: str):
+        if branch == self.get_current_branch():
+            raise Warning("Already on target branch '{}'".format(branch))
+
+        proc = subprocess_runner("git checkout {}".format(branch))
+        if proc.returncode != 0:
+            raise Exception("Failed to switch to branch '{}'".format(branch),
+                            proc.stdout, proc.sterr)
+        self.current_branch = branch
+
+
     def find_branch(self, _branch: str) -> bool:
         for branch in self.branches:
             if branch == _branch:
@@ -102,17 +113,6 @@ class Repository:
                             proc.stdout, proc.sterr)
 
         self.branches = self.get_branch_list()
-
-
-    def goto_branch(self, branch: str):
-        if branch == self.get_current_branch():
-            raise Warning("Already on target branch '{}'".format(branch))
-
-        proc = subprocess_runner("git checkout {}".format(branch))
-        if proc.returncode != 0:
-            raise Exception("Failed to switch to branch '{}'".format(branch),
-                            proc.stdout, proc.sterr)
-        self.current_branch = branch
 
 
     def get_info(self):

@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 from src.bakupipe import Bakupipe
+from pipeline.config import DEFAULT_DEPLOY_BRANCH
 
 #@unittest.skip
 class TestBakupipe(unittest.TestCase):
@@ -43,11 +44,11 @@ class TestBakupipe(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_select_target_repo(self):
+    def test_select_target_branch(self):
         expected = ""
-        self.assertEqual(expected, self.bakupipe.working_branch)
+        self.assertEqual(expected, self.bakupipe.target_branch)
 
-        expected = "develop"
+        expected = DEFAULT_DEPLOY_BRANCH
         with patch("builtins.input", return_value=""):
             output = self.bakupipe.select_target_branch()
             self.assertEqual(expected, output)
@@ -71,10 +72,10 @@ class TestBakupipe(unittest.TestCase):
     def test_change_to_working_branch_and_return(self):
         inital_branch = self.bakupipe.repository.get_current_branch()
         test_branch = "test-branch"
-        self.bakupipe.working_branch = test_branch
+        self.bakupipe.work_branch = test_branch
         expected = test_branch
 
-        self.bakupipe.change_to_working_branch()
+        self.bakupipe.change_to_work_branch()
         output = self.bakupipe.repository.get_current_branch()
         self.assertEqual(expected, output)
 
