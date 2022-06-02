@@ -83,8 +83,8 @@ class Bakupipe(object):
                             .format(Formats.FAIL, Formats.END))
 
         selection = branch_list[selection]
-        print("{}Selected branch: {}'{}'{}".format(Formats.INFO, Formats.ORANGE,
-                                                   selection, Formats.END))
+        print("{}Selected deployment target branch: {}'{}'{}"\
+               .format(Formats.INFO, Formats.QUOTE, selection, Formats.END))
 
         return selection
 
