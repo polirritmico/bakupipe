@@ -27,10 +27,11 @@ class TestRepository(unittest.TestCase):
     #@unittest.skip
     def test_check_in_valid_repo_true(self):
         testTrue = [ BAKU_URL, BAKUPIPE_URL ]
-        self.assertTrue(self.repository.check_in_valid_repo(testTrue))
+        self.repository.check_in_valid_repo(testTrue)
 
         testFalse = [ "non-existing-repo" ]
-        self.assertFalse(self.repository.check_in_valid_repo(testFalse))
+        with self.assertRaises(Exception):
+            self.repository.check_in_valid_repo(testFalse)
 
 
     #@unittest.skip

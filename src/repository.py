@@ -29,11 +29,11 @@ class Repository:
             self.goto_branch(DEFAULT_BRANCH)
 
 
-    def check_in_valid_repo(self, expected_list: list[str]) -> bool:
+    def check_in_valid_repo(self, expected_list: list[str]):
         for valid_url in expected_list:
             if self.url == valid_url:
-                return True
-        return False
+                return
+        raise Exception("Not in a valid repo")
 
 
     def check_running_in_git_repo(self):
