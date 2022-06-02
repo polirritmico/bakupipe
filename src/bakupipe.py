@@ -115,7 +115,10 @@ class Bakupipe(object):
         for test in self.test_collection:
             print("Running test: {}".format(test.name))
             print(test.description)
-            test.run_all()
+            try:
+                test.run_all()
+            except Exception as err:
+                raise err
         print("=== ALL TESTS PASSED ===")
 
 
