@@ -17,10 +17,13 @@ from src.formats import Formats
 
 class Bakupipe(object):
     def __init__(self, test_path: str="pipeline"):
+        print("Building Repository object...")
         try:
             self.repository = Repository()
         except Exception as err:
             raise Exception("Can't build Repository")
+        print("OK")
+
         self.test_collection = []
         self.test_path = test_path
         self.inital_branch = self.repository.get_current_branch()
@@ -125,6 +128,7 @@ class Bakupipe(object):
     def run(self, args):
         print("{}BakuPipe{}\n{}========".format(Formats.TEXT, Formats.GREEN))
         self.repository.get_info()
+        self.working_branch = self.select_target_branch()
 
 
 
