@@ -49,7 +49,7 @@ class Bakupipe(object):
         return output
 
 
-    def select_target_branch(self):
+    def select_target_branch(self) -> str:
         selected_branch = self.target_branch
         if selected_branch == "":
             selected_branch = DEFAULT_BRANCH
@@ -67,15 +67,15 @@ class Bakupipe(object):
             selection = int(selection) - 1
 
         if selection >= len(branch_list) or selection < 0:
-            print("Aborting...")
-            quit()
+            raise Exception("Not recognized input selection")
 
         selection = branch_list[selection]
         print("Selected branch: '{}'".format(selection))
+
         return selection
 
 
-    def confirm(self, message) -> bool:
+    def _confirmation(self, message="") -> bool:
         if message == "":
             message = "Press 'Y' to confirm: "
         if input(message).lower() != 'y':

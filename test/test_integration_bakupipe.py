@@ -57,12 +57,14 @@ class TestBakupipe(unittest.TestCase):
             output = self.bakupipe.select_target_branch()
             self.assertEqual(expected, output)
 
-        #user_input = {"Select a branch (or press enter): ": "2"}
-        #fake_input = Mock(side_effect=user_input.get)
-        #with patch(self.bakupipe.select_target_branch(), fake_input):
-        #    output = self.bakupipe.select_target_branch()
-        #    self.assertEqual(expected, output)
 
+    #@unittest.skip
+    def test_confirmation(self):
+        with patch("builtins.input", return_value="y"):
+            self.assertTrue(self.bakupipe._confirmation())
+
+        with patch("builtins.input", return_value="n"):
+            self.assertFalse(self.bakupipe._confirmation())
 
 #if __name__ == "__main__":
 #    unittest.main()
