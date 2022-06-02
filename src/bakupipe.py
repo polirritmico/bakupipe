@@ -60,12 +60,17 @@ class Bakupipe(object):
         if selected_branch == "":
             selected_branch = DEFAULT_BRANCH
 
-        print("Select target branch for deployment:")
-        print("Currently selected branch: {}".format(selected_branch))
+        print("{}Select target branch for deployment:".format(Formats.INFO))
+        print("{}{}Currently selected branch: {}'{}'"\
+               .format(Formats.END, Formats.ITLC, Formats.QUOTE,
+                       selected_branch))
         branch_list = self.repository.get_branch_list()
         for branch in branch_list:
-            print("{}) {}".format(branch_list.index(branch) + 1, branch))
-        selection = input("Select a branch number (or press enter): ")
+            print("{}{}{}) {}{}".format(Formats.END, Formats.BOLD,
+                                      branch_list.index(branch) + 1,
+                                      Formats.END, branch))
+        selection = input("{}Select a branch number (or press enter): {}"\
+                          .format(Formats.END, Formats.END))
 
         if selection == "":
             selection = branch_list.index(selected_branch)
@@ -73,10 +78,12 @@ class Bakupipe(object):
             selection = int(selection) - 1
 
         if selection >= len(branch_list) or selection < 0:
-            raise Exception("Not recognized input selection")
+            raise Exception("{}Not recognized input selection{}"\
+                            .format(Formats.FAIL, Formats.END))
 
         selection = branch_list[selection]
-        print("Selected branch: '{}'".format(selection))
+        print("{}Selected branch: {}'{}'{}".format(Formats.INFO, Formats.ORANGE,
+                                                   selection, Formats.END))
 
         return selection
 
@@ -126,12 +133,14 @@ class Bakupipe(object):
 
     def run(self, args: list):
         # Check if running inside NVIM
-        env = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
-        if env != "":
+        vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
+        if vim.stdout != "":
+            print("VIM runtime: ")
+            print(vim)
             Formats.disable(Formats)
 
-        print("{}BakuPipe{}\n{}========".format(Formats.PROG, Formats.GREEN,
-                                                Formats.END))
+        print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
+        print("{}========{}".format(Formats.GREEN, Formats.END))
         self.repository.get_info()
         self.working_branch = self.select_target_branch()
 

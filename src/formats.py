@@ -20,12 +20,13 @@ class Formats():
     WARN = YELLOW
     HEAD = "\033[95m"
     INFO = "\033[32m" #GREEN
-    PROG = "\033[96m" #CYAN
+    PROG = "\033[96m" + "\033[1m" #CYAN BOLD
 
     # =============================================================
     # Styles
     BOLD = "\033[1m"    # Bold
     UNDER = "\033[4m"    # Underline
+    ITLC = "\033[3m"     # Italic, Cursive
     BLINK = "\033[5m"    # Blink
 
     END  = "\033[0m"    # End style or color
@@ -50,6 +51,7 @@ class Formats():
 
         self.BOLD = ""
         self.UNDER = ""
+        self.ITLC = ""
         self.BLINK = ""
 
         self.QUOTE = ""
