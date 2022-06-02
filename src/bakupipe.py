@@ -122,3 +122,5 @@ class Bakupipe(object):
         print("=== ALL TESTS PASSED ===")
 
 
+    def run(self):
+        pass
