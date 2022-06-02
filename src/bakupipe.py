@@ -59,7 +59,27 @@ class Bakupipe(object):
         branch_list = self.repository.get_branch_list()
         for branch in branch_list:
             print("{}) {}".format(branch_list.index(branch) + 1, branch))
-        selection = input("Select a branch (or press enter): ")
-        print(selection)
+        selection = input("Select a branch number (or press enter): ")
+
+        if selection == "":
+            selection = branch_list.index(selected_branch)
+        else:
+            selection = int(selection) - 1
+
+        if selection >= len(branch_list) or selection < 0:
+            print("Aborting...")
+            quit()
+
+        selection = branch_list[selection]
+        print("Selected branch: '{}'".format(selection))
+        return selection
+
+
+    def confirm(self, message) -> bool:
+        if message == "":
+            message = "Press 'Y' to confirm: "
+        if input(message).lower() != 'y':
+            return False
+        return True
 
 

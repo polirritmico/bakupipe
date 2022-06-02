@@ -47,11 +47,15 @@ class TestBakupipe(unittest.TestCase):
         expected = ""
         self.assertEqual(expected, self.bakupipe.target_branch)
 
+        expected = "develop"
+        with patch("builtins.input", return_value=""):
+            output = self.bakupipe.select_target_branch()
+            self.assertEqual(expected, output)
+
         expected = "deploy"
-        output = self.bakupipe.select_target_branch()
-        self.assertEqual(expected, output)
-
-
+        with patch("builtins.input", return_value="1"):
+            output = self.bakupipe.select_target_branch()
+            self.assertEqual(expected, output)
 
         #user_input = {"Select a branch (or press enter): ": "2"}
         #fake_input = Mock(side_effect=user_input.get)
