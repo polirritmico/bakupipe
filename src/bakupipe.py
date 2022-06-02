@@ -121,7 +121,7 @@ class Bakupipe(object):
                 test.run_all()
             except Exception as err:
                 raise err
-        print("{}=== ALL TESTS PASSED ==={}".format(Formats.OK, Formats.END)
+        print("{}=== ALL TESTS PASSED ==={}".format(Formats.OK, Formats.END))
 
 
     def confirmation(self, message="") -> bool:
@@ -157,8 +157,8 @@ class Bakupipe(object):
         print(SEP)
         self.init_test_phase()
         #deploy
-        #self.return_to_initial_branch()
-        #self.remove_working_branch()
+        self.return_to_initial_branch()
+        self.remove_working_branch()
 
 
 
