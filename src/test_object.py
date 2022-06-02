@@ -84,6 +84,8 @@ class Test:
         if collection is None:
             collection = self.commands
         for instruction in collection:
+            if env != None:
+                instruction.set_env(env)
             try:
                 instruction.run()
             except Exception as error:
