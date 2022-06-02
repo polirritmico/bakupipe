@@ -13,16 +13,15 @@ from pipeline.config import *
 from src.repository import Repository
 from src.test_object import Test
 from src.formats import Formats
+from src.command import subprocess_runner
 
 
 class Bakupipe(object):
     def __init__(self, test_path: str="pipeline"):
-        print("Building Repository object...")
         try:
             self.repository = Repository()
         except Exception as err:
             raise Exception("Can't build Repository")
-        print("OK")
 
         self.test_collection = []
         self.test_path = test_path
@@ -125,8 +124,14 @@ class Bakupipe(object):
         print("=== ALL TESTS PASSED ===")
 
 
-    def run(self, args):
-        print("{}BakuPipe{}\n{}========".format(Formats.TEXT, Formats.GREEN))
+    def run(self, args: list):
+        # Check if running inside NVIM
+        env = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
+        if env != "":
+            Formats.disable(Formats)
+
+        print("{}BakuPipe{}\n{}========".format(Formats.PROG, Formats.GREEN,
+                                                Formats.END))
         self.repository.get_info()
         self.working_branch = self.select_target_branch()
 

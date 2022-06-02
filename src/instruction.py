@@ -106,10 +106,7 @@ class Instruction:
         return out
 
 
-    def get_log(self, formats=True) -> str:
-        if not formats:
-            Formats.disable(Formats)
-
+    def get_log(self) -> str:
         if not self.executed:
             return self._not_executed_log()
         if self.passed:

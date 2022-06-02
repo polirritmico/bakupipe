@@ -123,20 +123,20 @@ class Test:
         return header
 
 
-    def full_report(self, formats=True) -> str:
+    def full_report(self) -> str:
         output = ""
         output += self.header()
         output += "### Pre-commands\n\n"
         for instruction in self.pre_commands:
-            output += instruction.get_log(formats)
+            output += instruction.get_log()
 
         output += "\n### Commands\n\n"
         for instruction in self.commands:
-            output += instruction.get_log(formats)
+            output += instruction.get_log()
 
         output += "\n### Post-commands\n\n"
         for instruction in self.post_commands:
-            output += instruction.get_log(formats)
+            output += instruction.get_log()
 
         return output
 

@@ -46,6 +46,7 @@ class Formats():
         self.WARN = ""
         self.HEAD = ""
         self.INFO = ""
+        self.PROG = ""
 
         self.BOLD = ""
         self.UNDER = ""

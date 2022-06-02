@@ -9,11 +9,13 @@ import unittest
 import os
 
 from src.instruction import Instruction
+from src.formats import Formats
 
 
 #@unittest.skip
 class TestInstruction(unittest.TestCase):
     def setUp(self):
+        Formats.disable(Formats)
         command = 'echo "This is a \"custom\" test"'
         self.test_instruction = Instruction(command)
         self.test_instruction.env = dict(os.environ)
@@ -37,7 +39,7 @@ class TestInstruction(unittest.TestCase):
 
         instruction = Instruction(cmd)
         self.assertFalse(instruction.executed)
-        output = instruction.get_log(formats=False)
+        output = instruction.get_log()
         self.assertEqual(expected, output)
 
         # cmd = "echo 'TEST'"
@@ -45,7 +47,7 @@ class TestInstruction(unittest.TestCase):
 
         proc = instruction.run()
         self.assertTrue(instruction.executed)
-        output = instruction.get_log(formats=False)
+        output = instruction.get_log()
 
         self.assertEqual(expected, output)
 
@@ -59,7 +61,7 @@ class TestInstruction(unittest.TestCase):
         fail_env["LANG"] = "C"
         instruction_fail.set_env(fail_env)
         instruction_fail.run()
-        output = instruction_fail.get_log(formats=False)
+        output = instruction_fail.get_log()
 
         self.assertEqual(expected, output)
 

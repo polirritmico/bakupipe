@@ -91,6 +91,16 @@ class TestBakupipe(unittest.TestCase):
         self.bakupipe.init_test_phase()
 
 
+class TestRun(unittest.TestCase):
+    #@unittest.skip
+    def test_run(self):
+        print("\n\n\n*********************************************")
+        args = []
+        bakupipe = Bakupipe("test/")
+        with patch("builtins.input", return_value=""):
+            bakupipe.run(args)
+
+
 #if __name__ == "__main__":
 #    unittest.main()
 

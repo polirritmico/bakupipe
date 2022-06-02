@@ -6,7 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import sys
-from src.bakupipe import bakupipe
+from src.bakupipe import Bakupipe
 
 if __name__ == "__main__":
     #sys.exit(bakupipe(sys.argv[1:]))

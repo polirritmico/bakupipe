@@ -11,11 +11,13 @@ import os
 from pipeline.config import *
 from src.repository import Repository
 from src.test_object import Test
+from src.formats import Formats
 
 
 #@unittest.skip
 class IntegrationTests(unittest.TestCase):
     def setUp(self):
+        Formats.disable(Formats)
         self.repository = Repository()
 
 
@@ -94,7 +96,7 @@ A test for test_integration with valid instructions
         sample_test.run_commands()
         sample_test.run_post_commands()
 
-        report = sample_test.full_report(False)
+        report = sample_test.full_report()
 
         self.assertEqual(expected, report)
 
