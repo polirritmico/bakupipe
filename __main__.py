@@ -9,5 +9,7 @@ import sys
 from src.bakupipe import bakupipe
 
 if __name__ == "__main__":
-    sys.exit(bakupipe(sys.argv[1:]))
+    #sys.exit(bakupipe(sys.argv[1:]))
+    bakupipe = Bakupipe()
+    sys.exit(bakupipe.run(sys.argv[1:]))
 

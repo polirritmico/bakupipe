@@ -9,16 +9,18 @@
 class Formats():
     # =============================================================
     # Colors
-    CYAN = "\033[96m"   #
-    BLUE = "\033[94m"   #
-    ORANGE = "\033[33m"   #
-    GREEN = "\033[32m"   #
-    YELLOW = "\033[93m"   #ffff00
+    CYAN = "\033[96m"
+    BLUE = "\033[94m"
+    ORANGE = "\033[33m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[93m" #ffff00
 
-    FAIL = "\033[91m"   #ff0000
-    OK = "\033[92m"   #00ff00
+    FAIL = "\033[91m" #ff0000
+    OK = "\033[92m" #00ff00
     WARN = YELLOW
-    HEAD = "\033[95m"   #
+    HEAD = "\033[95m"
+    INFO = "\033[32m" #GREEN
+    PROG = "\033[96m" #CYAN
 
     # =============================================================
     # Styles
@@ -43,6 +45,7 @@ class Formats():
         self.OK   = ""
         self.WARN = ""
         self.HEAD = ""
+        self.INFO = ""
 
         self.BOLD = ""
         self.UNDER = ""

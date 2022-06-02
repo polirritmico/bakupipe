@@ -61,7 +61,7 @@ foo@bar: ~/bakupipe $ python -m unittest discover . -b
 ## ToDo:
 
 > ### Main
-> * [ ]  greetings
+> * [x]  greetings
 > * [x]  get all tests
 > * [x]  chose target branch: DEF develop
 > * [x]  confirm

@@ -12,7 +12,7 @@ import re
 from pipeline.config import *
 from src.repository import Repository
 from src.test_object import Test
-#from src.formats import Formats
+from src.formats import Formats
 
 
 class Bakupipe(object):
@@ -122,5 +122,9 @@ class Bakupipe(object):
         print("=== ALL TESTS PASSED ===")
 
 
-    def run(self):
-        pass
+    def run(self, args):
+        print("{}BakuPipe{}\n{}========".format(Formats.TEXT, Formats.GREEN))
+        self.repository.get_info()
+
+
+
