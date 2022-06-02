@@ -35,8 +35,8 @@ class Bakupipe(object):
     def load_tests(self):
         test_files = self.get_test_files_in_path()
         if len(test_files) < 1:
-            raise Exception("Missing test files in '{}' folder"\
-                            .format(self.test_path))
+            raise Exception("{}Missing test files in '{}' folder{}"\
+                            .format(Formats.FAIL, self.test_path, Formats.END))
 
         for file in test_files:
             test = Test(self.test_path + file)
@@ -50,10 +50,11 @@ class Bakupipe(object):
 
 
     def get_tests_in_collection_report(self) -> str:
-        output = "Loaded tests:\n" + SEP + "\n"
+        output = "{}Loaded tests:\n".format(Formats.HEAD) + SEP + "\n"
         for test in self.test_collection:
-            output += "{}) {}\n".format(test.position, test.name)
-        output += SEP + "\n"
+            output += "{}{}) {}\n{}".format(Formats.INFO, test.position,
+                                            test.name,  Formats.END)
+        output += Formats.GREEN + SEP + "\n" + Formats.END
 
         return output
 
@@ -92,7 +93,7 @@ class Bakupipe(object):
     def change_to_work_branch(self):
         print("Creating the work branch...")
         self.repository.make_branch(self.work_branch)
-        print("OK")
+        print("{}OK{}".format(Formats.OK, Formats.END))
         print("Changing to work branch...")
         self.repository.goto_branch(self.work_branch)
         print("In branch '{}'".format(self.repository.current_branch))
@@ -104,12 +105,13 @@ class Bakupipe(object):
 
 
     def remove_working_branch(self):
+        print("Removing branch '{}'...".format(self.work_branch))
         current = self.repository.get_current_branch()
         if current == self.work_branch:
             print("In working branch '{}', moving to inital branch '{}'".\
                   format(current, self.initial_branch))
             self.repository.goto_branch(self.initial_branch)
-        self.respository.remove_branch(self.work_branch)
+        self.repository.remove_branch(self.work_branch)
 
 
     def init_test_phase(self):
@@ -142,6 +144,9 @@ class Bakupipe(object):
 
         print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
         print("{}========{}".format(Formats.GREEN, Formats.END))
+
+
+
         self.repository.get_info()
         self.target_branch = self.select_target_branch()
 
@@ -149,16 +154,24 @@ class Bakupipe(object):
             raise Exception("{}Not confirmed\nAborting...{}"\
                             .format(Formats.FAIL, Formats.END))
 
-        print(SEP)
+        print('\n' + SEP)
         print("{}Starting deployment pipeline...{}"\
                .format(Formats.INFO, Formats.END))
         self.change_to_work_branch()
 
-        print(SEP)
-        self.init_test_phase()
+        print('\n' + SEP)
+        self.load_tests()
+        print(self.get_tests_in_collection_report)
+        #self.init_test_phase()
         #deploy
         self.return_to_initial_branch()
         self.remove_working_branch()
 
 
+    def failed_handler(self):
+        message = "{}Stay in branch '{}' and preserve it?{} ".format(
+                   Formats.BOLD, self.repository.current_branch, Formats.END)
+        if not self.confirmation(message):
+            self.return_to_initial_branch()
+            self.remove_working_branch()
 
