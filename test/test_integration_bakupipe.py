@@ -67,6 +67,27 @@ class TestBakupipe(unittest.TestCase):
             self.assertFalse(self.bakupipe.confirmation())
 
 
+    #@unittest.skip
+    def test_change_to_working_branch_and_return(self):
+        inital_branch = self.bakupipe.repository.get_current_branch()
+        test_branch = "test-branch"
+        self.bakupipe.working_branch = test_branch
+        expected = test_branch
+
+        self.bakupipe.change_to_working_branch()
+        output = self.bakupipe.repository.get_current_branch()
+        self.assertEqual(expected, output)
+
+        self.bakupipe.repository.goto_branch(inital_branch)
+        self.bakupipe.repository.remove_branch(test_branch)
+
+        expected = inital_branch
+        output = self.bakupipe.repository.get_current_branch()
+        self.assertEqual(expected, output)
+
+
+
+
 #if __name__ == "__main__":
 #    unittest.main()
 

@@ -23,6 +23,7 @@ class Bakupipe(object):
             raise Exception("Can't build Repository")
         self.test_collection = []
         self.test_path = test_path
+        self.inital_branch = self.repository.get_current_branch()
         self.working_branch = ""
 
 
@@ -86,5 +87,26 @@ class Bakupipe(object):
         return True
 
 
-    def make_working_branch(self):
+    def change_to_working_branch(self):
+        print("Creating the working branch...")
         self.repository.make_branch(self.working_branch)
+        print("OK")
+        print("Changing to working branch...")
+        self.repository.goto_branch(self.working_branch)
+        print("In branch '{}'".format(self.repository.get_current_branch()))
+
+
+    def return_to_initial_branch(self):
+        print("Returning to branch '{}'".format())
+        self.repository.goto_branch(self.repository.initial_branch)
+
+
+    def remove_working_branch(self):
+        current = self.repository.get_current_branch()
+        if current == self.working_branch:
+            print("In working branch '{}', moving to inital branch '{}'".\
+                  format(current, self.inital_branch))
+            self.repository.goto_branch(self.initial_branch)
+        self.respository.remove_branch(self.working_branch)
+
+
