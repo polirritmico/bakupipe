@@ -40,7 +40,7 @@ class Instruction:
 
 
     def set_env(self, env: dict):
-        if not env is dict:
+        if not type(env) is dict:
             raise Exception("env is not a dicctionary")
         self.env = env
 
