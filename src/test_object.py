@@ -84,6 +84,8 @@ class Test:
         if collection is None:
             collection = self.commands
         for instruction in collection:
+            print("Running test instruction:\n\t'{}'".\
+                  format(instruction.command))
             if env != None:
                 instruction.set_env(env)
             try:

@@ -110,3 +110,12 @@ class Bakupipe(object):
         self.respository.remove_branch(self.working_branch)
 
 
+    def init_test_phase(self):
+        print("Beginning Test Phase\n" + SEP)
+        for test in self.test_collection:
+            print("Running test: {}".format(test.name))
+            print(test.description)
+            test.run_all()
+        print("=== ALL TESTS PASSED ===")
+
+

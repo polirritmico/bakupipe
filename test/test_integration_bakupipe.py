@@ -86,6 +86,9 @@ class TestBakupipe(unittest.TestCase):
         self.assertEqual(expected, output)
 
 
+    #@unittest.skip
+    def test_init_test_phase(self):
+        self.bakupipe.init_test_phase()
 
 
 #if __name__ == "__main__":
