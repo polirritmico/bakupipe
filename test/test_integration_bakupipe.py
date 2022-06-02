@@ -45,7 +45,7 @@ class TestBakupipe(unittest.TestCase):
     #@unittest.skip
     def test_select_target_repo(self):
         expected = ""
-        self.assertEqual(expected, self.bakupipe.target_branch)
+        self.assertEqual(expected, self.bakupipe.working_branch)
 
         expected = "develop"
         with patch("builtins.input", return_value=""):

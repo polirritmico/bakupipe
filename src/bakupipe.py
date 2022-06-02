@@ -23,7 +23,7 @@ class Bakupipe(object):
             raise Exception("Can't build Repository")
         self.test_collection = []
         self.test_path = test_path
-        self.target_branch = ""
+        self.working_branch = ""
 
 
     def load_tests(self):
@@ -53,7 +53,7 @@ class Bakupipe(object):
 
 
     def select_target_branch(self) -> str:
-        selected_branch = self.target_branch
+        selected_branch = self.working_branch
         if selected_branch == "":
             selected_branch = DEFAULT_BRANCH
 
@@ -86,3 +86,5 @@ class Bakupipe(object):
         return True
 
 
+    def make_working_branch(self):
+        self.repository.make_branch(self.working_branch)
