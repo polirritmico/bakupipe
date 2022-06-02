@@ -19,19 +19,23 @@ class Bakupipe(object):
     def __init__(self, test_path: str="pipeline"):
         self.repository = Repository()
         self.test_collection = []
+        self.test_path = test_path
+        self.target_branch = ""
 
-        test_files = self.get_test_files_in_path(test_path)
+
+    def load_tests(self):
+        test_files = self.get_test_files_in_path()
         if len(test_files) < 1:
             raise Exception("Missing test files in '{}' folder"\
-                            .format(test_path))
+                            .format(self.test_path))
 
         for file in test_files:
-            test = Test(test_path + file)
+            test = Test(self.test_path + file)
             self.test_collection.append(test)
 
 
-    def get_test_files_in_path(self, path: str) -> list:
-        all_files = next(os.walk(path))[2]
+    def get_test_files_in_path(self) -> list:
+        all_files = next(os.walk(self.test_path))[2]
         pattern = re.compile("\d+_.+.yaml")
         return list(filter(pattern.match, all_files))
 
@@ -43,5 +47,19 @@ class Bakupipe(object):
         output += SEP + "\n"
 
         return output
+
+
+    def select_target_branch(self):
+        selected_branch = self.target_branch
+        if selected_branch == "":
+            selected_branch = DEFAULT_BRANCH
+
+        print("Select target branch for deployment:")
+        print("Currently selected branch: {}".format(selected_branch))
+        branch_list = self.repository.get_branch_list()
+        for branch in branch_list:
+            print("{}) {}".format(branch_list.index(branch) + 1, branch))
+        selection = input("Select a branch (or press enter): ")
+        print(selection)
 
 

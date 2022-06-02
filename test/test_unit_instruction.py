@@ -55,6 +55,9 @@ class TestInstruction(unittest.TestCase):
         check_subprocess = False
 
         instruction_fail = Instruction(cmd_fail, check_subprocess)
+        fail_env = dict(os.environ)
+        fail_env["LANG"] = "C"
+        instruction_fail.set_env(fail_env)
         instruction_fail.run()
         output = instruction_fail.get_log(formats=False)
 
