@@ -17,7 +17,10 @@ from src.test_object import Test
 
 class Bakupipe(object):
     def __init__(self, test_path: str="pipeline"):
-        self.repository = Repository()
+        try:
+            self.repository = Repository()
+        except Exception as err:
+            raise Exception("Can't build Repository")
         self.test_collection = []
         self.test_path = test_path
         self.target_branch = ""
@@ -75,7 +78,7 @@ class Bakupipe(object):
         return selection
 
 
-    def _confirmation(self, message="") -> bool:
+    def confirmation(self, message="") -> bool:
         if message == "":
             message = "Press 'Y' to confirm: "
         if input(message).lower() != 'y':

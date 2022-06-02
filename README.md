@@ -62,9 +62,9 @@ foo@bar: ~/bakupipe $ python -m unittest discover . -b
 
 > ### Main
 > * [ ]  greetings
-> * [ ]  get all tests
-> * [ ]  chose target branch: DEF develop
-> * [ ]  confirm
+> * [x]  get all tests
+> * [x]  chose target branch: DEF develop
+> * [x]  confirm
 > ------------------------------------------------------------------------------
 > * [ ]  make new temp branch
 > * [ ]    if exist, remove and regenerate

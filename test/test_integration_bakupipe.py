@@ -61,10 +61,11 @@ class TestBakupipe(unittest.TestCase):
     #@unittest.skip
     def test_confirmation(self):
         with patch("builtins.input", return_value="y"):
-            self.assertTrue(self.bakupipe._confirmation())
+            self.assertTrue(self.bakupipe.confirmation())
 
         with patch("builtins.input", return_value="n"):
-            self.assertFalse(self.bakupipe._confirmation())
+            self.assertFalse(self.bakupipe.confirmation())
+
 
 #if __name__ == "__main__":
 #    unittest.main()
