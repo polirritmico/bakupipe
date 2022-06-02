@@ -121,12 +121,14 @@ class Bakupipe(object):
                 test.run_all()
             except Exception as err:
                 raise err
-        print("=== ALL TESTS PASSED ===")
+        print("{}=== ALL TESTS PASSED ==={}".format(Formats.OK, Formats.END)
 
 
     def confirmation(self, message="") -> bool:
         if message == "":
-            message = "Press 'Y' to confirm: "
+            message = "{}Type {}'Y'{} to confirm: {}".format(
+                      Formats.ITLC, Formats.QUOTE, Formats.END + Formats.ITLC,
+                      Formats.END)
         if input(message).lower() != 'y':
             return False
         return True
@@ -143,11 +145,9 @@ class Bakupipe(object):
         self.repository.get_info()
         self.target_branch = self.select_target_branch()
 
-        if not self.confirmation(
-                "{}Type {}'Y'{} to begin the deployment process:{} ".format(
-                 Formats.INFO, Formats.QUOTE, Formats.INFO,Formats.END)):
-            raise Exception("{}Not confirmed\nAborting...{}".format(
-                             Formats.FAIL, Formats.END))
+        if not self.confirmation():
+            raise Exception("{}Not confirmed\nAborting...{}"\
+                            .format(Formats.FAIL, Formats.END))
 
         print(SEP)
         print("{}Starting deployment pipeline...{}"\
@@ -155,6 +155,10 @@ class Bakupipe(object):
         self.change_to_work_branch()
 
         print(SEP)
+        self.init_test_phase()
+        #deploy
+        #self.return_to_initial_branch()
+        #self.remove_working_branch()
 
 
 

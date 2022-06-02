@@ -99,7 +99,7 @@ class TestRun(unittest.TestCase):
         args = []
         bakupipe = Bakupipe("test/")
         mock = Mock()
-        mock.side_effect = [ "", ]
+        mock.side_effect = [ "", "y" ]
         with patch("builtins.input", mock):
             bakupipe.run(args)
 
