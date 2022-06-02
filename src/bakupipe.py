@@ -25,8 +25,8 @@ class Bakupipe(object):
 
         self.test_collection = []
         self.test_path = test_path
-        self.inital_branch = self.repository.get_current_branch()
-        if self.inital_branch != DEFAULT_BRANCH:
+        self.initial_branch = self.repository.get_current_branch()
+        if self.initial_branch != DEFAULT_BRANCH:
             raise Exception("Not in '{}' branch".format(DEFAULT_BRANCH))
         self.work_branch = WORK_BRANCH
         self.target_branch = ""
@@ -99,15 +99,15 @@ class Bakupipe(object):
 
 
     def return_to_initial_branch(self):
-        print("Returning to branch '{}'".format())
-        self.repository.goto_branch(self.repository.initial_branch)
+        print("Returning to branch '{}'".format(self.initial_branch))
+        self.repository.goto_branch(self.initial_branch)
 
 
     def remove_working_branch(self):
         current = self.repository.get_current_branch()
         if current == self.work_branch:
             print("In working branch '{}', moving to inital branch '{}'".\
-                  format(current, self.inital_branch))
+                  format(current, self.initial_branch))
             self.repository.goto_branch(self.initial_branch)
         self.respository.remove_branch(self.work_branch)
 
@@ -159,7 +159,6 @@ class Bakupipe(object):
         #deploy
         self.return_to_initial_branch()
         self.remove_working_branch()
-
 
 
 
