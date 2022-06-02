@@ -89,21 +89,13 @@ class Bakupipe(object):
         return selection
 
 
-    def confirmation(self, message="") -> bool:
-        if message == "":
-            message = "Press 'Y' to confirm: "
-        if input(message).lower() != 'y':
-            return False
-        return True
-
-
     def change_to_work_branch(self):
         print("Creating the work branch...")
         self.repository.make_branch(self.work_branch)
         print("OK")
         print("Changing to work branch...")
         self.repository.goto_branch(self.work_branch)
-        print("In branch '{}'".format(self.repository.get_current_branch()))
+        print("In branch '{}'".format(self.repository.current_branch))
 
 
     def return_to_initial_branch(self):
@@ -132,18 +124,38 @@ class Bakupipe(object):
         print("=== ALL TESTS PASSED ===")
 
 
+    def confirmation(self, message="") -> bool:
+        if message == "":
+            message = "Press 'Y' to confirm: "
+        if input(message).lower() != 'y':
+            return False
+        return True
+
+
     def run(self, args: list):
         # Check if running inside NVIM
         vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
         if vim.stdout != "":
-            print("VIM runtime: ")
-            print(vim)
             Formats.disable(Formats)
 
         print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
         print("{}========{}".format(Formats.GREEN, Formats.END))
         self.repository.get_info()
         self.target_branch = self.select_target_branch()
+
+        if not self.confirmation(
+                "{}Type {}'Y'{} to begin the deployment process:{} ".format(
+                 Formats.INFO, Formats.QUOTE, Formats.INFO,Formats.END)):
+            raise Exception("{}Not confirmed\nAborting...{}".format(
+                             Formats.FAIL, Formats.END))
+
+        print(SEP)
+        print("{}Starting deployment pipeline...{}"\
+               .format(Formats.INFO, Formats.END))
+        self.change_to_work_branch()
+
+        print(SEP)
+
 
 
 

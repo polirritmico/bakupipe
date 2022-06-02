@@ -53,8 +53,8 @@ class TestBakupipe(unittest.TestCase):
             output = self.bakupipe.select_target_branch()
             self.assertEqual(expected, output)
 
-        expected = "deploy"
-        with patch("builtins.input", return_value="1"):
+        expected = "release"
+        with patch("builtins.input", return_value="3"):
             output = self.bakupipe.select_target_branch()
             self.assertEqual(expected, output)
 
@@ -98,8 +98,11 @@ class TestRun(unittest.TestCase):
         print("\n\n\n*********************************************")
         args = []
         bakupipe = Bakupipe("test/")
-        with patch("builtins.input", return_value=""):
+        mock = Mock()
+        mock.side_effect = [ "", ]
+        with patch("builtins.input", mock):
             bakupipe.run(args)
+
 
 
 #if __name__ == "__main__":

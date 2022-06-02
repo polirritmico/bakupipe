@@ -11,5 +11,10 @@ from src.bakupipe import Bakupipe
 if __name__ == "__main__":
     #sys.exit(bakupipe(sys.argv[1:]))
     bakupipe = Bakupipe()
-    sys.exit(bakupipe.run(sys.argv[1:]))
+    try:
+        sys.exit(bakupipe.run(sys.argv[1:]))
+    except Exception as err:
+        print(err)
+        print("Closing BakuPipe")
+        sys.exit()
 
