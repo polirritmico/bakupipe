@@ -10,6 +10,7 @@ INFO:
   STAGE: pre-build
 
 TEST:
+  ENV: default
   PRE_COMMANDS:
     - touch test_output
   COMMANDS:

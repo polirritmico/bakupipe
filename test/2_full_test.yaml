@@ -10,6 +10,7 @@ INFO:
   STAGE: pre-build
 
 TEST:
+  ENV: default
   PRE_COMMANDS:
     - echo 'Bakumapu a cool old school RPG' > _temp_test_file.txt
   COMMANDS:

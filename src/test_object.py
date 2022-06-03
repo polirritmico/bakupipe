@@ -40,6 +40,8 @@ class Test:
         self.name = file["INFO"]["NAME"]
         self.description = file["INFO"]["DESCRIPTION"]
         self.position = self.get_order_from_filename(filename)
+        #env = file["TEST"]["ENV"]
+        #self.env = env if env != "default" else None
 
         instructions = file["TEST"]["PRE_COMMANDS"]
         for pre_cmd in instructions:
