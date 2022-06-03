@@ -39,12 +39,12 @@ class Bakupipe(object):
 
 
     def load_tests_in_test_path(self):
-        test_files = self.get_test_files_in_path()
-        if len(test_files) < 1:
+        test_files_list = self.get_test_files_in_path()
+        if len(test_files_list) < 1:
             raise Exception("{}Missing test files in '{}' folder{}"\
                             .format(F.FAIL, self.test_path, F.END))
 
-        for file in test_files:
+        for file in test_files_list:
             test = Test(self.test_path + file)
             self.test_collection.append(test)
 

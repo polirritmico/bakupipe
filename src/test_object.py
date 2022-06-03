@@ -6,10 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import yaml
-#import subprocess
 
-
-#from src.command import subprocess_runner
 from src.instruction import Instruction
 
 
@@ -18,6 +15,7 @@ class Test:
         # Test INFO
         self.name = ""
         self.description = ""
+        self.stage = ""
         self.position = 0
 
         # Test runner
@@ -39,6 +37,7 @@ class Test:
         #TODO: Agregar pre/post build
         self.name = file["INFO"]["NAME"]
         self.description = file["INFO"]["DESCRIPTION"]
+        self.stage = file["INFO"]["STAGE"]
         self.position = self.get_order_from_filename(filename)
         #env = file["TEST"]["ENV"]
         #self.env = env if env != "default" else None

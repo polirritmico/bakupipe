@@ -23,6 +23,7 @@ class TestTestObject(unittest.TestCase):
     def test_import_test_data_constructor(self):
         expected_name = "Automation Test Example"
         expected_description = "Test short description"
+        expected_stage = "pre-build"
         expected_position = 1
         expected_pre_commands = "touch test_output"
         expected_commands_1 = "echo 'a test instruction/command with options'"
@@ -33,6 +34,7 @@ class TestTestObject(unittest.TestCase):
 
         self.assertEqual(expected_name, test.name)
         self.assertEqual(expected_description, test.description)
+        self.assertEqual(expected_stage, test.stage)
         self.assertEqual(expected_position, test.position)
         self.assertEqual(expected_pre_commands, test.pre_commands[0].command)
         self.assertEqual(expected_commands_1, test.commands[0].command)
