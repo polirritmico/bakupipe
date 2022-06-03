@@ -118,6 +118,7 @@ class Test:
 
     def header(self):
         header = "# Test Report: '{}'\n\n".format(self.name)
+        header += "Stage: {}\n\n".format(self.stage)
         header += "{}\n\n".format(self.description)
         header += "---\n\n"
         header += "## Test commands\n\n"

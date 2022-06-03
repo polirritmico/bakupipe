@@ -67,6 +67,8 @@ class IntegrationTests(unittest.TestCase):
     def test_full_test_report(self):
         expected = """# Test Report: 'Integration full test'
 
+Stage: pre-build
+
 A test for test_integration with valid instructions
 
 ---
