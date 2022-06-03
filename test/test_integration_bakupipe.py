@@ -92,7 +92,7 @@ class TestBakupipe(unittest.TestCase):
         self.bakupipe.init_test_phase()
 
 
-@unittest.skip
+#@unittest.skip
 class TestRun(unittest.TestCase):
     #@unittest.skip
     def test_run(self):
@@ -101,9 +101,14 @@ class TestRun(unittest.TestCase):
         pipeline = Bakupipe("test/")
         mock = Mock()
         mock.side_effect = [ "", "y" ]
-        with patch("builtins.input", mock):
-            pipeline.run(args)
+        with self.assertRaises(Exception):
+            with patch("builtins.input", mock):
+                pipeline.run(args)
 
+
+    #@unittest.skip
+    def test_build(self):
+        pass
 
 
 #if __name__ == "__main__":
