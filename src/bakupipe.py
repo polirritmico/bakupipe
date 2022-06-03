@@ -35,7 +35,7 @@ class Bakupipe(object):
         self.target_branch = ""
 
 
-    def load_tests(self):
+    def load_tests_in_test_path(self):
         test_files = self.get_test_files_in_path()
         if len(test_files) < 1:
             raise Exception("{}Missing test files in '{}' folder{}"\
@@ -62,7 +62,7 @@ class Bakupipe(object):
         return output
 
 
-    def select_target_branch(self) -> str:
+    def user_select_target_branch(self) -> str:
         selected_branch = DEFAULT_DEPLOY_BRANCH
 
         print("{}Select target branch for deployment:".format(Formats.INFO))
@@ -151,19 +151,24 @@ class Bakupipe(object):
     def build(self):
         pass
 
-
-    def run(self, args: list):
-        # Check if running inside NVIM
+    def _not_in_terminal(self):
+        #TODO: Now just check VIM
         vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
         if vim.stdout != "":
+            return True
+        return False
+
+
+    def run(self, args: list):
+        if self._not_in_terminal():
             Formats.disable(Formats)
 
         print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
         print("{}========{}".format(Formats.GREEN, Formats.END))
         self.repository.get_info()
-        self.load_tests()
+        self.load_tests_in_test_path()
 
-        self.target_branch = self.select_target_branch()
+        self.target_branch = self.user_select_target_branch()
         if not self.confirmation():
             raise Exception("{}Not confirmed\nAborting...{}"\
                             .format(Formats.FAIL, Formats.END))
