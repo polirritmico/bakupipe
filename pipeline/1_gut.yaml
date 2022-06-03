@@ -1,0 +1,21 @@
+# BakuPipe config test file
+# Add to the config/ folder to run it through the pipeline
+# The filename determines the position of execution by number
+# E.g: <01_static_test.yaml>, <02_unittest.yaml>
+
+---
+INFO:
+  NAME: Automation Test Example
+  DESCRIPTION: Test short description
+  # pre-build, post-build
+  STAGE: pre-build
+
+TEST:
+  PRE_COMMANDS:
+    - pre command
+  COMMANDS:
+    - command
+    - command
+  POST_COMMANDS:
+    - post command
+

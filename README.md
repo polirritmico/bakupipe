@@ -66,16 +66,16 @@ foo@bar: ~/bakupipe $ python -m unittest discover . -b
 > * [x]  chose target branch: DEF develop
 > * [x]  confirm
 > ------------------------------------------------------------------------------
-> * [ ]  make new temp branch
+> * [x]  make new temp branch
 > * [ ]    if exist, remove and regenerate
-> * [ ]  go to temp branch
-> * [ ]  begin tests
+> * [x]  go to temp branch
+> * [x]  begin tests
 > * [ ]    TODO: pre and post build tests
-> * [ ]  if Error:
-> * [ ]    terminate tests.
+> * [x]  if Error:
+> * [x]    terminate tests.
 > * [ ]    generate log of failed test
 > * [ ]    if option, generate all logs
-> * [ ]    RETURN
+> * [ ]    raise expection
 > * [ ]  if warning:
 > * [ ]    generate log, store, and show at end.
 > * [ ]    Continue

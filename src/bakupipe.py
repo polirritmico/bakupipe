@@ -94,9 +94,11 @@ class Bakupipe(object):
 
 
     def make_and_move_to_work_branch(self):
+        #TODO: Remove if alreay exist
         print("Creating the work branch...")
         self.repository.make_branch(self.work_branch)
         print("{}OK{}".format(Formats.OK, Formats.END))
+
         print("Changing to work branch...")
         self.repository.goto_branch(self.work_branch)
         print("In branch '{}'".format(self.repository.current_branch))
@@ -146,6 +148,10 @@ class Bakupipe(object):
         self.remove_working_branch()
 
 
+    def build(self):
+        pass
+
+
     def run(self, args: list):
         # Check if running inside NVIM
         vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
@@ -162,6 +168,8 @@ class Bakupipe(object):
             raise Exception("{}Not confirmed\nAborting...{}"\
                             .format(Formats.FAIL, Formats.END))
 
+        # -----------------------------------------------
+        # Test Phase
         print('\n' + SEP)
         print("{}Starting deployment pipeline...{}"\
                .format(Formats.INFO, Formats.END))
@@ -175,6 +183,17 @@ class Bakupipe(object):
             self.clean()
             raise Exception("{}Error in Test Phase{}"\
                             .format(Formats.FAIL, Formats.END), err)
+
+        # -----------------------------------------------
+        # Build Phase
+        # Build selected plataforms
+        self.build()
+        # move binaries and files to target locations
+        #self.deploy_build()
+        # second test Phase
+
+        # -----------------------------------------------
+        # End
         self.return_to_initial_branch()
         self.remove_working_branch()
 
