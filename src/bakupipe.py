@@ -59,7 +59,7 @@ class Bakupipe(object):
         output = "{}Loaded tests:\n".format(F.HEAD) + SEP + "\n"
         for test in self.test_collection:
             output += "{}{}) {}\n{}".format(F.INFO, test.position,
-                                            test.name,  F.END)
+                                            test.name, F.END)
         output += F.GREEN + SEP + "\n" + F.END
 
         return output
@@ -70,8 +70,7 @@ class Bakupipe(object):
 
         print("{}Select target branch for deployment:".format(F.INFO))
         print("{}{}Currently selected branch: {}'{}'"\
-               .format(F.END, F.ITLC, F.QUOTE,
-                       selected_branch))
+               .format(F.END, F.ITLC, F.QUOTE, selected_branch))
         branch_list = self.repository.get_branch_list()
         for branch in branch_list:
             print("{}{}{}) {}{}".format(F.END, F.BOLD,
@@ -125,8 +124,7 @@ class Bakupipe(object):
     def confirmation(self, message="") -> bool:
         if message == "":
             message = "{}Type {}'Y'{} to confirm: {}".format(
-                      F.ITLC, F.QUOTE, F.END + F.ITLC,
-                      F.END)
+                      F.ITLC, F.QUOTE, F.END + F.ITLC, F.END)
         if input(message).lower() != 'y':
             return False
         return True
@@ -158,8 +156,7 @@ class Bakupipe(object):
             raise Exception("{}Not confirmed\nAborting...{}"\
                             .format(F.FAIL, F.END))
         print('\n' + SEP)
-        print("{}Starting deployment pipeline...{}".format(F.INFO,
-                                                           F.END))
+        print("{}Starting deployment pipeline...{}".format(F.INFO, F.END))
 
 
 #    def init_test_phase(self):
