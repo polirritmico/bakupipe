@@ -27,13 +27,14 @@ class TestBakupipe(unittest.TestCase):
 
     #@unittest.skip
     def test_load_tests(self):
-        self.assertEqual([], self.bakupipe.test_collection)
+        self.assertEqual([], self.bakupipe.prebuild_test_collection)
+        self.assertEqual([], self.bakupipe.postbuild_test_collection)
 
         self.bakupipe.load_tests_in_test_path()
-        self.assertEqual(2, len(self.bakupipe.test_collection))
+        self.assertEqual(2, len(self.bakupipe.prebuild_test_collection))
 
         expected = "Integration full test"
-        self.assertEqual(expected, self.bakupipe.test_collection[1].name)
+        self.assertEqual(expected, self.bakupipe.prebuild_test_collection[1].name)
 
 
     #@unittest.skip

@@ -29,13 +29,14 @@ class Bakupipe(object):
         except Exception as err:
             raise Exception("Can't build Repository")
 
-        self.test_collection = []
+        self.prebuild_test_collection = []
+        self.postbuild_test_collection = []
         self.test_path = test_path
+        self.work_branch = WORK_BRANCH
+        self.target_branch = ""
         self.initial_branch = self.repository.get_current_branch()
         if self.initial_branch != DEFAULT_BRANCH:
             raise Exception("Not in '{}' branch".format(DEFAULT_BRANCH))
-        self.work_branch = WORK_BRANCH
-        self.target_branch = ""
 
 
     def load_tests_in_test_path(self):
@@ -46,7 +47,12 @@ class Bakupipe(object):
 
         for file in test_files_list:
             test = Test(self.test_path + file)
-            self.test_collection.append(test)
+            if test.stage == "pre-build":
+                self.prebuild_test_collection.append(test)
+            elif test.stage == "post-build":
+                self.postbuild_test_collection.append(test)
+            else:
+                raise Warning("Bad test stage: '{}'".format(test.name))
 
 
     def get_test_files_in_path(self) -> list:
@@ -57,9 +63,15 @@ class Bakupipe(object):
 
     def get_tests_in_collection_report(self) -> str:
         output = "{}Loaded tests:\n".format(F.HEAD) + SEP + "\n"
-        for test in self.test_collection:
-            output += "{}{}) {}\n{}".format(F.INFO, test.position,
-                                            test.name, F.END)
+        output += "Pre-build:\n"
+        for test in self.prebuild_test_collection:
+            output += "{}{}) {}\n{}".format(F.INFO, test.position, test.name,
+                                            F.END)
+        output += "Post-build:\n"
+        for test in self.postbuild_test_collection:
+            output += "{}{}) {}\n{}".format(F.INFO, test.position, test.name,
+                                            F.END)
+
         output += F.GREEN + SEP + "\n" + F.END
 
         return output
