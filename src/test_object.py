@@ -108,11 +108,13 @@ class Test:
         self.run_commands(check=check, env=env, collection=self.post_commands)
 
 
+    # TODO: Store all this as object vars
     def run_all(self, check=True, env=None, formats=False):
         self.run_pre_commands(check, env)
         self.run_commands(check, env)
         self.run_post_commands(check, env)
 
+        #TODO: dont make full report
         return full_report(formats)
 
 

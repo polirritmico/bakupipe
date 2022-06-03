@@ -182,6 +182,10 @@ class Bakupipe(object):
 #                raise err
 #        print("{}=== ALL TESTS PASSED ==={}".format(F.OK, F.END))
 
+    def run_tests(self, test_collection: list):
+        for test in test_collecion:
+            test.run_all()
+
 
     def run_prebuild_test_phase(self):
         self.make_and_move_to_work_branch()
