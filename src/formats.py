@@ -6,7 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 
-class Formats():
+class F():
     # =============================================================
     # Colors
     CYAN = "\033[96m"

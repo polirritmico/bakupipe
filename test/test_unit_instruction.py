@@ -9,13 +9,13 @@ import unittest
 import os
 
 from src.instruction import Instruction
-from src.formats import Formats
+from src.formats import F
 
 
 #@unittest.skip
 class TestInstruction(unittest.TestCase):
     def setUp(self):
-        Formats.disable(Formats)
+        F.disable(F)
         command = 'echo "This is a \"custom\" test"'
         self.test_instruction = Instruction(command)
         self.test_instruction.env = dict(os.environ)

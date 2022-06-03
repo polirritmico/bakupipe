@@ -11,13 +11,13 @@ import os
 from pipeline.config import *
 from src.repository import Repository
 from src.test_object import Test
-from src.formats import Formats
+from src.formats import F
 
 
 #@unittest.skip
 class IntegrationTests(unittest.TestCase):
     def setUp(self):
-        Formats.disable(Formats)
+        F.disable(F)
         self.repository = Repository()
 
 

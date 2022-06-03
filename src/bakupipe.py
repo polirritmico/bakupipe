@@ -11,10 +11,13 @@ __version__ = "0.1"
 import os
 import re
 
+# Load DEFAULT values and some CONFIGS
 from pipeline.config import *
+# Get F.COLORS and STYLES for print output
+from src.formats import F
+
 from src.repository import Repository
 from src.test_object import Test
-from src.formats import Formats
 from src.command import subprocess_runner
 
 
@@ -39,7 +42,7 @@ class Bakupipe(object):
         test_files = self.get_test_files_in_path()
         if len(test_files) < 1:
             raise Exception("{}Missing test files in '{}' folder{}"\
-                            .format(Formats.FAIL, self.test_path, Formats.END))
+                            .format(F.FAIL, self.test_path, F.END))
 
         for file in test_files:
             test = Test(self.test_path + file)
@@ -53,11 +56,11 @@ class Bakupipe(object):
 
 
     def get_tests_in_collection_report(self) -> str:
-        output = "{}Loaded tests:\n".format(Formats.HEAD) + SEP + "\n"
+        output = "{}Loaded tests:\n".format(F.HEAD) + SEP + "\n"
         for test in self.test_collection:
-            output += "{}{}) {}\n{}".format(Formats.INFO, test.position,
-                                            test.name,  Formats.END)
-        output += Formats.GREEN + SEP + "\n" + Formats.END
+            output += "{}{}) {}\n{}".format(F.INFO, test.position,
+                                            test.name,  F.END)
+        output += F.GREEN + SEP + "\n" + F.END
 
         return output
 
@@ -65,17 +68,17 @@ class Bakupipe(object):
     def user_select_target_branch(self) -> str:
         selected_branch = DEFAULT_DEPLOY_BRANCH
 
-        print("{}Select target branch for deployment:".format(Formats.INFO))
+        print("{}Select target branch for deployment:".format(F.INFO))
         print("{}{}Currently selected branch: {}'{}'"\
-               .format(Formats.END, Formats.ITLC, Formats.QUOTE,
+               .format(F.END, F.ITLC, F.QUOTE,
                        selected_branch))
         branch_list = self.repository.get_branch_list()
         for branch in branch_list:
-            print("{}{}{}) {}{}".format(Formats.END, Formats.BOLD,
+            print("{}{}{}) {}{}".format(F.END, F.BOLD,
                                       branch_list.index(branch) + 1,
-                                      Formats.END, branch))
+                                      F.END, branch))
         selection = input("{}Select a branch number (or press enter): {}"\
-                          .format(Formats.END, Formats.END))
+                          .format(F.END, F.END))
 
         if selection == "":
             selection = branch_list.index(selected_branch)
@@ -84,11 +87,11 @@ class Bakupipe(object):
 
         if selection >= len(branch_list) or selection < 0:
             raise Exception("{}Not recognized input selection{}"\
-                            .format(Formats.FAIL, Formats.END))
+                            .format(F.FAIL, F.END))
 
         selection = branch_list[selection]
         print("{}Selected deployment target branch: {}'{}'{}"\
-               .format(Formats.INFO, Formats.QUOTE, selection, Formats.END))
+               .format(F.INFO, F.QUOTE, selection, F.END))
 
         return selection
 
@@ -97,7 +100,7 @@ class Bakupipe(object):
         #TODO: Remove if alreay exist
         print("Creating the work branch...")
         self.repository.make_branch(self.work_branch)
-        print("{}OK{}".format(Formats.OK, Formats.END))
+        print("{}OK{}".format(F.OK, F.END))
 
         print("Changing to work branch...")
         self.repository.goto_branch(self.work_branch)
@@ -119,23 +122,11 @@ class Bakupipe(object):
         self.repository.remove_branch(self.work_branch)
 
 
-    def init_test_phase(self):
-        print("Beginning Test Phase\n" + SEP)
-        for test in self.test_collection:
-            print("Running test: {}".format(test.name))
-            print(test.description)
-            try:
-                test.run_all()
-            except Exception as err:
-                raise err
-        print("{}=== ALL TESTS PASSED ==={}".format(Formats.OK, Formats.END))
-
-
     def confirmation(self, message="") -> bool:
         if message == "":
             message = "{}Type {}'Y'{} to confirm: {}".format(
-                      Formats.ITLC, Formats.QUOTE, Formats.END + Formats.ITLC,
-                      Formats.END)
+                      F.ITLC, F.QUOTE, F.END + F.ITLC,
+                      F.END)
         if input(message).lower() != 'y':
             return False
         return True
@@ -148,9 +139,6 @@ class Bakupipe(object):
         self.remove_working_branch()
 
 
-    def build(self):
-        pass
-
     def not_in_terminal(self):
         #TODO: Find a more general way, now just check for VIM environment
         vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
@@ -159,35 +147,55 @@ class Bakupipe(object):
         return False
 
 
-    def run(self, args: list):
-        if self.not_in_terminal():
-            Formats.disable(Formats)
-
-        print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
-        print("{}========{}".format(Formats.GREEN, Formats.END))
+    def run_init_phase(self):
+        print("{}Bakupipe{}".format(F.PROG, F.END))
+        print("{}========{}".format(F.GREEN, F.END))
         self.repository.get_info()
         self.load_tests_in_test_path()
 
         self.target_branch = self.user_select_target_branch()
         if not self.confirmation():
             raise Exception("{}Not confirmed\nAborting...{}"\
-                            .format(Formats.FAIL, Formats.END))
-
-        # -----------------------------------------------
-        # Test Phase
+                            .format(F.FAIL, F.END))
         print('\n' + SEP)
-        print("{}Starting deployment pipeline...{}"\
-               .format(Formats.INFO, Formats.END))
+        print("{}Starting deployment pipeline...{}".format(F.INFO,
+                                                           F.END))
+
+
+#    def init_test_phase(self):
+#        print("Beginning Test Phase\n" + SEP)
+#        for test in self.test_collection:
+#            print("Running test: {}".format(test.name))
+#            print(test.description)
+#            try:
+#                test.run_all()
+#            except Exception as err:
+#                raise err
+#        print("{}=== ALL TESTS PASSED ==={}".format(F.OK, F.END))
+
+
+    def run_prebuild_test_phase(self):
         self.make_and_move_to_work_branch()
 
         print('\n' + SEP)
-        print(self.get_tests_in_collection_report)
+        print(self.get_tests_in_collection_report())
         try:
             self.init_test_phase()
         except Exception as err:
             self.clean()
-            raise Exception("{}Error in Test Phase{}"\
-                            .format(Formats.FAIL, Formats.END), err)
+            raise Exception("{}Error in Test Phase{}".format(F.FAIL, F.END))
+
+
+    def build(self):
+        pass
+
+
+    def run(self, args: list):
+        if self.not_in_terminal():
+            F.disable(F)
+
+        self.run_init_phase()
+        self.run_prebuild_test_phase()
 
         # -----------------------------------------------
         # Build Phase

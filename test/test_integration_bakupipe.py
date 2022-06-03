@@ -89,10 +89,13 @@ class TestBakupipe(unittest.TestCase):
 
     #@unittest.skip
     def test_init_test_phase(self):
-        self.bakupipe.init_test_phase()
+        mock = Mock()
+        mock.side_effect = [ "", "y" ]
+        with patch("builtins.input", mock):
+            self.bakupipe.run_init_phase()
 
 
-#@unittest.skip
+@unittest.skip
 class TestRun(unittest.TestCase):
     #@unittest.skip
     def test_run(self):

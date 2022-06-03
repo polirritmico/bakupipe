@@ -7,7 +7,7 @@
 
 
 from src.command import subprocess_runner
-from src.formats import Formats
+from src.formats import F
 
 class Instruction:
     def __init__(self, command: str, check=True):
@@ -62,46 +62,42 @@ class Instruction:
     def _get_outputs(self) -> str:
         out = ""
         if self.output != "":
-            out = "\n{}{}{}{}  - ".format(Formats.BOLD, Formats.ORANGE,
-                                           Formats.QUOTE, Formats.BLUE)
-            out += "{}OUT: {}{}\"{}\"{}".format(Formats.BLUE, Formats.END,
-                                                Formats.BOLD, self.output,
-                                                Formats.END)
+            out = "\n{}{}{}{}  - ".format(F.BOLD, F.ORANGE, F.QUOTE, F.BLUE)
+            out += "{}OUT: {}{}\"{}\"{}".format(F.BLUE, F.END, F.BOLD,
+                                                self.output, F.END)
         if self.error != "":
-            out = "\n{}{}{}{}  - ".format(Formats.BOLD, Formats.ORANGE,
-                                           Formats.QUOTE, Formats.BLUE)
-            out += "{}ERR: {}{}\"{}\"{}".format(Formats.FAIL, Formats.END,
-                                                Formats.BOLD, self.error,
-                                                Formats.END)
+            out = "\n{}{}{}{}  - ".format(F.BOLD, F.ORANGE, F.QUOTE, F.BLUE)
+            out += "{}ERR: {}{}\"{}\"{}".format(F.FAIL, F.END, F.BOLD,
+                                                self.error, F.END)
         if out == "":
             return "\n"
         return out + "\n"
 
 
     def _failed_log(self) -> str:
-        out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
-        out += "[{}!!{}] ".format(Formats.FAIL, Formats.BLUE)
+        out = "{}{}* {}".format(F.BOLD, F.ORANGE, F.BLUE)
+        out += "[{}!!{}] ".format(F.FAIL, F.BLUE)
 
-        out += "{}\"{}\"{}".format(Formats.GREEN, self.command, Formats.END)
+        out += "{}\"{}\"{}".format(F.GREEN, self.command, F.END)
 
         out += self._get_outputs()
         return out
 
 
     def _passed_log(self) -> str:
-        out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
-        out += "[{}OK{}] ".format(Formats.OK, Formats.BLUE)
+        out = "{}{}* {}".format(F.BOLD, F.ORANGE, F.BLUE)
+        out += "[{}OK{}] ".format(F.OK, F.BLUE)
 
-        out += "{}\"{}\"{}".format(Formats.GREEN, self.command, Formats.END)
+        out += "{}\"{}\"{}".format(F.GREEN, self.command, F.END)
 
         out += self._get_outputs()
         return out
 
 
     def _not_executed_log(self) -> str:
-        out = "{}{}* {}".format(Formats.BOLD, Formats.ORANGE, Formats.BLUE)
+        out = "{}{}* {}".format(F.BOLD, F.ORANGE, F.BLUE)
         out += "[  ] {}Command '{}' not executed.{}"\
-                .format(Formats.GREEN, self.command, Formats.END)
+                .format(F.GREEN, self.command, F.END)
 
         return out
 

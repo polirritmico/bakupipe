@@ -8,7 +8,7 @@
 #import subprocess
 from pipeline.config import *
 from src.command import subprocess_runner
-from src.formats import Formats
+from src.formats import F
 #from src.command import Command
 
 class Repository:
@@ -116,14 +116,12 @@ class Repository:
 
 
     def get_info(self):
-        info = "{}".format(Formats.INFO)
+        info = "{}".format(F.INFO)
         info += "Repository info:\n"
-        info += SEP + "\nURL:\t\t{}{}\n{}".format(Formats.END, self.url,
-                                                  Formats.INFO)
-        info += "Current branch:\t'{}{}'\n".format(Formats.END,
+        info += SEP + "\nURL:\t\t{}{}\n{}".format(F.END, self.url, F.INFO)
+        info += "Current branch:\t'{}{}'\n".format(F.END,
                                                    self.get_current_branch())
-        info += "{}Branch list:\t{}{}\n".format(Formats.GREEN, Formats.END,
-                                                self.branches)
+        info += "{}Branch list:\t{}{}\n".format(F.GREEN, F.END, self.branches)
         info += SEP + "\n"
 
         return info
