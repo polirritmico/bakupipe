@@ -171,7 +171,7 @@ class Bakupipe(object):
         print(self.get_tests_in_collection_report)
         try:
             self.init_test_phase()
-        except as err:
+        except Exception as err:
             self.clean()
             raise Exception("{}Error in Test Phase{}"\
                             .format(Formats.FAIL, Formats.END), err)
