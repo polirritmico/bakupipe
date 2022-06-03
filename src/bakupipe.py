@@ -5,7 +5,9 @@
 # This program is part of Bakumapu and is released under
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
-#import sys
+__version__ = "0.1"
+
+
 import os
 import re
 
@@ -14,6 +16,7 @@ from src.repository import Repository
 from src.test_object import Test
 from src.formats import Formats
 from src.command import subprocess_runner
+
 
 
 class Bakupipe(object):
@@ -90,7 +93,7 @@ class Bakupipe(object):
         return selection
 
 
-    def change_to_work_branch(self):
+    def make_and_move_to_work_branch(self):
         print("Creating the work branch...")
         self.repository.make_branch(self.work_branch)
         print("{}OK{}".format(Formats.OK, Formats.END))
@@ -136,6 +139,13 @@ class Bakupipe(object):
         return True
 
 
+    def clean(self):
+        if self.repository.current_branch == self.initial_branch:
+            return
+        self.return_to_initial_branch()
+        self.remove_working_branch()
+
+
     def run(self, args: list):
         # Check if running inside NVIM
         vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
@@ -144,12 +154,10 @@ class Bakupipe(object):
 
         print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
         print("{}========{}".format(Formats.GREEN, Formats.END))
-
-
-
         self.repository.get_info()
-        self.target_branch = self.select_target_branch()
+        self.load_tests()
 
+        self.target_branch = self.select_target_branch()
         if not self.confirmation():
             raise Exception("{}Not confirmed\nAborting...{}"\
                             .format(Formats.FAIL, Formats.END))
@@ -157,21 +165,17 @@ class Bakupipe(object):
         print('\n' + SEP)
         print("{}Starting deployment pipeline...{}"\
                .format(Formats.INFO, Formats.END))
-        self.change_to_work_branch()
+        self.make_and_move_to_work_branch()
 
         print('\n' + SEP)
-        self.load_tests()
         print(self.get_tests_in_collection_report)
-        #self.init_test_phase()
-        #deploy
+        try:
+            self.init_test_phase()
+        except as err:
+            self.clean()
+            raise Exception("{}Error in Test Phase{}"\
+                            .format(Formats.FAIL, Formats.END), err)
         self.return_to_initial_branch()
         self.remove_working_branch()
 
-
-    def failed_handler(self):
-        message = "{}Stay in branch '{}' and preserve it?{} ".format(
-                   Formats.BOLD, self.repository.current_branch, Formats.END)
-        if not self.confirmation(message):
-            self.return_to_initial_branch()
-            self.remove_working_branch()
 

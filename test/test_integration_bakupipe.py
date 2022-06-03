@@ -75,7 +75,7 @@ class TestBakupipe(unittest.TestCase):
         self.bakupipe.work_branch = test_branch
         expected = test_branch
 
-        self.bakupipe.change_to_work_branch()
+        self.bakupipe.make_and_move_to_work_branch()
         output = self.bakupipe.repository.get_current_branch()
         self.assertEqual(expected, output)
 
@@ -92,16 +92,17 @@ class TestBakupipe(unittest.TestCase):
         self.bakupipe.init_test_phase()
 
 
+@unittest.skip
 class TestRun(unittest.TestCase):
     #@unittest.skip
     def test_run(self):
         print("\n\n\n*********************************************")
         args = []
-        bakupipe = Bakupipe("test/")
+        pipeline = Bakupipe("test/")
         mock = Mock()
         mock.side_effect = [ "", "y" ]
         with patch("builtins.input", mock):
-            bakupipe.run(args)
+            pipeline.run(args)
 
 
 
