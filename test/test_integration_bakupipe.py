@@ -29,7 +29,7 @@ class TestBakupipe(unittest.TestCase):
     def test_load_tests(self):
         self.assertEqual([], self.bakupipe.test_collection)
 
-        self.bakupipe.load_tests()
+        self.bakupipe.load_tests_in_test_path()
         self.assertEqual(2, len(self.bakupipe.test_collection))
 
         expected = "Integration full test"
@@ -44,18 +44,18 @@ class TestBakupipe(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_select_target_branch(self):
+    def test_user_select_target_branch(self):
         expected = ""
         self.assertEqual(expected, self.bakupipe.target_branch)
 
         expected = DEFAULT_DEPLOY_BRANCH
         with patch("builtins.input", return_value=""):
-            output = self.bakupipe.select_target_branch()
+            output = self.bakupipe.user_select_target_branch()
             self.assertEqual(expected, output)
 
         expected = "release"
         with patch("builtins.input", return_value="3"):
-            output = self.bakupipe.select_target_branch()
+            output = self.bakupipe.user_select_target_branch()
             self.assertEqual(expected, output)
 
 

@@ -151,8 +151,8 @@ class Bakupipe(object):
     def build(self):
         pass
 
-    def _not_in_terminal(self):
-        #TODO: Now just check VIM
+    def not_in_terminal(self):
+        #TODO: Find a more general way, now just check for VIM environment
         vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
         if vim.stdout != "":
             return True
@@ -160,7 +160,7 @@ class Bakupipe(object):
 
 
     def run(self, args: list):
-        if self._not_in_terminal():
+        if self.not_in_terminal():
             Formats.disable(Formats)
 
         print("{}Bakupipe{}".format(Formats.PROG, Formats.END))
