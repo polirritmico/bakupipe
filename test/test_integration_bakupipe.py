@@ -34,7 +34,8 @@ class TestBakupipe(unittest.TestCase):
         self.assertEqual(2, len(self.bakupipe.prebuild_test_collection))
 
         expected = "Integration full test"
-        self.assertEqual(expected, self.bakupipe.prebuild_test_collection[1].name)
+        self.assertEqual(expected,
+                         self.bakupipe.prebuild_test_collection[1].name)
 
 
     #@unittest.skip

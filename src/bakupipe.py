@@ -189,14 +189,13 @@ class Bakupipe(object):
 
     def run_prebuild_test_phase(self):
         self.make_and_move_to_work_branch()
-
         print('\n' + SEP)
         print(self.get_tests_in_collection_report())
         try:
-            self.init_test_phase()
+            self.run_tests(self.prebuild_test_collection)
         except Exception as err:
             self.clean()
-            raise Exception("{}Error in Test Phase{}".format(F.FAIL, F.END))
+            raise Exception("{}Error in Pre-test Phase{}".format(F.FAIL, F.END))
 
 
     def build(self):
@@ -213,7 +212,7 @@ class Bakupipe(object):
         # -----------------------------------------------
         # Build Phase
         # Build selected plataforms
-        self.build()
+        #self.run_build_phase(self.target_branch)
         # move binaries and files to target locations
         #self.deploy_build()
         # second test Phase
