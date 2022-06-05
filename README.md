@@ -21,7 +21,7 @@ proceso y envía las notificaciones correspondientes (correos, Trello, etc.)
 
 ![sceenshot](docs/screenshot.png)
 
-## Input/Output
+## Stages:
 
 Comando: **bakupipe**
 
@@ -39,16 +39,16 @@ Comando: **bakupipe**
 > - [ ] Generar logs
 >    - [ ] Enviar correos-informes
 
-## Test
+## Test de desarrollo
 
 Los distintos test se encuentran dentro de la carpeta `/test/`, dentro de cada
 archivo correspondiente. Utilizan la librería Unittest de python y para evitar
-problemas de imports, se recomienda utilizar el siguiente comando (`-b` sirve
-para descartar outputs de test aprobados, se muestran en caso de error):
+problemas de imports, se recomienda utilizar el siguiente comando:
 
 ```console
 foo@bar: ~/bakupipe $ python -m unittest discover . -b
 ```
+`-b` sirve para descartar outputs de test aprobados, se muestran si hay error.
 
 ## Enlaces a repositorios y documentación Bakumapu
 
@@ -67,10 +67,10 @@ foo@bar: ~/bakupipe $ python -m unittest discover . -b
 > * [x]  confirm
 > ------------------------------------------------------------------------------
 > * [x]  make new temp branch
-> * [ ]    if exist, remove and regenerate
+> * [x]    if exist, remove and regenerate
 > * [x]  go to temp branch
 > * [x]  begin tests
-> * [ ]    TODO: pre and post build tests
+> * [x]    TODO: pre and post build tests
 > * [x]  if Error:
 > * [x]    terminate tests.
 > * [ ]    generate log of failed test
