@@ -11,14 +11,13 @@ BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
 BAKUPIPE_URL = "https://github.com/polirritmico/bakupipe.git"
 PROJECT_URLS = [ BAKU_URL, BAKUPIPE_URL ]
 
-# Default branches
-DEFAULT_BRANCH = "develop"
-DEFAULT_DEPLOY_BRANCH = "deploy"
-DEFAULT_RELEASE_BRANCH = "release"
-DEFAULT_BRANCHES_LIST = [DEFAULT_BRANCH, DEFAULT_DEPLOY_BRANCH,
-                         DEFAULT_RELEASE_BRANCH]
-
 # WORK BRANCH
-WORK_BRANCH = "pre-deploy"
+WORK_BRANCH  = "pre-deploy"
 
+# Default branches
+DEFAULT_BRANCH         = "develop"
+DEFAULT_DEPLOY_BRANCH  = "deploy"
+DEFAULT_RELEASE_BRANCH = "release"
+DEFAULT_BRANCHES_LIST  = [DEFAULT_BRANCH, DEFAULT_DEPLOY_BRANCH,
+                          DEFAULT_RELEASE_BRANCH]
 

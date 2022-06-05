@@ -1,0 +1,15 @@
+# BakuPipe build config file
+# Add to the config/ folder to run it through the pipeline
+# The filename must begin with build_:
+# E.g: <build_linux.yaml>, <build_android.yaml>
+
+---
+SYSTEM: Name
+COMMANDS:
+  - build command
+BINARIES_PATH: build/system
+REPOSITORY:
+  URL: repository.url
+  USER: bakumapu
+  PASS: codedpass
+
