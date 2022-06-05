@@ -35,6 +35,9 @@ class F():
     # Symbols
     QUOTE = ORANGE
 
+    # Print separator
+    SEP = "-----------------------------------"
+
 
     def disable(self):
         self.CYAN = ""

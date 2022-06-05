@@ -118,11 +118,11 @@ class Repository:
     def get_info(self):
         info = "{}".format(F.INFO)
         info += "Repository info:\n"
-        info += SEP + "\nURL:\t\t{}{}\n{}".format(F.END, self.url, F.INFO)
+        info += F.SEP + "\nURL:\t\t{}{}\n{}".format(F.END, self.url, F.INFO)
         info += "Current branch:\t'{}{}'\n".format(F.END,
                                                    self.get_current_branch())
         info += "{}Branch list:\t{}{}\n".format(F.GREEN, F.END, self.branches)
-        info += SEP + "\n"
+        info += F.SEP + "\n"
 
         return info
 

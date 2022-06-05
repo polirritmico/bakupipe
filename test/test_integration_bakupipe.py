@@ -39,9 +39,10 @@ class TestBakupipe(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_get_tests_in_collection_report(self):
+    def test_loaded_tests_report(self):
         not_expected = ""
-        output = self.bakupipe.get_tests_in_collection_report()
+        collection = self.bakupipe.prebuild_test_collection
+        output = self.bakupipe.loaded_tests_report(collection)
         self.assertNotEqual(not_expected, output)
 
 

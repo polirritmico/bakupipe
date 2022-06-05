@@ -61,22 +61,6 @@ class Bakupipe(object):
         return list(filter(pattern.match, all_files))
 
 
-    def get_tests_in_collection_report(self) -> str:
-        output = "{}Loaded tests:\n".format(F.HEAD) + SEP + "\n"
-        output += "Pre-build:\n"
-        for test in self.prebuild_test_collection:
-            output += "{}{}) {}\n{}".format(F.INFO, test.position, test.name,
-                                            F.END)
-        output += "Post-build:\n"
-        for test in self.postbuild_test_collection:
-            output += "{}{}) {}\n{}".format(F.INFO, test.position, test.name,
-                                            F.END)
-
-        output += F.GREEN + SEP + "\n" + F.END
-
-        return output
-
-
     def user_select_target_branch(self) -> str:
         selected_branch = DEFAULT_DEPLOY_BRANCH
 
@@ -159,12 +143,12 @@ class Bakupipe(object):
         self.remove_working_branch()
 
 
-    def not_in_terminal(self):
+    def _in_terminal(self):
         #TODO: Find a more general way, now just check for VIM environment
         vim = subprocess_runner("env | grep VIMRUNTIME", check_subprocess=False)
         if vim.stdout != "":
-            return True
-        return False
+            return False
+        return True
 
 
     def run_init_phase(self):
@@ -177,29 +161,33 @@ class Bakupipe(object):
         if not self.confirmation():
             raise Exception("{}Not confirmed\nAborting...{}"\
                             .format(F.FAIL, F.END))
-        print('\n' + SEP)
+        print('\n' + F.SEP)
         print("{}Starting deployment pipeline...{}".format(F.INFO, F.END))
 
 
-#    def init_test_phase(self):
-#        print("Beginning Test Phase\n" + SEP)
-#        for test in self.test_collection:
-#            print("Running test: {}".format(test.name))
-#            print(test.description)
-#            try:
-#                test.run_all()
-#            except Exception as err:
-#                raise err
-#        print("{}=== ALL TESTS PASSED ==={}".format(F.OK, F.END))
+    def loaded_tests_report(self, collection: list) -> str:
+        output = "{}Loaded tests:\n".format(F.HEAD) + F.SEP + "\n"
+        for test in collection:
+            output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
+                                            F.END)
+            output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
+        output += F.GREEN + F.SEP + "\n" + F.END
+
+        return output
+
 
     def run_tests(self, test_collection: list):
+        print("Running tests...")
         for test in test_collecion:
             test.run_all()
+        print("{}OK{}".format(F.OK, F.END))
 
 
     def run_prebuild_test_phase(self):
-        print('\n' + SEP)
-        print(self.get_tests_in_collection_report())
+        print('\n' + F.SEP)
+        print("Beginning Pre-test Phase\n")
+        print("Loaded pre-tests:\n")
+        print(self.loaded_tests_report(self.prebuild_test_collection))
         try:
             self.run_tests(self.prebuild_test_collection)
         except Exception as err:
@@ -207,23 +195,23 @@ class Bakupipe(object):
             raise Exception("{}Error in Pre-test Phase{}".format(F.FAIL, F.END))
 
 
-    def build(self):
-        pass
+    def run_build_phase(self):
+        build_cmd_linux = ""
+        build_cmd_win = ""
+        build_cmd_android = ""
 
 
     def run(self, args: list):
-        if self.not_in_terminal():
+        if not self._in_terminal():
             F.disable(F)
 
         self.run_init_phase()
         self.make_work_branch()
         self.goto_work_branch()
+
         self.run_prebuild_test_phase()
 
         self.run_build_phase()
-        #TODO: Ajustar método de get_test_report para pasarle la coleccion de
-        #      test como parametro y así usar la misma para test de pre o
-        #      post build.
         # Build selected plataforms
         # move binaries and files to target locations
         #self.deploy_build()
