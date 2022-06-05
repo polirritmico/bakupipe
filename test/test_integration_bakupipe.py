@@ -77,7 +77,8 @@ class TestBakupipe(unittest.TestCase):
         self.bakupipe.work_branch = test_branch
         expected = test_branch
 
-        self.bakupipe.make_and_move_to_work_branch()
+        self.bakupipe.make_work_branch()
+        self.bakupipe.goto_work_branch()
         output = self.bakupipe.repository.get_current_branch()
         self.assertEqual(expected, output)
 

@@ -107,12 +107,22 @@ class Bakupipe(object):
         return selection
 
 
-    def make_and_move_to_work_branch(self):
-        #TODO: Remove if alreay exist
+    def make_work_branch(self):
+        for branch in self.repository.branches:
+            if branch == self.work_branch:
+                print("The work branch already exists")
+                if self.confirmation("Type 'y' to remove it: "):
+                    self.repository.remove_branch(branch)
+                    print("Previous work branch removed")
+                    break
+                else:
+                    raise Exception("Work branch already exists")
         print("Creating the work branch...")
         self.repository.make_branch(self.work_branch)
         print("{}OK{}".format(F.OK, F.END))
 
+
+    def goto_work_branch(self):
         print("Changing to work branch...")
         self.repository.goto_branch(self.work_branch)
         print("In branch '{}'".format(self.repository.current_branch))
@@ -188,7 +198,6 @@ class Bakupipe(object):
 
 
     def run_prebuild_test_phase(self):
-        self.make_and_move_to_work_branch()
         print('\n' + SEP)
         print(self.get_tests_in_collection_report())
         try:
@@ -207,12 +216,15 @@ class Bakupipe(object):
             F.disable(F)
 
         self.run_init_phase()
+        self.make_work_branch()
+        self.goto_work_branch()
         self.run_prebuild_test_phase()
 
-        # -----------------------------------------------
-        # Build Phase
+        self.run_build_phase()
+        #TODO: Ajustar método de get_test_report para pasarle la coleccion de
+        #      test como parametro y así usar la misma para test de pre o
+        #      post build.
         # Build selected plataforms
-        #self.run_build_phase(self.target_branch)
         # move binaries and files to target locations
         #self.deploy_build()
         # second test Phase
