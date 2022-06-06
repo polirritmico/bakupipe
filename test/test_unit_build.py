@@ -46,4 +46,6 @@ class TestBuild(unittest.TestCase):
         self.build.mv_files_to_target_dir()
         self.assertTrue(self.build.check_binaries_location())
 
+        subprocess_runner("rm -r build")
+
 
