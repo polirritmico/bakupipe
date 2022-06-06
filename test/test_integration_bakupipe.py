@@ -43,7 +43,7 @@ class TestBakupipe(unittest.TestCase):
     def test_loaded_tests_report(self):
         not_expected = ""
         collection = self.bakupipe.prebuild_test_collection
-        output = self.bakupipe.loaded_tests_report(collection)
+        output = self.bakupipe.loaded_files_report(collection)
         self.assertNotEqual(not_expected, output)
 
 

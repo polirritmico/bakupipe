@@ -174,6 +174,13 @@ class Bakupipe(object):
         self.load_tests_in_files_path()
         self.load_builds_in_files_path()
 
+        print("Loaded pre-build tests:")
+        self.loaded_files_report(self.prebuild_test_collection)
+        print("Loaded post-build tests:")
+        self.loaded_files_report(self.postbuild_test_collection)
+        print("Loaded build instructions:")
+        self.loaded_files_report(self.build_instructions)
+
         self.target_branch = self.user_select_target_branch()
         if not self.confirmation():
             raise Exception("{}Not confirmed\nAborting...{}"\
@@ -182,12 +189,24 @@ class Bakupipe(object):
         print("{}Starting deployment pipeline...{}".format(F.INFO, F.END))
 
 
-    def loaded_tests_report(self, collection: list) -> str:
-        output = "{}Loaded tests:\n".format(F.HEAD) + F.SEP + "\n"
-        for test in collection:
-            output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
-                                            F.END)
-            output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
+    def loaded_files_report(self, collection: list) -> str:
+        if len(collection) < 1:
+            return
+        is_test = True if type(collection[0]) is Test else False
+
+        output = "{}Loaded:\n".format(F.HEAD) + F.SEP + "\n"
+        if is_test:
+            for test in collection:
+                output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
+                                              F.END)
+                output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
+        else:
+            for build in collection:
+                output += "{}System: '{}'{}".format(F.INFO, build.system, F.END)
+                output += "{}Repository URL: '{}'{}".\
+                           format(F.INFO, build.repository_url, F.END)
+                output += "{}Target directory: '{}'{}".\
+                           format(F.INFO, build.target_path, F.END)
         output += F.GREEN + F.SEP + "\n" + F.END
 
         return output
