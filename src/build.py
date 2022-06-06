@@ -6,6 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import yaml
+import os
 import shutil
 
 from src.instruction import Instruction
@@ -55,11 +56,19 @@ class Build():
 
 
     def check_binaries_location(self) -> bool:
-        pass
+        for package_file in self.files:
+            if not os.path.exists(self.target_directory + package_file):
+                return False
+        return True
 
 
     def mv_files_to_target_dir(self):
+        if not os.path.exists(self.target_directory):
+            os.makedirs(self.target_directory)
+
         for file in self.files:
+            if not os.path.exists(file):
+                raise Exception("File '{}' not found".format(file))
             shutil.move(file, self.target_directory + file)
 
 
