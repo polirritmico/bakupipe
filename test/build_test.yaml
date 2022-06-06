@@ -6,13 +6,15 @@
 ---
 SYSTEM: Name
 REPOSITORY:
+  HOST: Google Drive
   URL: repository.url
   USER: bakumapu
   PASS: codedpass
 COMMANDS:
-  - build command
+  - echo 'build' > file1
+  - echo 'ok' > file2
 BUILD_FILES:
   - file1
   - file2
-TARGET_DIRECTORY: target/build/path
+TARGET_DIRECTORY: build/path
 

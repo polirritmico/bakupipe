@@ -212,7 +212,7 @@ class Bakupipe(object):
             output += "{}Repository URL: '{}'{}".\
                         format(F.INFO, build.repository_url, F.END)
             output += "{}Target directory: '{}'{}\n".\
-                        format(F.INFO, build.target_path, F.END)
+                        format(F.INFO, build.target_directory, F.END)
         output += F.GREEN + F.SEP + "\n" + F.END
 
         return output

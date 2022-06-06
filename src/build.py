@@ -12,11 +12,13 @@ from src.instruction import Instruction
 class Build():
     def __init__(self, filename):
         self.system = ""
+        self.repository_host = ""
         self.repository_url = ""
-        self.user = ""
-        self.password = ""
+        self.repository_user = ""
+        self.repository_pass = ""
         self.instructions = []
-        self.target_path = ""
+        self.files = []
+        self.target_directory = ""
 
         self.import_build_file(filename)
 
@@ -29,15 +31,20 @@ class Build():
                 raise err
 
         self.system = file["SYSTEM"]
+        self.repository_host = file["REPOSITORY"]["HOST"]
         self.repository_url = file["REPOSITORY"]["URL"]
-        self.user = file["REPOSITORY"]["USER"]
-        self.password = file["REPOSITORY"]["PASS"]
-        self.target_path = file["BUILD_PATH"]
+        self.repository_user = file["REPOSITORY"]["USER"]
+        self.repository_pass = file["REPOSITORY"]["PASS"]
+        self.target_directory = file["TARGET_DIRECTORY"]
 
         instructions = file["COMMANDS"]
         for command in instructions:
             instruction = Instruction(command)
             self.instructions.append(instruction)
+        build_files = file["BUILD_FILES"]
+        for file in build_files:
+            self.files.append(file)
+
 
 
     def run(self):
