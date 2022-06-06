@@ -65,7 +65,7 @@ class Bakupipe(object):
         return list(filter(pattern.match, all_files))
 
 
-    def load_build_files_in_path(self):
+    def load_builds_in_files_path(self):
         search = "build_.+\.yaml"
         build_files_list = self.get_files_matching_search_in_file_path(search)
         if len(build_files_list) < 1:
@@ -171,6 +171,7 @@ class Bakupipe(object):
         print("{}========{}".format(F.GREEN, F.END))
         self.repository.get_info()
         self.load_tests_in_files_path()
+        self.load_builds_in_files_path()
 
         self.target_branch = self.user_select_target_branch()
         if not self.confirmation():
