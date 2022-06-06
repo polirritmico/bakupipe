@@ -41,7 +41,7 @@ class TestBuild(unittest.TestCase):
 
     #@unittest.skip
     def test_check_binaries_location_and_move_files_to_target_dir(self):
-        self.build.run()
+        self.build.run_instructions()
         self.assertFalse(self.build.check_binaries_location())
         self.build.mv_files_to_target_dir()
         self.assertTrue(self.build.check_binaries_location())

@@ -50,7 +50,7 @@ class Build():
             self.files.append(file)
 
 
-    def run(self):
+    def run_instructions(self):
         for instruction in self.instructions:
             instruction.run()
 

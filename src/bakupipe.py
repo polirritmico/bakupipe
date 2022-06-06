@@ -167,10 +167,15 @@ class Bakupipe(object):
         return True
 
 
+    def check_dependencies(self):
+        pass
+
+
     def run_init_phase(self):
         print("{}Bakupipe{}".format(F.PROG, F.END))
         print("{}========{}".format(F.GREEN, F.END))
         self.repository.get_info()
+        #self.check_dependencies()
         self.load_tests_in_files_path()
         self.load_builds_in_files_path()
 
@@ -237,6 +242,8 @@ class Bakupipe(object):
             raise Exception("{}Error in Pre-test Phase{}".format(F.FAIL, F.END))
 
     def run_postbuild_test_phase(self):
+        if len(self.postbuild_test_collection) == 0:
+            return
         print('\n' + F.SEP)
         print("Beginning Post-test Phase\n")
         try:
@@ -251,21 +258,22 @@ class Bakupipe(object):
         print("Beginning Build Phase\n")
         print("Building...")
         for build in self.build_instructions:
-            build.run()
+            build.run_instructions()
         print("{}Build OK{}".format(F.OK, F.END))
 
         print("Check build binaries location...")
         for build in self.build_instructions:
             if not build.check_binaries_location():
-                print("Moving '{}' files to target directory".\
-                      format(build.system))
+                print("Moving '{}' files to target folder".format(build.system))
                 build.mv_files_to_target_dir()
                 print("{}OK{}".format(F.OK, F.END))
 
-        #print("Moving files to target path...")
-        #for build in self.build_instructions:
-        #    build.deploy()
-        #print("OK")
+
+    def run_deploy_phase(self):
+        print('\n' + F.SEP)
+        print("Beginning Deploy Phase\n")
+        for build in self.build_instructions:
+            build.deploy()
 
 
     def run(self, args: list):
@@ -280,11 +288,8 @@ class Bakupipe(object):
         self.run_build_phase()
         self.run_postbuild_test_phase()
 
-        # move binaries and files to target locations
-        #self.deploy_build()
+        self.run_deploy_phase()
 
-        # -----------------------------------------------
-        # End
         self.return_to_initial_branch()
         self.remove_working_branch()
 
