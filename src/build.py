@@ -6,6 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import yaml
+import shutil
 
 from src.instruction import Instruction
 
@@ -36,6 +37,8 @@ class Build():
         self.repository_user = file["REPOSITORY"]["USER"]
         self.repository_pass = file["REPOSITORY"]["PASS"]
         self.target_directory = file["TARGET_DIRECTORY"]
+        if not self.target_directory.endswith('/'):
+            self.target_directory += '/'
 
         instructions = file["COMMANDS"]
         for command in instructions:
@@ -46,15 +49,17 @@ class Build():
             self.files.append(file)
 
 
-
     def run(self):
         for instruction in instructions:
             instruction.run()
 
 
-    def deploy(self):
+    def check_binaries_location(self) -> bool:
         pass
 
 
+    def mv_files_to_target_dir(self):
+        for file in self.files:
+            shutil.move(file, self.target_directory + file)
 
 

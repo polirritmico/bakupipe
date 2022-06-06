@@ -9,12 +9,13 @@ import unittest
 #from unittest.mock import Mock, patch
 
 from src.build import Build
+from src.command import subprocess_runner
 
 #@unittest.skip
 class TestBuild(unittest.TestCase):
     def setUp(self):
         self.file = "test/build_test.yaml"
-        #self.build = Build(self.file)
+        self.build = Build(self.file)
 
 
     #@unittest.skip
@@ -26,16 +27,22 @@ class TestBuild(unittest.TestCase):
         expected_repo_pass = "codedpass"
         expected_command_1 = "echo 'build' > file1"
         expected_command_2 = "echo 'ok' > file2"
-        expected_target_directory = "build/path"
+        expected_target_directory = "build/path/"
 
-        build = Build(self.file)
-        self.assertEqual(expected_system, build.system)
-        self.assertEqual(expected_repo_host, build.repository_host)
-        self.assertEqual(expected_repo_url, build.repository_url)
-        self.assertEqual(expected_repo_user, build.repository_user)
-        self.assertEqual(expected_repo_pass, build.repository_pass)
-        self.assertEqual(expected_command_1, build.instructions[0].command)
-        self.assertEqual(expected_command_2, build.instructions[1].command)
-        self.assertEqual(expected_target_directory, build.target_directory)
+        self.assertEqual(expected_system, self.build.system)
+        self.assertEqual(expected_repo_host, self.build.repository_host)
+        self.assertEqual(expected_repo_url, self.build.repository_url)
+        self.assertEqual(expected_repo_user, self.build.repository_user)
+        self.assertEqual(expected_repo_pass, self.build.repository_pass)
+        self.assertEqual(expected_command_1, self.build.instructions[0].command)
+        self.assertEqual(expected_command_2, self.build.instructions[1].command)
+        self.assertEqual(expected_target_directory, self.build.target_directory)
+
+
+    #@unittest.skip
+    def test_check_binaries_location_and_move_files_to_target_dir(self):
+        self.assertFalse(self.build.check_binaries_location())
+        self.build.mv_files_to_target_dir()
+        self.assertTrue(self.build.check_binaries_location())
 
 

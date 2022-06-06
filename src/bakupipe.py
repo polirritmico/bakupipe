@@ -236,6 +236,15 @@ class Bakupipe(object):
             self.clean()
             raise Exception("{}Error in Pre-test Phase{}".format(F.FAIL, F.END))
 
+    def run_postbuild_test_phase(self):
+        print('\n' + F.SEP)
+        print("Beginning Post-test Phase\n")
+        try:
+            self.run_tests(self.postbuild_test_collection)
+        except Exception as err:
+            self.clean()
+            raise Exception("{}Error in Post-test Phase{}".format(F.FAIL, F.END))
+
 
     def run_build_phase(self):
         print('\n' + F.SEP)
@@ -244,10 +253,19 @@ class Bakupipe(object):
         for build in self.build_instructions:
             build.run()
         print("{}Build OK{}".format(F.OK, F.END))
-        print("Moving files to target path...")
+
+        print("Check build binaries location...")
         for build in self.build_instructions:
-            build.deploy()
-        print("OK")
+            if not build.check_binaries_location():
+                print("Moving '{}' files to target directory".\
+                      format(build.system))
+                build.mv_files_to_target_dir()
+                print("{}OK{}".format(F.OK, F.END))
+
+        #print("Moving files to target path...")
+        #for build in self.build_instructions:
+        #    build.deploy()
+        #print("OK")
 
 
     def run(self, args: list):
@@ -259,11 +277,11 @@ class Bakupipe(object):
         self.goto_work_branch()
 
         self.run_prebuild_test_phase()
-
         self.run_build_phase()
+        self.run_postbuild_test_phase()
+
         # move binaries and files to target locations
         #self.deploy_build()
-        # second test Phase
 
         # -----------------------------------------------
         # End
