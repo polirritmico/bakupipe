@@ -51,7 +51,7 @@ class Build():
 
 
     def run(self):
-        for instruction in instructions:
+        for instruction in self.instructions:
             instruction.run()
 
 
