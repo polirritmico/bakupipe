@@ -23,7 +23,7 @@ from src.command import subprocess_runner
 
 
 class Bakupipe(object):
-    def __init__(self, test_path: str="pipeline"):
+    def __init__(self, files_path: str="pipeline"):
         try:
             self.repository = Repository()
         except Exception as err:
@@ -31,7 +31,10 @@ class Bakupipe(object):
 
         self.prebuild_test_collection = []
         self.postbuild_test_collection = []
-        self.test_path = test_path
+        self.build_instructions = []
+
+        self.files_path = files_path
+
         self.work_branch = WORK_BRANCH
         self.target_branch = ""
         self.initial_branch = self.repository.get_current_branch()
@@ -39,14 +42,15 @@ class Bakupipe(object):
             raise Exception("Not in '{}' branch".format(DEFAULT_BRANCH))
 
 
-    def load_tests_in_test_path(self):
-        test_files_list = self.get_test_files_in_path()
+    def load_tests_in_files_path(self):
+        search = "\d+_.+.yaml"
+        test_files_list = self.get_files_matching_search_in_file_path(search)
         if len(test_files_list) < 1:
             raise Exception("{}Missing test files in '{}' folder{}"\
-                            .format(F.FAIL, self.test_path, F.END))
+                            .format(F.FAIL, self.files_path, F.END))
 
         for file in test_files_list:
-            test = Test(self.test_path + file)
+            test = Test(self.files_path + file)
             if test.stage == "pre-build":
                 self.prebuild_test_collection.append(test)
             elif test.stage == "post-build":
@@ -55,10 +59,21 @@ class Bakupipe(object):
                 raise Warning("Bad test stage: '{}'".format(test.name))
 
 
-    def get_test_files_in_path(self) -> list:
-        all_files = next(os.walk(self.test_path))[2]
-        pattern = re.compile("\d+_.+.yaml")
+    def get_files_matching_search_in_file_path(self, regex_search: str) -> list:
+        all_files = next(os.walk(self.files_path))[2]
+        pattern = re.compile(regex_search)
         return list(filter(pattern.match, all_files))
+
+
+    def load_build_files_in_path(self):
+        search = "build_.+\.yaml"
+        build_files_list = self.get_files_matching_search_in_file_path(search)
+        if len(build_files_list) < 1:
+            raise Exception("{}Missing build files in '{}' folder"\
+                            .format(F.FAIL, self.files_path, F.END))
+        for file in build_files_list:
+            build = Build(self.files_path + file)
+            self.build_instructions.append(build)
 
 
     def user_select_target_branch(self) -> str:
@@ -155,7 +170,7 @@ class Bakupipe(object):
         print("{}Bakupipe{}".format(F.PROG, F.END))
         print("{}========{}".format(F.GREEN, F.END))
         self.repository.get_info()
-        self.load_tests_in_test_path()
+        self.load_tests_in_files_path()
 
         self.target_branch = self.user_select_target_branch()
         if not self.confirmation():
@@ -196,9 +211,7 @@ class Bakupipe(object):
 
 
     def run_build_phase(self):
-        build_cmd_linux = ""
-        build_cmd_win = ""
-        build_cmd_android = ""
+        pass
 
 
     def run(self, args: list):

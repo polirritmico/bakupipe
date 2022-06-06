@@ -20,7 +20,8 @@ class TestBakupipe(unittest.TestCase):
     #@unittest.skip
     def test_get_test_files_in_path(self):
         expected = [ "1_test_layout.yaml", "2_full_test.yaml" ]
-        output = self.bakupipe.get_test_files_in_path()
+        search = "\d+_.+.yaml"
+        output = self.bakupipe.get_files_matching_search_in_file_path(search)
 
         self.assertListEqual(expected, output)
 
@@ -30,7 +31,7 @@ class TestBakupipe(unittest.TestCase):
         self.assertEqual([], self.bakupipe.prebuild_test_collection)
         self.assertEqual([], self.bakupipe.postbuild_test_collection)
 
-        self.bakupipe.load_tests_in_test_path()
+        self.bakupipe.load_tests_in_files_path()
         self.assertEqual(2, len(self.bakupipe.prebuild_test_collection))
 
         expected = "Integration full test"
