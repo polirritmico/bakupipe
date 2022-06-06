@@ -13,17 +13,25 @@ from src.build import Build
 #@unittest.skip
 class TestBuild(unittest.TestCase):
     def setUp(self):
-        file = "test/build.yaml"
-        self.build = Build(file)
+        self.file = "test/build.yaml"
+        #self.build = Build(self.file)
 
 
     #@unittest.skip
     def test_load_build_files(self):
-        expected_name = "Name"
-        expected_command = "build command"
-        expected_build_path = "build/system"
+        expected_system = "Name"
         expected_repo_url = "repository.url"
         expected_repo_user = "bakumapu"
         expected_repo_pass = "codedpass"
-        self.assertEqual(expected_name, self.build.name)
+        expected_command = "build command"
+        expected_target_path = "target/build/path"
+
+        build = Build(self.file)
+        self.assertEqual(expected_system, build.system)
+        self.assertEqual(expected_repo_url, build.repository_url)
+        self.assertEqual(expected_repo_user, build.user)
+        self.assertEqual(expected_repo_pass, build.password)
+        self.assertEqual(expected_command, build.instructions[0].command)
+        self.assertEqual(expected_target_path, build.target_path)
+
 
