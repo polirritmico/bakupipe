@@ -11,5 +11,8 @@ REPOSITORY:
   PASS: codedpass
 COMMANDS:
   - build command
-BUILD_PATH: target/build/path
+BUILD_FILES:
+  - file1
+  - file2
+TARGET_DIRECTORY: target/build/path
 

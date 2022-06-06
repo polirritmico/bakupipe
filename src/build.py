@@ -45,4 +45,9 @@ class Build():
             instruction.run()
 
 
+    def deploy(self):
+        pass
+
+
+
 

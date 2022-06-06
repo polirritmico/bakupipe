@@ -238,7 +238,16 @@ class Bakupipe(object):
 
 
     def run_build_phase(self):
-        pass
+        print('\n' + F.SEP)
+        print("Beginning Build Phase\n")
+        print("Building...")
+        for build in self.build_instructions:
+            build.run()
+        print("{}Build OK{}".format(F.OK, F.END))
+        print("Moving files to target path...")
+        for build in self.build_instructions:
+            build.deploy()
+        print("OK")
 
 
     def run(self, args: list):
@@ -252,7 +261,6 @@ class Bakupipe(object):
         self.run_prebuild_test_phase()
 
         self.run_build_phase()
-        # Build selected plataforms
         # move binaries and files to target locations
         #self.deploy_build()
         # second test Phase
