@@ -175,11 +175,11 @@ class Bakupipe(object):
         self.load_builds_in_files_path()
 
         print("Loaded pre-build tests:")
-        self.loaded_files_report(self.prebuild_test_collection)
+        self.loaded_test_files_report(self.prebuild_test_collection)
         print("Loaded post-build tests:")
-        self.loaded_files_report(self.postbuild_test_collection)
+        self.loaded_test_files_report(self.postbuild_test_collection)
         print("Loaded build instructions:")
-        self.loaded_files_report(self.build_instructions)
+        self.loaded_build_files_report()
 
         self.target_branch = self.user_select_target_branch()
         if not self.confirmation():
@@ -189,24 +189,30 @@ class Bakupipe(object):
         print("{}Starting deployment pipeline...{}".format(F.INFO, F.END))
 
 
-    def loaded_files_report(self, collection: list) -> str:
-        if len(collection) < 1:
-            return
-        is_test = True if type(collection[0]) is Test else False
+    def loaded_test_files_report(self, collection: list) -> str:
+        #if len(collection) < 1:
+        #    return "No test files loaded"
 
-        output = "{}Loaded:\n".format(F.HEAD) + F.SEP + "\n"
-        if is_test:
-            for test in collection:
-                output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
-                                              F.END)
-                output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
-        else:
-            for build in collection:
-                output += "{}System: '{}'{}".format(F.INFO, build.system, F.END)
-                output += "{}Repository URL: '{}'{}".\
-                           format(F.INFO, build.repository_url, F.END)
-                output += "{}Target directory: '{}'{}".\
-                           format(F.INFO, build.target_path, F.END)
+        #output = "{}Loaded tests:\n".format(F.HEAD) + F.SEP + "\n"
+        output = F.HEAD + F.SEP + "\n"
+        for test in collection:
+            output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
+                                          F.END)
+            output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
+        output += F.GREEN + F.SEP + "\n" + F.END
+
+        return output
+
+
+    def loaded_build_files_report(self) -> str:
+        #output = "{}Loaded build instructions:\n".format(F.HEAD) + F.SEP + "\n"
+        output = F.HEAD + F.SEP + "\n"
+        for build in self.build_instructions:
+            output += "{}System: '{}'{}".format(F.INFO, build.system, F.END)
+            output += "{}Repository URL: '{}'{}".\
+                        format(F.INFO, build.repository_url, F.END)
+            output += "{}Target directory: '{}'{}\n".\
+                        format(F.INFO, build.target_path, F.END)
         output += F.GREEN + F.SEP + "\n" + F.END
 
         return output
@@ -222,8 +228,8 @@ class Bakupipe(object):
     def run_prebuild_test_phase(self):
         print('\n' + F.SEP)
         print("Beginning Pre-test Phase\n")
-        print("Loaded pre-tests:\n")
-        print(self.loaded_tests_report(self.prebuild_test_collection))
+        #print("Loaded pre-tests:\n")
+        #print(self.loaded_test_files_report(self.prebuild_test_collection))
         try:
             self.run_tests(self.prebuild_test_collection)
         except Exception as err:
