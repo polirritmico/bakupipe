@@ -16,9 +16,10 @@ from pipeline.config import *
 # Get F.COLORS and STYLES for print output
 from src.formats import F
 
+from src.command import subprocess_runner
 from src.repository import Repository
 from src.test_object import Test
-from src.command import subprocess_runner
+from src.build import Build
 
 
 

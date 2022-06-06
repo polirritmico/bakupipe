@@ -13,7 +13,7 @@ from src.build import Build
 #@unittest.skip
 class TestBuild(unittest.TestCase):
     def setUp(self):
-        self.file = "test/build.yaml"
+        self.file = "test/build_test.yaml"
         #self.build = Build(self.file)
 
 
