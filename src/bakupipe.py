@@ -21,6 +21,13 @@ from src.repository import Repository
 from src.test_object import Test
 from src.build import Build
 
+# Check dependencies
+from shutil import which
+DEPENDENCIES = [ "git", "drive", ]
+for dependency in DEPENDENCIES:
+    if not which(dependency):
+        raise Exception("Missing dependency: {}".format(dependency))
+
 
 
 class Bakupipe(object):
@@ -35,6 +42,8 @@ class Bakupipe(object):
         self.build_instructions = []
 
         self.files_path = files_path
+        if not files_path.endswith('/'):
+            self.files_path += '/'
 
         self.work_branch = WORK_BRANCH
         self.target_branch = ""
@@ -48,7 +57,7 @@ class Bakupipe(object):
         test_files_list = self.get_files_matching_search_in_file_path(search)
         if len(test_files_list) < 1:
             raise Exception("{}Missing test files in '{}' folder{}"\
-                            .format(F.FAIL, self.files_path, F.END))
+                    .format(F.FAIL, self.files_path[:-1], F.END))
 
         for file in test_files_list:
             test = Test(self.files_path + file)
@@ -70,8 +79,8 @@ class Bakupipe(object):
         search = "build_.+\.yaml"
         build_files_list = self.get_files_matching_search_in_file_path(search)
         if len(build_files_list) < 1:
-            raise Exception("{}Missing build files in '{}' folder"\
-                            .format(F.FAIL, self.files_path, F.END))
+            raise Exception("{}Missing build files in '{}' folder{}"\
+                    .format(F.FAIL, self.files_path[:-1], F.END))
         for file in build_files_list:
             build = Build(self.files_path + file)
             self.build_instructions.append(build)
@@ -167,15 +176,10 @@ class Bakupipe(object):
         return True
 
 
-    def check_dependencies(self):
-        pass
-
-
     def run_init_phase(self):
         print("{}Bakupipe{}".format(F.PROG, F.END))
         print("{}========{}".format(F.GREEN, F.END))
         self.repository.get_info()
-        #self.check_dependencies()
         self.load_tests_in_files_path()
         self.load_builds_in_files_path()
 
@@ -195,10 +199,6 @@ class Bakupipe(object):
 
 
     def loaded_test_files_report(self, collection: list) -> str:
-        #if len(collection) < 1:
-        #    return "No test files loaded"
-
-        #output = "{}Loaded tests:\n".format(F.HEAD) + F.SEP + "\n"
         output = F.HEAD + F.SEP + "\n"
         for test in collection:
             output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
@@ -240,6 +240,7 @@ class Bakupipe(object):
         except Exception as err:
             self.clean()
             raise Exception("{}Error in Pre-test Phase{}".format(F.FAIL, F.END))
+
 
     def run_postbuild_test_phase(self):
         if len(self.postbuild_test_collection) == 0:
