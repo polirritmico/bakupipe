@@ -5,11 +5,6 @@
 # This program is part of Bakumapu and is released under
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
-## Artifact repository (Google Drive)
-# Location of JSON service account file OAuth2.0
-# https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount
-DRIVE_ARTIFACT_REPO_KEY = "bakumapu-artifact-repo-key.json"
-
 ## Git repository
 # Project repositories URLs
 BAKU_URL     = "https://github.com/polirritmico/bakumapu.git"
