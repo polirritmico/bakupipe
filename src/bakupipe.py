@@ -291,7 +291,8 @@ class Bakupipe(object):
 
         self.run_deploy_phase()
 
-        self.return_to_initial_branch()
-        self.remove_working_branch()
+        self.clean()
+        #self.return_to_initial_branch()
+        #self.remove_working_branch()
 
 

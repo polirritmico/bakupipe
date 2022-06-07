@@ -22,10 +22,10 @@ class Build():
         self.files = []
         self.target_directory = ""
 
-        self.import_build_file(filename)
+        self.import_build_file_data(filename)
 
 
-    def import_build_file(self, filename: str):
+    def import_build_file_data(self, filename: str):
         with open(filename, "r") as stream:
             try:
                 file = yaml.safe_load(stream)

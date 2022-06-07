@@ -49,3 +49,8 @@ class TestBuild(unittest.TestCase):
         subprocess_runner("rm -r build")
 
 
+    #@unittest.skip
+    def test_deploy(self):
+        pass
+
+
