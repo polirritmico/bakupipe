@@ -161,7 +161,7 @@ class Bakupipe(object):
         return True
 
 
-    def clean(self):
+    def clean_working_branches(self):
         if self.repository.current_branch == self.initial_branch:
             return
         self.return_to_initial_branch()
@@ -273,8 +273,9 @@ class Bakupipe(object):
     def run_deploy_phase(self):
         print('\n' + F.SEP)
         print("Beginning Deploy Phase\n")
+        print("")
         for build in self.build_instructions:
-            build.deploy()
+            log = build.push_from_target_dir_to_host_repo()
 
 
     def run(self, args: list):
@@ -289,9 +290,10 @@ class Bakupipe(object):
         self.run_build_phase()
         self.run_postbuild_test_phase()
 
+        # All OK, we can deploy
         self.run_deploy_phase()
 
-        self.clean()
+        self.clean_working_branches()
         #self.return_to_initial_branch()
         #self.remove_working_branch()
 

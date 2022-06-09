@@ -114,11 +114,6 @@ class TestRun(unittest.TestCase):
                 pipeline.run(args)
 
 
-    #@unittest.skip
-    def test_build(self):
-        pass
-
-
 #if __name__ == "__main__":
 #    unittest.main()
 
