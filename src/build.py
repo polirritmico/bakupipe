@@ -9,6 +9,7 @@ import yaml
 import os
 import shutil
 
+from pipeline.config import DRIVE_PUSH_COMMAND
 from src.instruction import Instruction
 
 class Build():
@@ -70,5 +71,24 @@ class Build():
             if not os.path.exists(file):
                 raise Exception("File '{}' not found".format(file))
             shutil.move(file, self.target_directory + file)
+
+
+    def push_from_target_dir_to_host_repo(self) -> str:
+        goto_target_dir_cmd = "cd {}".format(self.target_directory)
+
+        if self.repository_host == "Google Drive":
+            host_push_cmd = DRIVE_PUSH_COMMAND
+        else:
+            raise NotImplementedError("Not implemented repository host handler")
+
+        # In Bash, "cmd1 && cmd2": cmd2 only runs if cmd1 has no error
+        push_cmd = goto_target_dir_cmd + " && " + host_push_cmd
+        push_instruction = Instruction(push_cmd)
+        try:
+            push_instruction.run()
+        except Exception as e:
+            raise Exception("Failed push to {}".format(self.repository_host), e)
+
+        return push_instruction.get_log()
 
 

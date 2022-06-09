@@ -22,3 +22,5 @@ DEFAULT_RELEASE_BRANCH = "release"
 DEFAULT_BRANCHES_LIST  = [DEFAULT_BRANCH, DEFAULT_DEPLOY_BRANCH,
                           DEFAULT_RELEASE_BRANCH]
 
+# Artifacts repositories commands
+DRIVE_PUSH_COMMAND = "drive push -quiet"

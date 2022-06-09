@@ -105,8 +105,8 @@ class Instruction:
     def get_log(self) -> str:
         if not self.executed:
             return self._not_executed_log()
-        if self.passed:
-            return self._passed_log()
-        return self._failed_log()
+        if not self.passed:
+            return self._failed_log()
+        return self._passed_log()
 
 

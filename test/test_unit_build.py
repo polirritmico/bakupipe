@@ -49,8 +49,9 @@ class TestBuild(unittest.TestCase):
         subprocess_runner("rm -r build")
 
 
-    #@unittest.skip
-    def test_deploy(self):
-        pass
+    @unittest.skip
+    #TODO: create controlled build test file
+    def test_push_from_target_dir_to_host_repo(self):
+        self.build.push_from_target_dir_to_host_repo()
 
 
