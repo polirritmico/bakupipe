@@ -32,13 +32,13 @@ for dependency in DEPENDENCIES:
 
 
 class Bakupipe(object):
-    def __init__(self, files_path: str="pipeline", auto_mode: bool=False):
+    def __init__(self, files_path: str="pipeline"):
         try:
             self.repository = Repository()
         except Exception as err:
             raise Exception("Can't build Repository")
 
-        self.in_auto_mode = auto_mode
+        self.in_auto_mode = False
         self.prebuild_test_collection = []
         self.postbuild_test_collection = []
         self.build_instructions = []
