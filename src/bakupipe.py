@@ -208,11 +208,11 @@ class Bakupipe(object):
         self.load_builds_in_files_path()
 
         print("Loaded pre-build tests:")
-        self.loaded_test_files_report(self.prebuild_test_collection)
+        print(self.loaded_test_files_report(self.prebuild_test_collection))
         print("Loaded post-build tests:")
-        self.loaded_test_files_report(self.postbuild_test_collection)
+        print(self.loaded_test_files_report(self.postbuild_test_collection))
         print("Loaded build instructions:")
-        self.loaded_build_files_report()
+        print(self.loaded_build_files_report())
 
         self.target_branch = self.user_select_target_branch()
         if not self.in_auto_mode and not self.confirmation():
@@ -228,7 +228,7 @@ class Bakupipe(object):
             output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
                                           F.END)
             output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
-        output += F.GREEN + F.SEP + "\n" + F.END
+        output += F.GREEN + "\n" + F.END
 
         return output
 
@@ -237,10 +237,11 @@ class Bakupipe(object):
         #output = "{}Loaded build instructions:\n".format(F.HEAD) + F.SEP + "\n"
         output = F.HEAD + F.SEP + "\n"
         for build in self.build_instructions:
-            output += "{}System: '{}'{}".format(F.INFO, build.system, F.END)
-            output += "{}Repository URL: '{}'{}".\
-                        format(F.INFO, build.repository_url, F.END)
-            output += "{}Target directory: '{}'{}\n".\
+            output += "{}System: '{}'{}\n".format(F.INFO, build.system, F.END)
+            if build.repository_url is not None:
+                output += "\t{}Repository URL: '{}'{}".\
+                           format(F.INFO, build.repository_url, F.END)
+            output += "\t{}Target directory: '{}'{}\n".\
                         format(F.INFO, build.target_directory, F.END)
         output += F.GREEN + F.SEP + "\n" + F.END
 
@@ -304,7 +305,6 @@ class Bakupipe(object):
 
     def run(self, argv: list):
         self.parse_args(argv)
-        return
         if not self._in_terminal():
             F.disable(F)
 

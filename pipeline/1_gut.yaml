@@ -5,17 +5,13 @@
 
 ---
 INFO:
-  NAME: Automation Test Example
-  DESCRIPTION: Test short description
-  # pre-build, post-build
+  NAME: GUT unit tests
+  DESCRIPTION: Run GUT test from godot
   STAGE: pre-build
 
 TEST:
   PRE_COMMANDS:
-    - pre command
   COMMANDS:
-    - command
-    - command
+    - godot --path $PWD --no-windo -s addons/gut/gut_cmdln.gd
   POST_COMMANDS:
-    - post command
 
