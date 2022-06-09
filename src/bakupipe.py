@@ -10,6 +10,7 @@ __version__ = "0.1"
 
 import os
 import re
+import getopt
 
 # Load DEFAULT values and some CONFIGS
 from pipeline.config import *
@@ -51,6 +52,26 @@ class Bakupipe(object):
         self.initial_branch = self.repository.get_current_branch()
         if self.initial_branch != DEFAULT_BRANCH:
             raise Exception("Not in '{}' branch".format(DEFAULT_BRANCH))
+
+
+    def help(self) -> str:
+        print("BakuPipe\nUsage:")
+        print("  -h | --help\t\tThis message.")
+        print("  -a | --auto\t\tNo user input mode")
+
+
+    def parse_args(self, argv: list):
+        try:
+            opts, args = getopt.getopt(argv, "ha", ["help", "auto",])
+        except getopt.GetoptError as err:
+            raise err("Bad option.")
+
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                self.help()
+                quit()
+            elif opt in ("-a", "--auto"):
+                self.in_auto_mode = True
 
 
     def load_tests_in_files_path(self):
@@ -281,7 +302,9 @@ class Bakupipe(object):
             log = build.push_from_target_dir_to_host_repo()
 
 
-    def run(self, args: list):
+    def run(self, argv: list):
+        self.parse_args(argv)
+        return
         if not self._in_terminal():
             F.disable(F)
 

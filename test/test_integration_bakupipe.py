@@ -100,6 +100,20 @@ class TestBakupipe(unittest.TestCase):
             self.bakupipe.run_init_phase()
 
 
+    #@unittest.skip
+    def test_parse_args(self):
+        baku = Bakupipe("test/")
+        run_bakumapu_terminal_cmd = "./bakupipe -a"
+
+        self.assertFalse(baku.in_auto_mode)
+        baku.parse_args(run_bakumapu_terminal_cmd.split()[1:])
+        self.assertTrue(baku.in_auto_mode)
+
+        run_bakumapu_terminal_cmd = "./bakupipe -f"
+        with self.assertRaises(Exception):
+            baku.parse_args(run_bakumapu_terminal_cmd.split()[1:])
+
+
 @unittest.skip
 class TestRun(unittest.TestCase):
     #@unittest.skip
