@@ -31,12 +31,13 @@ for dependency in DEPENDENCIES:
 
 
 class Bakupipe(object):
-    def __init__(self, files_path: str="pipeline"):
+    def __init__(self, files_path: str="pipeline", auto_mode: bool=False):
         try:
             self.repository = Repository()
         except Exception as err:
             raise Exception("Can't build Repository")
 
+        self.in_auto_mode = auto_mode
         self.prebuild_test_collection = []
         self.postbuild_test_collection = []
         self.build_instructions = []
@@ -88,6 +89,8 @@ class Bakupipe(object):
 
     def user_select_target_branch(self) -> str:
         selected_branch = DEFAULT_DEPLOY_BRANCH
+        if self.in_auto_mode:
+            return selected_branch
 
         print("{}Select target branch for deployment:".format(F.INFO))
         print("{}{}Currently selected branch: {}'{}'"\
@@ -109,11 +112,11 @@ class Bakupipe(object):
             raise Exception("{}Not recognized input selection{}"\
                             .format(F.FAIL, F.END))
 
-        selection = branch_list[selection]
+        selected_branch = branch_list[selection]
         print("{}Selected deployment target branch: {}'{}'{}"\
-               .format(F.INFO, F.QUOTE, selection, F.END))
+               .format(F.INFO, F.QUOTE, selected_branch, F.END))
 
-        return selection
+        return selected_branch
 
 
     def make_work_branch(self):
@@ -191,7 +194,7 @@ class Bakupipe(object):
         self.loaded_build_files_report()
 
         self.target_branch = self.user_select_target_branch()
-        if not self.confirmation():
+        if not self.in_auto_mode and not self.confirmation():
             raise Exception("{}Not confirmed\nAborting...{}"\
                             .format(F.FAIL, F.END))
         print('\n' + F.SEP)
