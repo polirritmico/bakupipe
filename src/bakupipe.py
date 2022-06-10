@@ -77,7 +77,7 @@ class Bakupipe(object):
     def load_tests_in_files_path(self):
         search = "\d+_.+.yaml"
         test_files_list = self.get_files_matching_search_in_file_path(search)
-        if len(test_files_list) < 1:
+        if test_files_list is None or len(test_files_list) < 1:
             raise Exception("{}Missing test files in '{}' folder{}"\
                     .format(F.FAIL, self.files_path[:-1], F.END))
 
@@ -94,7 +94,9 @@ class Bakupipe(object):
     def get_files_matching_search_in_file_path(self, regex_search: str) -> list:
         all_files = next(os.walk(self.files_path))[2]
         pattern = re.compile(regex_search)
-        return list(filter(pattern.match, all_files))
+        filtered_files = list(filter(pattern.match, all_files))
+        filtered_files.sort()
+        return filtered_files
 
 
     def load_builds_in_files_path(self):
@@ -225,7 +227,7 @@ class Bakupipe(object):
     def loaded_test_files_report(self, collection: list) -> str:
         output = F.HEAD + F.SEP + "\n"
         for test in collection:
-            output += "{}{}) {}{}".format(F.INFO, test.position, test.name,
+            output += "  {}{}) {}{}".format(F.INFO, test.position, test.name,
                                           F.END)
             output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
         output += F.GREEN + "\n" + F.END
@@ -239,9 +241,9 @@ class Bakupipe(object):
         for build in self.build_instructions:
             output += "{}System: '{}'{}\n".format(F.INFO, build.system, F.END)
             if build.repository_url is not None:
-                output += "\t{}Repository URL: '{}'{}".\
+                output += "  {}Repository URL: '{}'{}".\
                            format(F.INFO, build.repository_url, F.END)
-            output += "\t{}Target directory: '{}'{}\n".\
+            output += "  {}Target directory: '{}'{}\n".\
                         format(F.INFO, build.target_directory, F.END)
         output += F.GREEN + F.SEP + "\n" + F.END
 
@@ -250,7 +252,7 @@ class Bakupipe(object):
 
     def run_tests(self, test_collection: list):
         print("Running tests...")
-        for test in test_collecion:
+        for test in test_collection:
             test.run_all()
         print("{}OK{}".format(F.OK, F.END))
 
@@ -258,12 +260,12 @@ class Bakupipe(object):
     def run_prebuild_test_phase(self):
         print('\n' + F.SEP)
         print("Beginning Pre-test Phase\n")
-        #print("Loaded pre-tests:\n")
         #print(self.loaded_test_files_report(self.prebuild_test_collection))
         try:
             self.run_tests(self.prebuild_test_collection)
         except Exception as err:
-            self.clean()
+            print("{0}{1}ERROR:{2} {1}{3}{2}".format(F.FAIL, F.BOLD, F.END, err))
+            self.clean_working_branches()
             raise Exception("{}Error in Pre-test Phase{}".format(F.FAIL, F.END))
 
 
@@ -275,7 +277,8 @@ class Bakupipe(object):
         try:
             self.run_tests(self.postbuild_test_collection)
         except Exception as err:
-            self.clean()
+            print("{0}{1}ERROR:{2} {1}{3}{2}".format(F.FAIL, F.BOLD, F.END, err))
+            self.clean_working_branches()
             raise Exception("{}Error in Post-test Phase{}".format(F.FAIL, F.END))
 
 

@@ -19,10 +19,16 @@ class TestBakupipe(unittest.TestCase):
 
     #@unittest.skip
     def test_get_test_files_in_path(self):
-        expected = [ "1_test_layout.yaml", "2_full_test.yaml" ]
+        expected = [
+                    "1_test_layout.yaml",
+                    "2_full_test.yaml",
+                    "3_oneliner_test.yaml",
+                   ]
         search = "\d+_.+.yaml"
         output = self.bakupipe.get_files_matching_search_in_file_path(search)
 
+        print("TEST:")
+        print(output)
         self.assertListEqual(expected, output)
 
 
@@ -32,7 +38,7 @@ class TestBakupipe(unittest.TestCase):
         self.assertEqual([], self.bakupipe.postbuild_test_collection)
 
         self.bakupipe.load_tests_in_files_path()
-        self.assertEqual(2, len(self.bakupipe.prebuild_test_collection))
+        self.assertEqual(3, len(self.bakupipe.prebuild_test_collection))
 
         expected = "Integration full test"
         self.assertEqual(expected,
@@ -116,7 +122,7 @@ class TestBakupipe(unittest.TestCase):
 
 @unittest.skip
 class TestRun(unittest.TestCase):
-    #@unittest.skip
+    @unittest.skip
     def test_run(self):
         print("\n\n\n*********************************************")
         args = []
@@ -127,7 +133,4 @@ class TestRun(unittest.TestCase):
             with patch("builtins.input", mock):
                 pipeline.run(args)
 
-
-#if __name__ == "__main__":
-#    unittest.main()
 

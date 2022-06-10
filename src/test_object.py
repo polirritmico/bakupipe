@@ -33,8 +33,6 @@ class Test:
             except yaml.YAMLError as err:
                 raise err
 
-        #TODO: Agregar input env
-        #TODO: Agregar pre/post build
         self.name = file["INFO"]["NAME"]
         self.description = file["INFO"]["DESCRIPTION"]
         self.stage = file["INFO"]["STAGE"]
@@ -42,21 +40,25 @@ class Test:
         #env = file["TEST"]["ENV"]
         #self.env = env if env != "default" else None
 
-        instructions = file["TEST"]["PRE_COMMANDS"]
-        for pre_cmd in instructions:
-            instruction = Instruction(pre_cmd)
-            self.pre_commands.append(instruction)
-
         instructions = file["TEST"]["COMMANDS"]
+        if instructions is None:
+            raise Exception("Test without command: {}".format(self.filename))
         for cmd in instructions:
             #self.commands.append(Instruction(cmd))
             instruction = Instruction(cmd)
             self.commands.append(instruction)
 
+        instructions = file["TEST"]["PRE_COMMANDS"]
+        if instructions is not None:
+            for pre_cmd in instructions:
+                instruction = Instruction(pre_cmd)
+                self.pre_commands.append(instruction)
+
         instructions = file["TEST"]["POST_COMMANDS"]
-        for post_cmd in instructions:
-            instruction = Instruction(post_cmd)
-            self.post_commands.append(instruction)
+        if instructions is not None:
+            for post_cmd in instructions:
+                instruction = Instruction(post_cmd)
+                self.post_commands.append(instruction)
 
 
     def get_order_from_filename(self, filename: str) -> int:
@@ -109,13 +111,13 @@ class Test:
 
 
     # TODO: Store all this as object vars
-    def run_all(self, check=True, env=None, formats=False):
+    def run_all(self, check=True, env=None):
         self.run_pre_commands(check, env)
         self.run_commands(check, env)
         self.run_post_commands(check, env)
 
         #TODO: dont make full report
-        return full_report(formats)
+        return self.full_report()
 
 
     def header(self):

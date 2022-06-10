@@ -104,6 +104,3 @@ A test for test_integration with valid instructions
 
 
 
-if __name__ == "__main__":
-    unittest.main()
-

@@ -7,6 +7,8 @@
 
 import unittest
 import os
+import subprocess
+
 
 from src.test_object import Test
 
@@ -43,9 +45,28 @@ class TestTestObject(unittest.TestCase):
 
 
     #@unittest.skip
-    def test_run_command_output_logs(self):
-        import subprocess
+    def test_import_test_data_without_pre_and_post_commands(self):
+        expected_name = "No pre and post test"
+        expected_description = "Test without pre and post commands"
+        expected_stage = "pre-build"
+        expected_position = 3
+        expected_pre_cmd_len = 0
+        expected_command = "echo 'a one-liner test'"
+        expected_post_cmd_len = 0
 
+        test = Test("test/3_oneliner_test.yaml")
+
+        self.assertEqual(expected_name, test.name)
+        self.assertEqual(expected_description, test.description)
+        self.assertEqual(expected_stage, test.stage)
+        self.assertEqual(expected_position, test.position)
+        self.assertEqual(expected_pre_cmd_len, len(test.pre_commands))
+        self.assertEqual(expected_command, test.commands[0].command)
+        self.assertEqual(expected_post_cmd_len, len(test.post_commands))
+
+
+    #@unittest.skip
+    def test_run_command_output_logs(self):
         expected_stdout_1 = "a test instruction/command with options"
         expected_stderr_1 = ""
         expected_stdout_2 = ""
@@ -68,7 +89,4 @@ class TestTestObject(unittest.TestCase):
         self.assertEqual(expected_stderr_2, test.commands[1].error)
 
 
-
-if __name__ == "__main__":
-    unittest.main()
 

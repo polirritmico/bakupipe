@@ -84,7 +84,3 @@ class TestCommand(unittest.TestCase):
             proc = subprocess_runner(test_cmd, self.env, check_subprocess=True)
 
 
-
-if __name__ == "__main__":
-    unittest.main()
-

@@ -5,13 +5,14 @@
 
 ---
 INFO:
-  NAME: GUT unit tests
-  DESCRIPTION: Run GUT test from godot
+  NAME: No pre and post test
+  DESCRIPTION: Test without pre and post commands
   STAGE: pre-build
 
 TEST:
+  ENV: default
   PRE_COMMANDS:
   COMMANDS:
-    - godot --path $PWD --no-window -s addons/gut/gut_cmdln.gd
+    - echo 'a one-liner test'
   POST_COMMANDS:
 

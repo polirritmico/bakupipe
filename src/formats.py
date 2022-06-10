@@ -14,6 +14,7 @@ class F():
     ORANGE = "\033[33m"
     GREEN = "\033[32m"
     YELLOW = "\033[93m" #ffff00
+    DEFC = "\033[39m" # Default color
 
     FAIL = "\033[91m" #ff0000
     OK = "\033[92m" #00ff00

@@ -66,8 +66,3 @@ class TestInstruction(unittest.TestCase):
         self.assertEqual(expected, output)
 
 
-
-if __name__ == "__main__":
-    unittest.main()
-
-
