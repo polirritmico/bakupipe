@@ -131,3 +131,6 @@ dmypy.json
 # Gdrive artifact repository
 artifact_repository/
 bakumapu-artifact-repo-key.json
+
+#Godot folder
+.import/
