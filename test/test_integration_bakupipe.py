@@ -48,9 +48,10 @@ class TestBakupipe(unittest.TestCase):
     #@unittest.skip
     def test_loaded_tests_report(self):
         not_expected = ""
+        self.bakupipe.load_tests_in_files_path()
         collection = self.bakupipe.prebuild_test_collection
         output = self.bakupipe.loaded_test_files_report(collection)
-        self.assertNotEqual("", self.bakupipe.loaded_build_files_report())
+        self.assertNotEqual("", output)
 
 
     #@unittest.skip
