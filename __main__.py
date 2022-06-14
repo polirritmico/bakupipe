@@ -14,6 +14,6 @@ if __name__ == "__main__":
     try:
         sys.exit(bakupipe.run(sys.argv[1:]))
     except Exception as err:
-        print("Catched exception:\n{}\nClosing BakuPipe".format(err))
+        print("Catched exception:\n  {}\nClosing BakuPipe".format(err))
         sys.exit()
 
