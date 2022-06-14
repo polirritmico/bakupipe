@@ -92,10 +92,18 @@ class Bakupipe(object):
 
 
     def get_files_matching_search_in_file_path(self, regex_search: str) -> list:
-        all_files = next(os.walk(self.files_path))[2]
         pattern = re.compile(regex_search)
+        if not os.path.exists(self.files_path):
+            raise Exception("{}Missing folder: '{}'{}"
+                            .format(F.FAIL, self.files_path, F.END))
+        try:
+            all_files = next(os.walk(self.files_path))[2]
+        except Exception as err:
+            raise Exception("{}Error searching files in path: '{}'{}"
+                            .format(F.FAIL, self.files_path, F.END))
         filtered_files = list(filter(pattern.match, all_files))
-        filtered_files.sort()
+        if len(filtered_files) > 1:
+            filtered_files.sort()
         return filtered_files
 
 
@@ -205,16 +213,24 @@ class Bakupipe(object):
     def run_init_phase(self):
         print("{}Bakupipe{}".format(F.PROG, F.END))
         print("{}========{}".format(F.GREEN, F.END))
-        self.repository.get_info()
+        print(self.repository.get_info())
+        print("{}Load test files...{}".format(F.ITLC, F.END))
         self.load_tests_in_files_path()
+        print("{}Load build files...{}".format(F.ITLC, F.END))
         self.load_builds_in_files_path()
+        print("{}Done{}\n".format(F.OK, F.END))
 
-        print("Loaded pre-build tests:")
-        print(self.loaded_test_files_report(self.prebuild_test_collection))
-        print("Loaded post-build tests:")
-        print(self.loaded_test_files_report(self.postbuild_test_collection))
-        print("Loaded build instructions:")
+        print("{}Pipeline pre-run report:{}".format(F.ORANGE, F.END))
+        print(F.HEAD + F.SEP + F.END)
+        if len(self.prebuild_test_collection) > 0:
+            print("- Loaded pre-build tests:")
+            print(self.loaded_test_files_report(self.prebuild_test_collection))
+        if len(self.postbuild_test_collection) > 0:
+            print("- Loaded post-build tests:")
+            print(self.loaded_test_files_report(self.postbuild_test_collection))
+        print("- Loaded build instructions:")
         print(self.loaded_build_files_report())
+        print(F.HEAD + F.SEP + F.END + '\n')
 
         self.target_branch = self.user_select_target_branch()
         if not self.in_auto_mode and not self.confirmation():
@@ -225,29 +241,25 @@ class Bakupipe(object):
 
 
     def loaded_test_files_report(self, collection: list) -> str:
-        output = F.HEAD + F.SEP + "\n"
+        output = ""
         for test in collection:
             output += "  {}{}) {}{}".format(F.INFO, test.position, test.name,
                                           F.END)
             output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
-        output += F.GREEN + "\n" + F.END
-
-        return output
+        return output[:-1]
 
 
     def loaded_build_files_report(self) -> str:
         #output = "{}Loaded build instructions:\n".format(F.HEAD) + F.SEP + "\n"
-        output = F.HEAD + F.SEP + "\n"
+        output = ""
         for build in self.build_instructions:
-            output += "{}System: '{}'{}\n".format(F.INFO, build.system, F.END)
+            output += "  {}System: '{}'{}\n".format(F.INFO, build.system, F.END)
             if build.repository_url is not None:
-                output += "  {}Repository URL: '{}'{}".\
+                output += "    {}Repository URL: '{}'{}".\
                            format(F.INFO, build.repository_url, F.END)
-            output += "  {}Target directory: '{}'{}\n".\
+            output += "    {}Target directory: '{}'{}\n".\
                         format(F.INFO, build.target_directory, F.END)
-        output += F.GREEN + F.SEP + "\n" + F.END
-
-        return output
+        return output[:-1]
 
 
     def run_tests(self, test_collection: list):
@@ -265,7 +277,6 @@ class Bakupipe(object):
             self.run_tests(self.prebuild_test_collection)
         except Exception as err:
             print("{0}{1}ERROR:{2} {1}{3}{2}".format(F.FAIL, F.BOLD, F.END, err))
-            self.clean_working_branches()
             raise Exception("{}Error in Pre-test Phase{}".format(F.FAIL, F.END))
 
 
@@ -278,13 +289,12 @@ class Bakupipe(object):
             self.run_tests(self.postbuild_test_collection)
         except Exception as err:
             print("{0}{1}ERROR:{2} {1}{3}{2}".format(F.FAIL, F.BOLD, F.END, err))
-            self.clean_working_branches()
             raise Exception("{}Error in Post-test Phase{}".format(F.FAIL, F.END))
 
 
     def run_build_phase(self):
         print('\n' + F.SEP)
-        print("Beginning Build Phase\n")
+        print("{}Beginning Build Phase{}\n".format(F.ORANGE, F.END))
         print("Building...")
         for build in self.build_instructions:
             build.run_instructions()
@@ -311,19 +321,23 @@ class Bakupipe(object):
         if not self._in_terminal():
             F.disable(F)
 
-        self.run_init_phase()
-        self.make_work_branch()
-        self.goto_work_branch()
+        try:
+            self.run_init_phase()
+            self.make_work_branch()
+            self.goto_work_branch()
 
-        self.run_prebuild_test_phase()
-        self.run_build_phase()
-        self.run_postbuild_test_phase()
+            self.run_prebuild_test_phase()
+            self.run_build_phase()
+            self.run_postbuild_test_phase()
 
-        # All OK, we can deploy
-        self.run_deploy_phase()
+            # All OK, we can deploy
+            self.run_deploy_phase()
+        except Exception as err:
+            self.clean_working_branches()
+            raise err
 
+        print("Cleaning the pipeline...")
         self.clean_working_branches()
-        #self.return_to_initial_branch()
-        #self.remove_working_branch()
+        print("Exit...")
 
 

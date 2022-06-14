@@ -70,7 +70,9 @@ class Build():
         for file in self.files:
             if not os.path.exists(file):
                 raise Exception("File '{}' not found".format(file))
-            shutil.move(file, self.target_directory + file)
+            print(file)
+            print(self.target_directory)
+            shutil.move(file, self.target_directory)
 
 
     def push_from_target_dir_to_host_repo(self) -> str:

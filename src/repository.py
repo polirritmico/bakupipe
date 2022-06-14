@@ -33,7 +33,8 @@ class Repository:
         for valid_url in expected_list:
             if self.url == valid_url:
                 return
-        raise Exception("Not in a valid repo")
+        raise Exception("Not in a valid repo:\n'{}'\nExpected:\n'{}'"
+                        .format(self.url, expected_list))
 
 
     def check_running_in_git_repo(self):
@@ -116,13 +117,14 @@ class Repository:
 
 
     def get_info(self):
-        info = "{}".format(F.INFO)
+        info = "{}".format(F.ORANGE)
         info += "Repository info:\n"
-        info += F.SEP + "\nURL:\t\t{}{}\n{}".format(F.END, self.url, F.INFO)
-        info += "Current branch:\t'{}{}'\n".format(F.END,
+        info += F.HEAD + F.SEP + F.GREEN
+        info += "\nURL:\t\t{}{}\n{}".format(F.END, self.url, F.INFO)
+        info += "Current branch:\t{}'{}'\n".format(F.END,
                                                    self.get_current_branch())
         info += "{}Branch list:\t{}{}\n".format(F.GREEN, F.END, self.branches)
-        info += F.SEP + "\n"
+        info += F.HEAD + F.SEP + F.END
 
         return info
 

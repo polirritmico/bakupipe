@@ -25,12 +25,13 @@ class F():
 
     # =============================================================
     # Styles
-    BOLD = "\033[1m"    # Bold
+    BOLD = "\033[1m"     # Bold
+    NBLD = "\033[21m"    # Bold off
     UNDER = "\033[4m"    # Underline
     ITLC = "\033[3m"     # Italic, Cursive
     BLINK = "\033[5m"    # Blink
 
-    END  = "\033[0m"    # End style or color
+    END  = "\033[0m"     # End style or color
 
     # =============================================================
     # Symbols
@@ -54,6 +55,7 @@ class F():
         self.PROG = ""
 
         self.BOLD = ""
+        self.UBLD = ""
         self.UNDER = ""
         self.ITLC = ""
         self.BLINK = ""
