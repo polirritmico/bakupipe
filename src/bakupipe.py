@@ -58,7 +58,8 @@ class Bakupipe(object):
 
     def parse_args(self, argv: list):
         try:
-            opts, args = getopt.getopt(argv, "ha", ["help", "auto",])
+            opts, args = getopt.getopt(argv, "hav",
+                                       ["help", "auto", "version", ])
         except getopt.GetoptError as err:
             raise err("Bad option.")
 
@@ -68,6 +69,10 @@ class Bakupipe(object):
                 quit()
             elif opt in ("-a", "--auto"):
                 self.in_auto_mode = True
+            elif opt in ("-v", "--version"):
+                print("{}{}BakuPipe {}v{}{}"
+                      .format(F.BOLD, F.CYAN, F.INFO, __version__, F.END))
+                quit()
 
 
     def load_tests_in_files_path(self):
