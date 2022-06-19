@@ -9,11 +9,9 @@
 ---
 ## Git repository
 # Project repositories URLs
-BAKU_URL: https://github.com/polirritmico/bakumapu.git
-BAKUPIPE_URL: https://github.com/polirritmico/bakupipe.git
 PROJECT_URLS:
-  - BAKU_URL
-  - BAKUPIPE_URL
+  - https://github.com/polirritmico/bakumapu.git
+  - https://github.com/polirritmico/bakupipe.git
 
 # WORK BRANCH
 WORK_BRANCH: pre-deploy
@@ -23,8 +21,9 @@ DEFAULT_BRANCH: develop
 DEFAULT_DEPLOY_BRANCH: deploy
 DEFAULT_RELEASE_BRANCH: release
 DEFAULT_BRANCHES_LIST:
-  - DEFAULT_BRANCH, DEFAULT_DEPLOY_BRANCH,
-  - DEFAULT_RELEASE_BRANCH
+  - develop
+  - deploy
+  - release
 
 # Artifacts repositories commands
 DRIVE_PUSH_COMMAND: drive push -quiet
