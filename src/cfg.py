@@ -8,6 +8,14 @@
 import yaml
 
 
+# Check dependencies
+from shutil import which
+DEPENDENCIES = [ "git", "drive", ]
+for dependency in DEPENDENCIES:
+    if not which(dependency):
+        raise Exception("Missing dependency: {}".format(dependency))
+
+
 def init(filepath: str="pipeline"):
     """Must be a folder containing a valid config.yaml file"""
     filename = filepath if filepath.endswith('/') else filepath + '/'
