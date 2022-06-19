@@ -1,0 +1,21 @@
+# BakuPipe build config file
+# Add to pipeline/ folder to run it through the pipeline
+# The filename must begin with build_:
+# E.g: <build_linux.yaml>, <build_android.yaml>
+
+---
+SYSTEM: Linux
+REPOSITORY:
+  HOST: Google Drive
+  URL:
+  USER:
+  PASS:
+COMMANDS:
+  - mkdir -p build
+  - godot --no-window --export-debug "Linux" build/Bakumapu.x86_64
+# List of files needed to run the binary. Other files will be dumped.
+BUILD_FILES:
+  - Bakumapu.x86_64
+  - Bakumapu.pck
+TARGET_DIRECTORY: artifacts_repository/Artifacts/Linux
+

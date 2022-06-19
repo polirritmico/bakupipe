@@ -1,12 +1,20 @@
 SHELL = /bin/bash
 
 TARGET_BIN_NAME = bakupipe
-TARGET_FOLDER= Compilaciones/Bakumapu/
+TARGET_FOLDER = Compilaciones/Bakumapu/
+TARGET_CFG_DIR = pipeline
 FILES = __main__.py README.md src/*.py docs/LICENSE.md
+CFG_FILES = config.yaml layout_build.yaml layout_test.yaml
 
 # =====================================================
 
 default: zip make_exe deploy clean
+
+cfg_files:
+	@echo "Exporting yaml files..."
+	@mkdir -p $(HOME)/$(TARGET_FOLDER)/$(TARGET_CFG_DIR)
+	@cd $(TARGET_CFG_DIR) && cp $(CFG_FILES) $(HOME)/$(TARGET_FOLDER)/$(TARGET_CFG_DIR)/
+	@echo "Done"
 
 zip:
 	@echo "Building BakuPipe..."

@@ -7,10 +7,11 @@
 INFO:
   NAME: Automation Test Example
   DESCRIPTION: Test short description
-  # pre-build, post-build
+  # Could be pre-build or post-build.
   STAGE: pre-build
 
 TEST:
+  # Pre and post commands could be empty.
   PRE_COMMANDS:
     - pre command
   COMMANDS:
