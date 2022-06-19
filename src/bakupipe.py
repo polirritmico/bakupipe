@@ -13,7 +13,10 @@ import re
 import getopt
 
 # Load DEFAULT values and some CONFIGS
-from pipeline.config import *
+#from pipeline.config import *
+import src.cfg
+src.cfg.init()
+
 # Get F.COLORS and STYLES for print output
 from src.formats import F
 
@@ -21,13 +24,6 @@ from src.command import subprocess_runner
 from src.repository import Repository
 from src.test_object import Test
 from src.build import Build
-
-# Check dependencies
-from shutil import which
-DEPENDENCIES = [ "git", "drive", ]
-for dependency in DEPENDENCIES:
-    if not which(dependency):
-        raise Exception("Missing dependency: {}".format(dependency))
 
 
 
@@ -47,11 +43,11 @@ class Bakupipe(object):
         if not files_path.endswith('/'):
             self.files_path += '/'
 
-        self.work_branch = WORK_BRANCH
+        self.work_branch = src.cfg.WORK_BRANCH
         self.target_branch = ""
         self.initial_branch = self.repository.get_current_branch()
-        if self.initial_branch != DEFAULT_BRANCH:
-            raise Exception("Not in '{}' branch".format(DEFAULT_BRANCH))
+        if self.initial_branch != src.cfg.DEFAULT_BRANCH:
+            raise Exception("Not in '{}' branch".format(src.cfg.DEFAULT_BRANCH))
 
 
     def help(self) -> str:
@@ -119,7 +115,7 @@ class Bakupipe(object):
 
 
     def user_select_target_branch(self) -> str:
-        selected_branch = DEFAULT_DEPLOY_BRANCH
+        selected_branch = src.cfg.DEFAULT_DEPLOY_BRANCH
         if self.in_auto_mode:
             return selected_branch
 

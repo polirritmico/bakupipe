@@ -9,7 +9,6 @@ import yaml
 import os
 import shutil
 
-from pipeline.config import DRIVE_PUSH_COMMAND
 from src.instruction import Instruction
 
 class Build():
@@ -79,7 +78,7 @@ class Build():
         goto_target_dir_cmd = "cd {}".format(self.target_directory)
 
         if self.repository_host == "Google Drive":
-            host_push_cmd = DRIVE_PUSH_COMMAND
+            host_push_cmd = src.cfg.DRIVE_PUSH_COMMAND
         else:
             raise NotImplementedError("Not implemented repository host handler")
 

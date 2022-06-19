@@ -6,7 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 #import subprocess
-from pipeline.config import *
+import src.cfg
 from src.command import subprocess_runner
 from src.formats import F
 #from src.command import Command
@@ -19,14 +19,14 @@ class Repository:
 
         self.check_running_in_git_repo()
         self.url = self.get_current_repo()
-        self.check_in_valid_repo(PROJECT_URLS)
+        self.check_in_valid_repo(src.cfg.PROJECT_URLS)
         self.current_branch = self.get_current_branch()
         self.branches = self.get_branch_list()
 
         # begin at default branch
-        if self.current_branch != DEFAULT_BRANCH:
-            print("Moving to branch '{}'...".format(DEFAULT_BRANCH))
-            self.goto_branch(DEFAULT_BRANCH)
+        if self.current_branch != src.cfg.DEFAULT_BRANCH:
+            print("Moving to branch '{}'...".format(src.cfg.DEFAULT_BRANCH))
+            self.goto_branch(src.cfg.DEFAULT_BRANCH)
 
 
     def check_in_valid_repo(self, expected_list: list[str]):

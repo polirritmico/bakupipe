@@ -8,7 +8,8 @@
 import unittest
 import os
 
-from pipeline.config import *
+import src.cfg
+
 from src.repository import Repository
 from src.test_object import Test
 from src.formats import F
@@ -24,7 +25,7 @@ class IntegrationTests(unittest.TestCase):
     #@unittest.skip
     def test_make_and_remove_branch(self):
         test_branch = "test-branch"
-        expected_init = DEFAULT_BRANCHES_LIST
+        expected_init = src.cfg.BRANCH_LIST
         # copy() to avoid reference to the same list object
         expected_make = expected_init.copy()
         expected_make.append(test_branch)
@@ -41,10 +42,10 @@ class IntegrationTests(unittest.TestCase):
     #@unittest.skip
     def test_goto_branch(self):
         with self.assertRaises(Warning):
-            self.repository.goto_branch(DEFAULT_BRANCH)
+            self.repository.goto_branch(src.cfg.DEFAULT_BRANCH)
 
         current = self.repository.get_current_branch()
-        self.assertEqual(DEFAULT_BRANCH, current)
+        self.assertEqual(src.cfg.DEFAULT_BRANCH, current)
 
         test_branch = "test-goto-branch"
         self.repository.make_branch(test_branch)
@@ -53,12 +54,12 @@ class IntegrationTests(unittest.TestCase):
         current = self.repository.get_current_branch()
         self.assertEqual(test_branch, current)
 
-        self.repository.goto_branch(DEFAULT_BRANCH)
+        self.repository.goto_branch(src.cfg.DEFAULT_BRANCH)
         current = self.repository.get_current_branch()
-        self.assertEqual(DEFAULT_BRANCH, current)
+        self.assertEqual(src.cfg.DEFAULT_BRANCH, current)
 
         self.repository.remove_branch(test_branch)
-        expected_list = DEFAULT_BRANCHES_LIST
+        expected_list = src.cfg.BRANCH_LIST
         current_list = self.repository.get_branch_list()
         self.assertCountEqual(expected_list, current_list)
 

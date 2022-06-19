@@ -8,8 +8,8 @@
 import unittest
 from unittest.mock import Mock, patch
 
+import src.cfg
 from src.bakupipe import Bakupipe
-from pipeline.config import DEFAULT_DEPLOY_BRANCH
 
 #@unittest.skip
 class TestBakupipe(unittest.TestCase):
@@ -59,7 +59,7 @@ class TestBakupipe(unittest.TestCase):
         expected = ""
         self.assertEqual(expected, self.bakupipe.target_branch)
 
-        expected = DEFAULT_DEPLOY_BRANCH
+        expected = src.cfg.DEFAULT_DEPLOY_BRANCH
         with patch("builtins.input", return_value=""):
             output = self.bakupipe.user_select_target_branch()
             self.assertEqual(expected, output)
