@@ -21,17 +21,57 @@ proceso y envía las notificaciones correspondientes (correos, Trello, etc.)
 
 ![sceenshot](docs/screenshot.png)
 
-## Stages:
+## ToDo:
 
-Comando: **bakupipe**
-
+> ### Main
+> * [x]  greetings
+> * [x]  get all tests
+> * [x]  chose target branch: DEF develop
+> * [x]  confirm
+> ------------------------------------------------------------------------------
+> * [x]  make new temp branch
+> * [x]    if exist, remove and regenerate
+> * [x]  go to temp branch
+> * [x]  begin tests
+> * [x]    TODO: pre and post build tests
+> * [x]  if Error:
+> * [x]    terminate tests.
+> * [ ]    generate log of failed test
+> * [ ]    if option, generate all logs
+> * [ ]    raise expection
+> * [ ]  if warning:
+> * [ ]    generate log, store, and show at end.
+> * [ ]    Continue
+> * [ ]  if log, generate
+> ------------------------------------------------------------------------------
+> * [x]  Build selected plataforms
+> * [x]  Move binaries and all needed files to proper locations by plataform
+> * [x]  Second phase tests
+> * [x]    TODO: pre and post build tests
+> * [x]  Same as 46-56
+> * [x]  begin tests
+> * [x]    TODO: pre and post build tests
+> * [x]  if Error:
+> * [x]    terminate tests.
+> * [ ]    generate log of failed test
+> * [ ]    if option, generate all logs
+> * [x]    RETURN
+> * [ ]  if warning:
+> * [ ]    generate log, store, and show at end.
+> * [ ]    Continue
+> * [ ]  if log, generate
+> ------------------------------------------------------------------------------
+> #### ALL OK:
+> * [ ]  Generate version name and adjust files
+> * [ ]  Merge pre-deploy to deploy
+> * [ ]  Remove pre-deploy
+> * [ ]  Upload commits to artifact repo(sync)
+> * [ ]  Generate Logs, and send them
 > - [x] Preparar y chequear repositorio
 > - [x] Leer y preparar archivos de test
 > - [x] Crear rama pre-deploy en base a rama develop
-> - [ ] Realizar test en pre-deploy
->    - [ ] A futuro: Agregar monitoreo
->    - [ ] Si falla, enviar log
-> - [ ] Hacer merge a deploy
+> - [x] Realizar test en pre-deploy
+> - [x] Hacer merge a deploy
 > - [ ] Borrar pre-deploy
 > - [ ] Ajustar versión
 > - [ ] Build
@@ -56,51 +96,3 @@ foo@bar: ~/bakupipe $ python -m unittest discover . -b
 * **Documentación en HTML:** https://polirritmico.github.io/Bakumapu-docs/
 * **Repositorio de código:** https://github.com/polirritmico/Bakumapu
 
----
-
-## ToDo:
-
-> ### Main
-> * [x]  greetings
-> * [x]  get all tests
-> * [x]  chose target branch: DEF develop
-> * [x]  confirm
-> ------------------------------------------------------------------------------
-> * [x]  make new temp branch
-> * [x]    if exist, remove and regenerate
-> * [x]  go to temp branch
-> * [x]  begin tests
-> * [x]    TODO: pre and post build tests
-> * [x]  if Error:
-> * [x]    terminate tests.
-> * [ ]    generate log of failed test
-> * [ ]    if option, generate all logs
-> * [ ]    raise expection
-> * [ ]  if warning:
-> * [ ]    generate log, store, and show at end.
-> * [ ]    Continue
-> * [ ]  if log, generate
-> ------------------------------------------------------------------------------
-> * [ ]  Build selected plataforms
-> * [ ]  Move binaries and all needed files to proper locations by plataform
-> * [ ]  Second phase tests
-> * [ ]    TODO: pre and post build tests
-> * [ ]  Same as 46-56
-> * [ ]  begin tests
-> * [ ]    TODO: pre and post build tests
-> * [ ]  if Error:
-> * [ ]    terminate tests.
-> * [ ]    generate log of failed test
-> * [ ]    if option, generate all logs
-> * [ ]    RETURN
-> * [ ]  if warning:
-> * [ ]    generate log, store, and show at end.
-> * [ ]    Continue
-> * [ ]  if log, generate
-> ------------------------------------------------------------------------------
-> #### ALL OK:
-> * [ ]  Generate version name and adjust files
-> * [ ]  Merge pre-deploy to deploy
-> * [ ]  Remove pre-deploy
-> * [ ]  Upload commits to artifact repo(sync)
-> * [ ]  Generate Logs, and send them
