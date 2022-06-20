@@ -46,7 +46,7 @@ cfg_files:
 
 version:
 	@echo "Updating subversion ..."
-	@sed -ri 's/(__version__ = )"([0-9])\.(.*)\"/echo "\1\\"\2.$((\3+1))\\""/ge' src/bakupipe.py
+	@sed -ri 's/(__version__ = )"([0-9])\.(.*)\"/echo "\1\\"\2.$$((\3+1))\\""/ge' src/bakupipe.py
 	@sed -nr 's/__version__ = "([0-9]\..*)"/Updated to version: \1/p' src/bakupipe.py
 	@echo -e "$(DONE)$(NS)"
 
