@@ -18,7 +18,7 @@ DONE = $(GREEN)Done
 default: zip make_exe deploy clean
 
 zip:
-	@echo "$(ORANGE)Building BakuPipe...$(NS)"
+	@echo -e "$(ORANGE)Building BakuPipe...$(NS)"
 	@zip $(TARGET_BIN_NAME)-TEMP.zip -r $(FILES) > /dev/null 2>&1
 
 make_exe:
