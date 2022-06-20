@@ -38,7 +38,7 @@ clean:
 
 
 cfg_files:
-	@echo "$(ORANGE)Exporting yaml files...$(NS)"
+	@echo -e "$(ORANGE)Exporting yaml files...$(NS)"
 	@mkdir -p $(HOME)/$(TARGET_FOLDER)/$(TARGET_CFG_DIR)
 	@cd $(TARGET_CFG_DIR) && cp $(CFG_FILES) $(HOME)/$(TARGET_FOLDER)/$(TARGET_CFG_DIR)/
 	@echo -e "$(DONE)$(NS)"
