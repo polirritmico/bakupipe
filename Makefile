@@ -30,7 +30,7 @@ make_exe:
 deploy:
 	@mv $(TARGET_BIN_NAME) $(HOME)/$(TARGET_FOLDER)
 	@echo -e "$(GREEN)Deployed to $(ORANGE)$(HOME)/$(TARGET_FOLDER)$(NS)"
-	@echo -e "$(ITLC)Maybe 'make cfg_files' is also needed.$(NS)"
+	@echo -e "$(ITLC)Maybe 'make config' is also needed.$(NS)"
 
 clean:
 	@rm $(TARGET_BIN_NAME)-TEMP.zip
