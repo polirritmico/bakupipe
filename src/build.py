@@ -73,7 +73,7 @@ class Build():
             if not os.path.exists(file):
                 raise Exception("File '{}' not found".format(file))
             print("{}Moving {} to {}...{}"
-                  .format(F.ITLC, file, self.target_directory), F.END)
+                  .format(F.ITLC, file, self.target_directory, F.END))
             shutil.move(file, self.target_directory)
 
 
