@@ -130,9 +130,14 @@ class Bakupipe(object):
                .format(F.END, F.ITLC, F.QUOTE, selected_branch))
         branch_list = self.repository.get_branch_list()
         for branch in branch_list:
-            print("{}{}{}) {}{}".format(F.END, F.BOLD,
-                                      branch_list.index(branch) + 1,
-                                      F.END, branch))
+            if branch == selected_branch:
+                print("{}{}{}) {}{}".format(F.END, F.BOLD,
+                                          branch_list.index(branch) + 1,
+                                          F.GREEN, branch))
+            else:
+                print("{}{}{}) {}{}".format(F.END, F.BOLD,
+                                            branch_list.index(branch) + 1,
+                                            F.END, branch))
         selection = input("{}Select a branch number (or press enter): {}"\
                           .format(F.END, F.END))
 
