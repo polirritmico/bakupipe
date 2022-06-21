@@ -64,13 +64,16 @@ class Build():
 
     def mv_files_to_target_dir(self):
         if not os.path.exists(self.target_directory):
-            os.makedirs(self.target_directory)
+            try:
+                os.makedirs(self.target_directory)
+            except Exception as err:
+                raise Exception("Can't make target directory", err)
 
         for file in self.files:
             if not os.path.exists(file):
                 raise Exception("File '{}' not found".format(file))
-            print(file)
-            print(self.target_directory)
+            print("{}Moving {} to {}...{}"
+                  .format(F.ITLC, file, self.target_directory), F.END)
             shutil.move(file, self.target_directory)
 
 
@@ -82,7 +85,7 @@ class Build():
         else:
             raise NotImplementedError("Not implemented repository host handler")
 
-        # In Bash, "cmd1 && cmd2": cmd2 only runs if cmd1 has no error
+        # In Bash "cmd1 && cmd2": cmd2 only runs if cmd1 has no error
         push_cmd = goto_target_dir_cmd + " && " + host_push_cmd
         push_instruction = Instruction(push_cmd)
         try:
