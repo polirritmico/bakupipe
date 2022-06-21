@@ -17,7 +17,7 @@ for dependency in DEPENDENCIES:
 
 
 def init(filepath: str="pipeline"):
-    """Must be a folder containing a valid config.yaml file"""
+    """filepath must be a folder containing a valid config.yaml file"""
     filename = filepath if filepath.endswith('/') else filepath + '/'
     filename += "config.yaml"
 
@@ -44,7 +44,4 @@ def init(filepath: str="pipeline"):
 
     #global DRIVE_PUSH_COMMAND
     #DRIVE_PUSH_COMMAND = file["DRIVE_PUSH_COMMAND"]
-
-
-
 

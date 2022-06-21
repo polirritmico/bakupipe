@@ -53,7 +53,8 @@ class Bakupipe(object):
     def help(self) -> str:
         print("BakuPipe\nUsage:")
         print("  -h | --help\t\tThis message.")
-        print("  -a | --auto\t\tNo user input mode")
+        print("  -v | --version\t\tShow the current version.")
+        print("  -a | --auto\t\tNo user input mode.")
 
 
     def parse_args(self, argv: list):
