@@ -37,14 +37,11 @@ class Test:
         self.description = file["INFO"]["DESCRIPTION"]
         self.stage = file["INFO"]["STAGE"]
         self.position = self.get_order_from_filename(filename)
-        #env = file["TEST"]["ENV"]
-        #self.env = env if env != "default" else None
 
         instructions = file["TEST"]["COMMANDS"]
         if instructions is None:
             raise Exception("Test without command: {}".format(self.filename))
         for cmd in instructions:
-            #self.commands.append(Instruction(cmd))
             instruction = Instruction(cmd)
             self.commands.append(instruction)
 
