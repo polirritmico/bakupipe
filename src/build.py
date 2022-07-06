@@ -10,6 +10,7 @@ import os
 import shutil
 
 from src.instruction import Instruction
+from src.formats import F
 
 class Build():
     def __init__(self, filename):
