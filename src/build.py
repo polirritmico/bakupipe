@@ -8,6 +8,7 @@
 import yaml
 import os
 import shutil
+import re
 
 import src.cfg
 
@@ -81,7 +82,7 @@ class Build():
 
 
     def push_from_target_dir_to_host_repo(self) -> str:
-        push_message = "'{}' build: Pushing artifacts".format(self.system)
+        push_message = "- '{}' build: Pushing artifacts".format(self.system)
         goto_target_dir_cmd = "cd {}".format(self.target_directory)
 
         # Build the cmd for supported hosts
@@ -89,6 +90,8 @@ class Build():
             # Command: $ drive push -quiet -files FILE1 FILE2 ...
             host_push_cmd = src.cfg.DRIVE_PUSH_COMMAND
             for builded_file in self.files:
+                # Remove path to builded_file
+                builded_file = re.sub(r".*/(.*)\.(.*)", r"\1.\2", builded_file)
                 host_push_cmd += " " + builded_file
             push_message += " to Google Drive..."
         else:
@@ -102,7 +105,6 @@ class Build():
             push_instruction.run()
         except Exception as e:
             raise Exception("Failed push to {}".format(self.repository_host), e)
-        print("{}Push OK{}".format(F.OK, F.END))
 
         return push_instruction.get_log()
 

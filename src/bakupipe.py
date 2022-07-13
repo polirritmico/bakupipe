@@ -317,13 +317,11 @@ class Bakupipe(object):
 
     def run_deploy_phase(self):
         print('\n' + F.SEP)
-        print("{}Beginning Deploy Phase{}\n\n".format(F.ORANGE, F.END))
+        print("{}Beginning Deploy Phase{}\n".format(F.ORANGE, F.END))
 
-        print("Pushing artifacts to hosts servers")
+        print("Pushing artifacts to hosts servers...")
         for build in self.build_instructions:
             log = build.push_from_target_dir_to_host_repo()
-            print("\n------------------")
-            print("LOG:")
             print(log)
         print("{}Deployment done{}".format(F.OK, F.END))
 
