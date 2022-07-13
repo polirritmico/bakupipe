@@ -96,3 +96,8 @@ foo@bar: ~/bakupipe $ python -m unittest discover . -b
 * **Documentación en HTML:** https://polirritmico.github.io/Bakumapu-docs/
 * **Repositorio de código:** https://github.com/polirritmico/Bakumapu
 
+## Requisitos
+
+Para subir los artefactos a Drive de momento se utiliza `drive`: 
+https://github.com/odeke-em/drive
+
