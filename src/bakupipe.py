@@ -278,7 +278,7 @@ class Bakupipe(object):
 
     def run_prebuild_test_phase(self):
         print('\n' + F.SEP)
-        print("Beginning Pre-test Phase\n")
+        print("{}Beginning Pre-test Phase{}\n".format(F.ORANGE, F.END))
         #print(self.loaded_test_files_report(self.prebuild_test_collection))
         try:
             self.run_tests(self.prebuild_test_collection)
@@ -291,7 +291,7 @@ class Bakupipe(object):
         if len(self.postbuild_test_collection) == 0:
             return
         print('\n' + F.SEP)
-        print("Beginning Post-test Phase\n")
+        print("{}Beginning Post-test Phase{}\n".format(F.ORANGE, F.END))
         try:
             self.run_tests(self.postbuild_test_collection)
         except Exception as err:
@@ -317,8 +317,10 @@ class Bakupipe(object):
 
     def run_deploy_phase(self):
         print('\n' + F.SEP)
-        print("Beginning Deploy Phase\n")
-        print("")
+        print("{}Beginning Deploy Phase{}\n\n".format(F.ORANGE, F.END))
+
+        print("Running ")
+        #TODO: this would run the push for every instruction by system
         for build in self.build_instructions:
             log = build.push_from_target_dir_to_host_repo()
 

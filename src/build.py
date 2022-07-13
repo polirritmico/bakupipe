@@ -9,6 +9,8 @@ import yaml
 import os
 import shutil
 
+import src.cfg
+
 from src.instruction import Instruction
 from src.formats import F
 
@@ -82,6 +84,7 @@ class Build():
         goto_target_dir_cmd = "cd {}".format(self.target_directory)
 
         if self.repository_host == "Google Drive":
+            print("Push to Google Drive")
             host_push_cmd = src.cfg.DRIVE_PUSH_COMMAND
         else:
             raise NotImplementedError("Not implemented repository host handler")

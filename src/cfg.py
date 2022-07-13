@@ -42,6 +42,6 @@ def init(filepath: str="pipeline"):
     global BRANCH_LIST
     BRANCH_LIST = file["DEFAULT_BRANCHES_LIST"]
 
-    #global DRIVE_PUSH_COMMAND
-    #DRIVE_PUSH_COMMAND = file["DRIVE_PUSH_COMMAND"]
+    global DRIVE_PUSH_COMMAND
+    DRIVE_PUSH_COMMAND = file["DRIVE_PUSH_COMMAND"]
 
