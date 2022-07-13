@@ -321,9 +321,8 @@ class Bakupipe(object):
         print('\n' + F.SEP)
         print("{}Beginning Deploy Phase{}\n".format(F.ORANGE, F.END))
 
-        #TODO: Move binaries to TARGET_DIRECTORY
-        print("Moving '{}' files to target folder...".format(build.system))
         for build in self.build_instructions:
+            print("Moving '{}' files to target folder...".format(build.system))
             build.mv_files_to_target_dir()
         print("{}OK{}".format(F.OK, F.END))
 
