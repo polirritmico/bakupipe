@@ -250,8 +250,8 @@ class Bakupipe(object):
     def loaded_test_files_report(self, collection: list) -> str:
         output = ""
         for test in collection:
-            output += "  {}{}) {}{}".format(F.INFO, test.position, test.name,
-                                          F.END)
+            output += "  {}{}) {}{}".format(F.INFO, test.position,
+                                            test.name, F.END)
             output += "\t{}{}{}\n".format(F.ITLC, test.description, F.END)
         return output[:-1]
 
@@ -265,7 +265,7 @@ class Bakupipe(object):
                 output += "    {}Repository URL: '{}'{}".\
                            format(F.INFO, build.repository_url, F.END)
             output += "    {}Target directory: '{}'{}\n".\
-                        format(F.INFO, build.target_directory, F.END)
+                       format(F.INFO, build.target_directory, F.END)
         return output[:-1]
 
 
@@ -343,6 +343,7 @@ class Bakupipe(object):
             # All OK, we can deploy
             self.run_deploy_phase()
         except Exception as err:
+            print("ERROR")
             self.clean_working_branches()
             raise err
 
