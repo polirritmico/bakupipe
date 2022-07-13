@@ -11,11 +11,13 @@ REPOSITORY:
   USER:
   PASS:
 COMMANDS:
-  - mkdir -p build
-  - godot --no-window --export-debug "Linux" build/Bakumapu.x86_64
-# List of files needed to run the binary. Other files will be dumped.
+  - mkdir -p build/linux
+  - godot --no-window --export-debug "Linux"
 BUILD_FILES:
+# List of files needed to run the binary wihout extension.
+# Other files will be dumped.
   - Bakumapu.x86_64
   - Bakumapu.pck
-TARGET_DIRECTORY: artifacts_repository/Artifacts/Linux
+BUILD_DIRECTORY: build/linux
+TARGET_DIRECTORY: artifacts_repo/Builds/Linux
 

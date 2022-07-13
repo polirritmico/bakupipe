@@ -6,6 +6,7 @@
 # the GPLv2 License: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 import unittest
+import os
 #from unittest.mock import Mock, patch
 
 from src.build import Build
@@ -27,7 +28,8 @@ class TestBuild(unittest.TestCase):
         expected_repo_pass = "codedpass"
         expected_command_1 = "echo 'build' > file1"
         expected_command_2 = "echo 'ok' > file2"
-        expected_target_directory = "build/path/"
+        expected_build_directory = "./"
+        expected_target_directory = "target/path/"
 
         self.assertEqual(expected_system, self.build.system)
         self.assertEqual(expected_repo_host, self.build.repository_host)
@@ -36,17 +38,29 @@ class TestBuild(unittest.TestCase):
         self.assertEqual(expected_repo_pass, self.build.repository_pass)
         self.assertEqual(expected_command_1, self.build.instructions[0].command)
         self.assertEqual(expected_command_2, self.build.instructions[1].command)
+        self.assertEqual(expected_build_directory, self.build.build_directory)
         self.assertEqual(expected_target_directory, self.build.target_directory)
 
 
     #@unittest.skip
-    def test_check_binaries_location_and_move_files_to_target_dir(self):
+    def test_checked_builded_binaries(self):
         self.build.run_instructions()
-        self.assertFalse(self.build.check_binaries_location())
-        self.build.mv_files_to_target_dir()
-        self.assertTrue(self.build.check_binaries_location())
+        self.assertTrue(self.build.check_builded_binaries())
 
-        subprocess_runner("rm -r build")
+        subprocess_runner("rm file1 file2")
+
+    def test_mv_files_to_target_dir(self):
+        self.build.run_instructions()
+        self.build.mv_files_to_target_dir()
+        self.assertFalse(self.build.check_builded_binaries())
+        self.assertTrue(os.path.exists("target/path/file1"))
+        self.assertTrue(os.path.exists("target/path/file2"))
+
+        subprocess_runner("rm -r target")
+
+    def test_same_build_and_target_folders(self):
+        with self.assertRaises(Exception):
+            build = Build("test/buildsame_test.yaml")
 
 
     @unittest.skip

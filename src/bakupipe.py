@@ -93,6 +93,17 @@ class Bakupipe(object):
                 raise Warning("Bad test stage: '{}'".format(test.name))
 
 
+    def load_builds_in_files_path(self):
+        search = "build_.+\.yaml"
+        build_files_list = self.get_files_matching_search_in_file_path(search)
+        if len(build_files_list) < 1:
+            raise Exception("{}Missing build files in '{}' folder{}"\
+                    .format(F.FAIL, self.files_path[:-1], F.END))
+        for file in build_files_list:
+            build = Build(self.files_path + file)
+            self.build_instructions.append(build)
+
+
     def get_files_matching_search_in_file_path(self, regex_search: str) -> list:
         pattern = re.compile(regex_search)
         if not os.path.exists(self.files_path):
@@ -107,17 +118,6 @@ class Bakupipe(object):
         if len(filtered_files) > 1:
             filtered_files.sort()
         return filtered_files
-
-
-    def load_builds_in_files_path(self):
-        search = "build_.+\.yaml"
-        build_files_list = self.get_files_matching_search_in_file_path(search)
-        if len(build_files_list) < 1:
-            raise Exception("{}Missing build files in '{}' folder{}"\
-                    .format(F.FAIL, self.files_path[:-1], F.END))
-        for file in build_files_list:
-            build = Build(self.files_path + file)
-            self.build_instructions.append(build)
 
 
     def user_select_target_branch(self) -> str:
@@ -232,11 +232,11 @@ class Bakupipe(object):
         if len(self.prebuild_test_collection) > 0:
             print("- Loaded pre-build tests:")
             print(self.loaded_test_files_report(self.prebuild_test_collection))
+        print("- Loaded build instructions:")
+        print(self.loaded_build_files_report())
         if len(self.postbuild_test_collection) > 0:
             print("- Loaded post-build tests:")
             print(self.loaded_test_files_report(self.postbuild_test_collection))
-        print("- Loaded build instructions:")
-        print(self.loaded_build_files_report())
         print(F.HEAD + F.SEP + F.END + '\n')
 
         self.target_branch = self.user_select_target_branch()
@@ -277,6 +277,8 @@ class Bakupipe(object):
 
 
     def run_prebuild_test_phase(self):
+        if len(self.prebuild_test_collection) == 0:
+            return
         print('\n' + F.SEP)
         print("{}Beginning Pre-test Phase{}\n".format(F.ORANGE, F.END))
         #print(self.loaded_test_files_report(self.prebuild_test_collection))
@@ -307,17 +309,23 @@ class Bakupipe(object):
             build.run_instructions()
         print("{}Build OK{}".format(F.OK, F.END))
 
-        print("Check build binaries location...")
+        print("Checking builded binaries...")
         for build in self.build_instructions:
             if not build.check_binaries_location():
-                print("Moving '{}' files to target folder".format(build.system))
-                build.mv_files_to_target_dir()
-                print("{}OK{}".format(F.OK, F.END))
+                raise Exception("{}Missing binary file in build folder{}".\
+                                 format(F.FAIL, F.END))
+        print("{}OK{}".format(F.OK, F.END))
 
 
     def run_deploy_phase(self):
         print('\n' + F.SEP)
         print("{}Beginning Deploy Phase{}\n".format(F.ORANGE, F.END))
+
+        #TODO: Check for old binaries into TARGET_DIRECTORY
+            #TODO: If binaries are found, remove them
+        #TODO: Move binaries to TARGET_DIRECTORY
+            #print("Moving '{}' files to target folder".format(build.system))
+            #build.mv_files_to_target_dir()
 
         print("Pushing artifacts to hosts servers...")
         for build in self.build_instructions:

@@ -24,6 +24,7 @@ class Build():
         self.repository_pass = ""
         self.instructions = []
         self.files = []
+        self.build_directory = ""
         self.target_directory = ""
 
         self.import_build_file_data(filename)
@@ -41,9 +42,15 @@ class Build():
         self.repository_url = file["REPOSITORY"]["URL"]
         self.repository_user = file["REPOSITORY"]["USER"]
         self.repository_pass = file["REPOSITORY"]["PASS"]
+
+        self.build_directory = file["BUILD_DIRECTORY"]
+        if not self.build_directory.endswith('/'):
+            self.build_directory += '/'
         self.target_directory = file["TARGET_DIRECTORY"]
         if not self.target_directory.endswith('/'):
             self.target_directory += '/'
+        if self.build_directory == self.target_directory:
+            raise Exception("Build and target folders can't be the same")
 
         instructions = file["COMMANDS"]
         for command in instructions:
@@ -59,9 +66,10 @@ class Build():
             instruction.run()
 
 
-    def check_binaries_location(self) -> bool:
-        for package_file in self.files:
-            if not os.path.exists(self.target_directory + package_file):
+    def check_builded_binaries(self) -> bool:
+        for binary in self.files:
+            full_path = os.path.join(self.build_directory, binary)
+            if not os.path.exists(full_path):
                 return False
         return True
 
@@ -76,9 +84,12 @@ class Build():
         for file in self.files:
             if not os.path.exists(file):
                 raise Exception("File '{}' not found".format(file))
-            print("{}Moving {} to {}...{}"
+            print("{}Moving '{}' to '{}'...{}"
                   .format(F.ITLC, file, self.target_directory, F.END))
-            shutil.move(file, self.target_directory)
+            # shutil.move need full paths to overwrite
+            target_path = os.path.join(self.target_directory, file)
+            file = os.path.abspath(file)
+            shutil.move(file, target_path)
 
 
     def push_from_target_dir_to_host_repo(self) -> str:

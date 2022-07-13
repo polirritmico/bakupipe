@@ -4,18 +4,18 @@
 # E.g: <build_linux.yaml>, <build_android.yaml>
 
 ---
-SYSTEM: Linux
+SYSTEM: Name
 REPOSITORY:
   HOST: Google Drive
-  URL:
-  USER:
-  PASS:
+  URL: repository.url
+  USER: bakumapu
+  PASS: codedpass
 COMMANDS:
-  - mkdir -p build/linux
-  - godot --no-window --export-debug "Linux"
+  - echo 'build' > file1
+  - echo 'ok' > file2
 BUILD_FILES:
-  - Bakumapu.x86_64
-  - Bakumapu.pck
-BUILD_DIRECTORY: build/linux
-TARGET_DIRECTORY: artifacts_repo/Builds/Linux
+  - file1
+  - file2
+BUILD_DIRECTORY: target/path
+TARGET_DIRECTORY: target/path
 

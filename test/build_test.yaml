@@ -16,5 +16,6 @@ COMMANDS:
 BUILD_FILES:
   - file1
   - file2
-TARGET_DIRECTORY: build/path
+BUILD_DIRECTORY: ./
+TARGET_DIRECTORY: target/path
 
