@@ -311,7 +311,7 @@ class Bakupipe(object):
 
         print("Checking builded binaries...")
         for build in self.build_instructions:
-            if not build.check_binaries_location():
+            if not build.check_builded_binaries():
                 raise Exception("{}Missing binary file in build folder{}".\
                                  format(F.FAIL, F.END))
         print("{}OK{}".format(F.OK, F.END))
@@ -321,11 +321,11 @@ class Bakupipe(object):
         print('\n' + F.SEP)
         print("{}Beginning Deploy Phase{}\n".format(F.ORANGE, F.END))
 
-        #TODO: Check for old binaries into TARGET_DIRECTORY
-            #TODO: If binaries are found, remove them
         #TODO: Move binaries to TARGET_DIRECTORY
-            #print("Moving '{}' files to target folder".format(build.system))
-            #build.mv_files_to_target_dir()
+        print("Moving '{}' files to target folder...".format(build.system))
+        for build in self.build_instructions:
+            build.mv_files_to_target_dir()
+        print("{}OK{}".format(F.OK, F.END))
 
         print("Pushing artifacts to hosts servers...")
         for build in self.build_instructions:
@@ -351,6 +351,7 @@ class Bakupipe(object):
             # All OK, we can deploy
             self.run_deploy_phase()
         except Exception as err:
+            print("{}ERROR. Aborting...{}".format(F.FAIL, F.END))
             self.clean_working_branches()
             raise err
 
