@@ -76,16 +76,7 @@ class Build():
         for file in self.files:
             if not os.path.exists(file):
                 raise Exception("File '{}' not found".format(file))
-
-            # Check for old version and remove it
-            target_file = os.path.join(self.target_directory, file)
-            if os.path.exists(target_file):
-                print("Removing old version of {}'{}'{}".format(
-                      F.ORANGE, target_file, F.END))
-                os.remove(target_file)
-                print("Removed")
-
-            print("{}Moving '{}' to '{}'...{}"
+            print("{}Moving {} to {}...{}"
                   .format(F.ITLC, file, self.target_directory, F.END))
             shutil.move(file, self.target_directory)
 
