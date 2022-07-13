@@ -21,4 +21,4 @@ DEFAULT_BRANCHES_LIST:
   - release
 
 # Artifacts repositories commands
-DRIVE_PUSH_COMMAND: drive push -quiet
+DRIVE_PUSH_COMMAND: drive push -quiet -files

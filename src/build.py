@@ -81,21 +81,28 @@ class Build():
 
 
     def push_from_target_dir_to_host_repo(self) -> str:
+        push_message = "'{}' build: Pushing artifacts".format(self.system)
         goto_target_dir_cmd = "cd {}".format(self.target_directory)
 
+        # Build the cmd for supported hosts
         if self.repository_host == "Google Drive":
-            print("Push to Google Drive")
+            # Command: $ drive push -quiet -files FILE1 FILE2 ...
             host_push_cmd = src.cfg.DRIVE_PUSH_COMMAND
+            for builded_file in self.files:
+                host_push_cmd += " " + builded_file
+            push_message += " to Google Drive..."
         else:
             raise NotImplementedError("Not implemented repository host handler")
 
         # In Bash "cmd1 && cmd2": cmd2 only runs if cmd1 has no error
         push_cmd = goto_target_dir_cmd + " && " + host_push_cmd
+        print(push_message)
         push_instruction = Instruction(push_cmd)
         try:
             push_instruction.run()
         except Exception as e:
             raise Exception("Failed push to {}".format(self.repository_host), e)
+        print("{}Push OK{}".format(F.OK, F.END))
 
         return push_instruction.get_log()
 
