@@ -81,13 +81,14 @@ class Build():
             except Exception as err:
                 raise Exception("Can't make target directory", err)
 
-        for file in self.files:
+        for filename in self.files:
+            file = os.path.join(self.build_directory, filename)
             if not os.path.exists(file):
                 raise Exception("File '{}' not found".format(file))
             print("{}Moving '{}' to '{}'...{}"
-                  .format(F.ITLC, file, self.target_directory, F.END))
+                  .format(F.ITLC, filename, self.target_directory, F.END))
             # shutil.move need full paths to overwrite
-            target_path = os.path.join(self.target_directory, file)
+            target_path = os.path.join(self.target_directory, filename)
             file = os.path.abspath(file)
             shutil.move(file, target_path)
 
